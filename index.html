@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gestión de Horarios y Turnos</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilos.css">
+  <script defer src="js/home.js"></script>
+</head>
+<body>
+
+  <header class="encabezado">
+    <nav class="nav">
+      <div class="logo">
+        <a href="./index.html"><img src="img/logo_calendula-02.svg" alt="Logotipo"></a>
+      </div>
+
+      <ul class="lista-navegacion">
+        <li><a href="#" class="enlace-nav">Cómo funciona</a></li>
+        <li><a href="#" class="enlace-nav">Ayuda</a></li>
+        <li><a href="#" class="enlace-nav">Contacto</a></li>
+      </ul>
+
+      <ul class="acciones-nav">
+        <li><a href="#" class="enlace-nav">Registrarse</a></li>
+        <li><button class="boton-entrar">Entrar</button></li>
+      </ul>
+
+      <button class="boton-hamburguesa" aria-label="Menú">
+        <span class="linea"></span>
+        <span class="linea"></span>
+        <span class="linea"></span>
+      </button>
+    </nav>
+
+    <div class="nav-movil oculta">
+      <ul>
+        <li><a href="#">Cómo funciona</a></li>
+        <li><a href="#">Ayuda</a></li>
+        <li><a href="#">Contacto</a></li>
+        <li><a href="#">Registrarse</a></li>
+        <li><button class="boton-entrar-movil">Entrar</button></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="principal">
+    <section class="hero">
+      <div class="texto-hero">
+        <h1>Organiza tus horarios con facilidad</h1>
+        <p class="subtitulo">
+          Gestiona turnos, vacaciones y permisos desde un calendario intuitivo.
+        </p>
+        <div class="codigo-ejemplo">
+<pre><code>SELECT * FROM turnos WHERE usuario = 'Juan' AND fecha = '2025-06-01';</code></pre>
+        </div>
+        <div class="botones-hero">
+          <button class="boton-aprenda-mas">Aprenda más</button>
+          <button class="boton-empezar">Empezar</button>
+        </div>
+      </div>
+      <div class="imagen-hero">
+        <img src="placeholder-hero.png" alt="Ilustración Hero">
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie-pagina">
+    <div class="contenedor-enlaces">
+      <div class="columna">
+        <h4>Cómo funciona</h4>
+        <ul>
+          <li><a href="#">Descripción</a></li>
+          <li><a href="#">Características</a></li>
+        </ul>
+      </div>
+      <div class="columna">
+        <h4>Ayuda</h4>
+        <ul>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Contacto</a></li>
+        </ul>
+      </div>
+      <div class="columna">
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="#">Email</a></li>
+          <li><a href="#">Soporte</a></li>
+        </ul>
+      </div>
+      <div class="columna">
+        <h4>Features</h4>
+        <ul>
+          <li><a href="#">Colaboración</a></li>
+          <li><a href="#">Versionado</a></li>
+        </ul>
+      </div>
+      <div class="columna">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Términos</a></li>
+          <li><a href="#">Privacidad</a></li>
+        </ul>
+      </div>
+    </div>
+    <p>© 2025 Calendula. Todos los derechos reservados.</p>
+  </footer>
+</body>
+</html>
