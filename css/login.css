@@ -1,0 +1,100 @@
+/* css/login.css */
+/* Hereda variables y estilos globales de estilos.css */
+
+.login-contenedor {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 75rem;
+    margin: 2rem auto;
+    padding: var(--espaciado-base);
+    min-height: calc(100vh - 4rem);
+}
+
+.formulario-login {
+    flex: 1;
+    max-width: 25rem;
+    margin-right: 2rem;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 0.7rem;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+}
+
+.formulario-login h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--texto-oscuro);
+}
+
+.campo-formulario {
+    margin-bottom: 1.5rem;
+}
+
+.campo-formulario label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--texto-oscuro);
+}
+
+.campo-formulario input {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+}
+
+.boton-iniciar-sesion {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--color-principal);
+    color: #fff;
+    border: none;
+    border-radius: 2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.boton-iniciar-sesion:hover {
+    background: var(--color-principal-oscuro);
+}
+
+.error {
+    margin-top: 1rem;
+    color: red;
+    font-size: 0.875rem;
+    text-align: center;
+}
+
+.illustracion-login {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.illustracion-login img {
+    max-width: 100%;
+    border-radius: 0.7rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .login-contenedor {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .formulario-login {
+        margin: 0 0 2rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .illustracion-login {
+        display: none;
+    }
+}

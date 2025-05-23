@@ -1,0 +1,257 @@
+/* css/calendario.css */
+
+/* Encabezado con color distinto */
+.principal-usuario {
+    margin: 0 auto;
+    padding: 2rem;
+}
+.calendario-encabezado {
+  background-color: var(--color-principal-oscuro);
+}
+.calendario-encabezado .nav {
+  background: transparent;
+}
+.calendario-encabezado .enlace-nav,
+.calendario-encabezado .usuario-nav span {
+  color: #fff;
+}
+.calendario-encabezado .enlace-nav.activo {
+  font-weight: 700;
+}
+.usuario-nav {
+  margin-left: auto;
+}
+.usuario-nav span {
+  font-weight: 500;
+}
+
+/* Layout principal en dos columnas, full width */
+.calendario-principal {
+  width: 100%;
+  margin: 2rem 0;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 2rem;
+}
+
+/* Cabecera del calendario (título + controles) */
+.calendario-header {
+  grid-column: span 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.calendario-header h1 {
+  font-size: 2rem;
+  color: var(--texto-oscuro);
+}
+.controles-calendario {
+  display: flex;
+  gap: 1rem;
+}
+.boton-control {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-principal);
+  background: transparent;
+  border-radius: 0.7rem;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--texto-oscuro);
+}
+.boton-control:hover {
+  background: var(--color-principal);
+  color: #fff;
+}
+#boton-hoy {
+  background: var(--color-principal);
+  color: #fff;
+}
+
+/* Panel de resumen */
+.resumen-turnos {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 0.7rem;
+  border: 2px solid var(--borde-gris);
+}
+.resumen-turnos h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+.detalles-fecha {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.detalles-fecha span {
+  font-weight: 500;
+}
+.lista-resumen {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 1rem;
+  margin-bottom: 1rem;
+}
+.item-resumen .label {
+  font-weight: 500;
+}
+.item-resumen .valor {
+  float: right;
+}
+.conteos {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.item-conteo span {
+  font-weight: 500;
+}
+.barra-progreso {
+  background: #eee;
+  height: 0.75rem;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+.barra-progreso .barra {
+  height: 100%;
+  background: var(--color-principal);
+}
+.texto-progreso {
+  font-size: 0.875rem;
+  color: var(--texto-claro);
+}
+
+/* Grid de meses: Vista Año con 4 columnas */
+.calendario-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+/* Vista Mes: una sola columna full width */
+.calendario-grid.vista-mes {
+  grid-template-columns: 1fr;
+}
+
+/* Cada mes */
+.mes {
+  background: #fff;
+  padding: 0.5rem;
+  border-radius: 0.7rem;
+  box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.1);
+}
+
+/* Cabecera interna de cada mes (flechas + título) */
+.mes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+.mes-header button {
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: var(--texto-oscuro);
+}
+.mes-header button:hover {
+  color: var(--color-principal);
+}
+.mes-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--texto-oscuro);
+}
+
+/* Días de la semana */
+.dias-semana {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  font-size: 0.75rem;
+  text-align: center;
+  margin-bottom: 0.25rem;
+}
+
+/* Fechas */
+.fechas {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  gap: 0.25rem;
+}
+.fechas .celda {
+  position: relative;
+  display: flex;
+  min-height: 7rem;
+  justify-content: flex-end;
+  align-items: flex-start;
+  /* solo un pequeño padding arriba para separación mínima */
+  padding: 0.25rem 0.25rem 0 0; 
+  font-size: 0.rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid var(--fondo-claro);
+}
+.fechas .celda:hover {
+  background: var(--color-principal-claro);
+}
+
+/* Vista Año: celdas doble altura */
+.calendario-grid:not(.vista-mes) .fechas .celda {
+  /* solo padding-bottom para altura */
+  padding-top: 0.25rem;
+  padding-bottom: 1.5rem;
+  min-height: 3.5rem;
+  font-size: 0.55rem;
+
+}
+
+/* Vista Mes: celdas aún más altas */
+.calendario-grid.vista-mes .fechas .celda {
+  padding-top: 0.25rem;
+  padding-bottom: 2rem;
+}
+
+/* Botón activo */
+.boton-control.activo {
+  background: var(--color-principal);
+  color: #fff;
+}
+
+/* Celda de la fecha actual en vista mes */
+.celda-actual {
+  background: red;
+  color: #fff;
+}
+
+/* Responsive: reduce columnas progresivamente */
+@media (max-width: 1280px) {
+  .calendario-grid {
+    grid-template-columns: repeat(3,1fr);
+  }
+}
+@media (max-width: 1024px) {
+  .calendario-principal {
+    grid-template-columns: 1fr;
+  }
+  .calendario-grid {
+    grid-template-columns: repeat(2,1fr);
+  }
+  .calendario-grid.vista-mes {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 640px) {
+  .calendario-grid {
+    grid-template-columns: 1fr;
+  }
+  .calendario-grid.vista-mes {
+    grid-template-columns: 1fr;
+  }
+}

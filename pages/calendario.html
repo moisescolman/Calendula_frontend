@@ -1,0 +1,80 @@
+<!-- pages/calendario.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calendario – Calendula</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/estilos.css">
+  <link rel="stylesheet" href="../css/calendario.css">
+  <script defer src="../js/calendario.js"></script>
+</head>
+<body>
+
+  <header class="encabezado calendario-encabezado">
+    <nav class="nav">
+      <div class="logo">
+        <a href="../index.html"><img src="../img/logo_calendula-02.svg" alt="Logotipo"></a>
+      </div>
+      <ul class="lista-navegacion">
+        <li><a href="calendario.html" class="enlace-nav activo">Calendario</a></li>
+        <li><a href="estadisticas.html" class="enlace-nav">Estadísticas</a></li>
+        <li><a href="../index.html" class="enlace-nav">Cómo funciona</a></li>
+        <li><a href="../index.html" class="enlace-nav">Ayuda</a></li>
+        <li><a href="../index.html" class="enlace-nav">Contacto</a></li>
+      </ul>
+      <div class="usuario-nav">
+        <span id="nombre-usuario">Usuario</span>
+      </div>
+    </nav>
+  </header>
+
+  <main class="principal-usuario calendario-principal">
+    <!-- Cabecera del calendario -->
+    <div class="calendario-header">
+      <h1>Calendario</h1>
+      <div class="controles-calendario">
+        <button id="boton-vista-ano" class="boton-control activo">Vista Año</button>
+        <button id="boton-vista-mes" class="boton-control">Vista Mes</button>
+        <button id="boton-hoy" class="boton-control">Hoy</button>
+        <button id="boton-filtrar" class="boton-control">Filtrar</button>
+      </div>
+    </div>
+
+    <!-- Panel de Resumen -->
+    <aside class="resumen-turnos">
+      <h2>Resumen</h2>
+      <div class="detalles-fecha">
+        <span id="dia-semana">—</span>
+        <span id="hora-actual">—:—</span>
+        <span id="fecha-actual">—</span>
+      </div>
+      <div class="lista-resumen">
+        <div class="item-resumen"><span class="label">Mañana</span><span class="valor" id="res-manana">0</span></div>
+        <div class="item-resumen"><span class="label">Tarde</span><span class="valor" id="res-tarde">0</span></div>
+        <div class="item-resumen"><span class="label">Noche</span><span class="valor" id="res-noche">0</span></div>
+        <div class="item-resumen"><span class="label">Descansos</span><span class="valor" id="res-descansos">0</span></div>
+        <div class="item-resumen"><span class="label">Vacaciones</span><span class="valor" id="res-vacaciones">0</span></div>
+        <div class="item-resumen"><span class="label">Permisos</span><span class="valor" id="res-permisos">0</span></div>
+      </div>
+      <div class="conteos">
+        <div class="item-conteo"><span>Días ocupados </span><span id="dias-ocupados">0</span></div>
+        <div class="item-conteo"><span>Días libres </span><span id="dias-libres">0</span></div>
+      </div>
+      <div class="barra-progreso"><div class="barra" style="width: 0%;"></div></div>
+      <div class="texto-progreso">0 días sin marcar • 0%</div>
+    </aside>
+
+    <!-- Grid de meses generado dinámicamente -->
+    <section class="calendario-grid" id="calendario-grid">
+      <!-- JS rellenará con los meses -->
+    </section>
+  </main>
+
+</body>
+</html>

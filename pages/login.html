@@ -1,0 +1,80 @@
+<!-- pages/login.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Iniciar Sesión - Calendula</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="../css/estilos.css">
+  <link rel="stylesheet" href="../css/login.css">
+  <script defer src="../js/login.js"></script>
+</head>
+<body>
+
+  <header class="encabezado">
+    <nav class="nav">
+      <div class="logo">
+        <a href="../index.html">
+          <img src="../img/logo_calendula-02.svg" alt="Logotipo Calendula">
+        </a>
+      </div>
+      <ul class="lista-navegacion">
+        <li><a href="../index.html" class="enlace-nav">Inicio</a></li>
+        <li><a href="#" class="enlace-nav">Cómo funciona</a></li>
+        <li><a href="#" class="enlace-nav">Ayuda</a></li>
+        <li><a href="#" class="enlace-nav">Contacto</a></li>
+      </ul>
+      <ul class="acciones-nav">
+        <li><a href="registro.html" class="enlace-nav">Registrarse</a></li>
+        <li><a href="login.html" class="boton-entrar">Entrar</a></li>
+      </ul>
+      <button class="boton-hamburguesa" aria-label="Menú">
+        <span class="linea"></span>
+        <span class="linea"></span>
+        <span class="linea"></span>
+      </button>
+    </nav>
+    <div class="nav-movil oculta">
+      <ul>
+        <li><a href="../index.html">Inicio</a></li>
+        <li><a href="#">Cómo funciona</a></li>
+        <li><a href="#">Ayuda</a></li>
+        <li><a href="#">Contacto</a></li>
+        <li><a href="registro.html" class="enlace-nav">Registrarse</a></li>
+        <li><a href="login.html" class="boton-entrar-movil">Entrar</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="principal login-contenedor">
+    <!-- Formulario de login -->
+    <div class="formulario-login">
+      <h2>Iniciar Sesión</h2>
+      <form id="form-inicio-sesion">
+        <div class="campo-formulario">
+          <label for="correo">Correo electrónico</label>
+          <input type="email" id="correo" name="correo" required>
+        </div>
+        <div class="campo-formulario">
+          <label for="contrasena">Contraseña</label>
+          <input type="password" id="contrasena" name="contrasena" required>
+        </div>
+        <button type="submit" class="boton-iniciar-sesion">Iniciar sesión</button>
+        <p id="error-mensaje" class="error oculta">Correo o contraseña incorrectos.</p>
+      </form>
+    </div>
+    <!-- Ilustración de login -->
+    <div class="illustracion-login">
+      <img src="../img/placeholder-login.png" alt="Ilustración de inicio de sesión">
+    </div>
+  </main>
+
+</body>
+</html>
