@@ -1,0 +1,166 @@
+/* css/modificar-turno.css */
+
+/* Wrapper del formulario: ocupa 100% del ancho del contenedor */
+.modificar-form {
+  width: 100%;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 1rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Layout en tres columnas */
+.modificar-form-wrapper {
+  display: flex;
+  gap: 2rem;
+}
+
+/* Columna izquierda (preview) */
+.modificar-left { flex: 0 0 auto; }
+.preview-container {
+  display: flex;
+  justify-content: center;
+}
+.preview-container .turno-abre {
+  width: 6rem;
+  height: 6rem;
+  font-size: 2rem;
+  border-radius: 1rem;
+  border: 0.22rem solid var(--borde-gris);
+}
+
+/* Columna central */
+.modificar-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Columna derecha */
+.modificar-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Grupos de formulario */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Labels e inputs */
+label {
+  font-size: 1rem;
+  color: var(--texto-oscuro);
+}
+input[type="text"],
+input[type="time"] {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+}
+
+/* Radios */
+.tipo-horas {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+.tipo-horas input {
+  width: 1rem; height: 1rem;
+}
+
+/* Horario + checkbox “Todo el día” en línea */
+.horario-group label {
+  margin-bottom: 0.5rem;
+}
+.horario-inputs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.horario-inputs input[type="time"] {
+  flex: 1;
+}
+.horario-inputs .turno-flecha {
+  font-size: 1.25rem;
+  color: var(--color-principal);
+  font-weight: 700;
+}
+.horario-inputs .todo-dia-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+}
+
+/* Color pickers */
+.color-group label {
+  margin-bottom: 0.5rem;
+}
+.color-picker-container {
+  position: relative;
+  display: inline-block;
+}
+.color-picker-button {
+  width: 100%;
+  height: 3rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.color-picker-button .selected-color {
+  width: 95%;
+  height: 1.5rem;
+  border-radius: 0.25rem;
+  border: 2px solid var(--texto-oscuro);
+}
+.paleta-colores {
+  position: absolute;
+  top: 3.5rem;
+  left: 0;
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  gap: 0.25rem;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  z-index: 100;
+}
+.paleta-colores.hidden { display: none; }
+.paleta-colores .swatch {
+  width: 1.5rem; height: 1.5rem;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  border-radius: 0.25rem;
+}
+
+/* Botones de acción al pie */
+.modificar-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+.modificar-buttons .boton-control {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+}
+.modificar-buttons .delete {
+  background: #e63946;
+  color: #fff;
+  border: none;
+}

@@ -1,0 +1,174 @@
+/* css/turnos.css */
+
+:root {
+  --color-principal: #6167F0;
+  --color-principal-oscuro: #4F46E5;
+  --color-principal-claro: #878cf5;
+  --espaciado-base: 1rem;
+  --texto-oscuro: #222;
+  --texto-claro: #64748b;
+  --fondo-claro: #F1F5F9;
+  --borde-gris: #e0e0e0;
+}
+
+.turnos-principal {
+  max-width: 75rem;
+  margin: 2rem auto;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Header de Turnos: título + crear */
+.turnos-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.turnos-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--texto-oscuro);
+  margin: 0;
+}
+
+.boton-crear-turno {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  background: var(--color-principal);
+  color: #fff;
+  border: none;
+  border-radius: 0.7rem;
+  cursor: pointer;
+}
+
+.boton-crear-turno:hover {
+  background: var(--color-principal-oscuro);
+}
+
+.lista-turnos {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.turno-item {
+  display: grid;
+  grid-template-columns:
+    0.4fr
+    /* abreviatura */
+    1fr
+    /* nombre */
+    0.25fr
+    /* inicio o “Todo el día” */
+    auto
+    /* flecha */
+    0.25fr
+    /* fin */
+    2fr
+    /* radios */
+    auto
+    /* Modificar */
+    auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid var(--borde-gris);
+  border-radius: 1rem;
+}
+
+/* 1) Abreviatura */
+.turno-abre {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.25rem;
+  border: 0.20rem solid var(--borde-gris);
+}
+
+/* 2) Nombre */
+.turno-nombre {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* 3) “Todo el día” o inicio */
+.turno-todo {
+  font-size: 1rem;
+  font-weight: 500;
+  justify-self: start;
+  grid-column: 3 / 6;
+  text-align: left;
+}
+
+.turno-inicio,
+.turno-fin {
+  font-size: 1rem;
+  justify-self: start;
+}
+
+/* 4) Flecha */
+.turno-flecha {
+  font-size: 1.25rem;
+  color: var(--color-principal);
+  font-weight: 700;
+  justify-self: start;
+}
+
+/* 6) Radios */
+.tipo-horas {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-self: start;
+  font-size: 0.875rem;
+  padding-left: 2rem;
+
+}
+
+.tipo-horas label {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.tipo-horas input {
+  pointer-events: none;
+}
+
+/* 7) Botón Modificar */
+.boton-modificar-turno {
+  background: var(--color-principal);
+  color: #fff;
+  border: none;
+  border-radius: 0.7rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.boton-modificar-turno:hover {
+  background: var(--color-principal-oscuro);
+}
+
+/* 8) Botón Eliminar */
+.boton-eliminar-turno {
+  background: #e63946;
+  color: #fff;
+  border: none;
+  border-radius: 0.7rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.boton-eliminar-turno:hover {
+  opacity: 0.9;
+}

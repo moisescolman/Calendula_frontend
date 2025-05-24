@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Turnos – Calendula</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../css/estilos.css" />
+  <link rel="stylesheet" href="../css/calendario.css" />
+  <link rel="stylesheet" href="../css/turnos.css" />
+  <script defer src="../js/turnos.js"></script>
+</head>
+<body>
+
+  <header class="encabezado calendario-encabezado">
+    <nav class="nav">
+      <div class="logo">
+        <a href="../index.html"><img src="../img/logo_calendula-02.svg" alt="Logotipo"></a>
+      </div>
+      <ul class="lista-navegacion">
+        <li><a href="calendario.html" class="enlace-nav">Calendario</a></li>
+        <li><a href="turnos.html" class="enlace-nav activo">Turnos</a></li>
+        <li><a href="estadisticas.html" class="enlace-nav">Estadísticas</a></li>
+        <li><a href="../index.html" class="enlace-nav">Cómo funciona</a></li>
+        <li><a href="../index.html" class="enlace-nav">Contacto</a></li>
+      </ul>
+      <div class="usuario-nav"><span id="nombre-usuario">Usuario</span></div>
+    </nav>
+  </header>
+
+  <main class="principal-usuario turnos-principal">
+    <div class="turnos-header">
+      <h1>Turnos</h1>
+      <button id="btn-crear-turno" class="boton-crear-turno">Crear turno</button>
+    </div>
+    <div id="lista-turnos" class="lista-turnos"></div>
+  </main>
+
+</body>
+</html>
