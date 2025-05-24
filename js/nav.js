@@ -7,7 +7,7 @@ const plantillaNav = `
   <nav class="nav">
     <div class="logo">
       <a href="${enPages ? '../index.html' : './index.html'}">
-        <img src="${enPages ? '../img/logo_calendula-02.svg' : 'img/logo_calendula-02.svg'}" alt="Logotipo Calendula">
+        <img src="${enPages ? '../img/logo_calendula-01.svg' : 'img/logo_calendula-02.svg'}" alt="Logotipo Calendula">
       </a>
     </div>
     <ul class="lista-navegacion">

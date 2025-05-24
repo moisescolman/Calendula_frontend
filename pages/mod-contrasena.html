@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Cambiar Contraseña – Calendula</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap"
+    rel="stylesheet"
+  />
+  <!-- Estilos -->
+  <link rel="stylesheet" href="../css/estilos.css"/>
+  <link rel="stylesheet" href="../css/mod-contrasena.css"/>
+</head>
+<body>
+  <header class="encabezado calendario-encabezado"></header>
+
+  <main class="principal-usuario">
+    <section class="modificar-contrasena-form">
+      <h1>Cambiar Contraseña</h1>
+      <form id="form-mod-contrasena">
+        <div class="campo-formulario">
+          <label for="actual-pass">Contraseña actual</label>
+          <input type="password" id="actual-pass" required/>
+        </div>
+        <div class="campo-formulario">
+          <label for="nueva-pass">Nueva contraseña</label>
+          <input type="password" id="nueva-pass" required/>
+        </div>
+        <div class="campo-formulario">
+          <label for="confirm-pass">Confirmar contraseña</label>
+          <input type="password" id="confirm-pass" required/>
+        </div>
+        <div class="form-acciones">
+          <button type="submit" class="boton-control">Guardar</button>
+          <button type="button" id="cancel-mod-contrasena" class="boton-control">Cancelar</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script defer src="../js/nav.js"></script>
+  <script defer src="../js/auth.js"></script>
+  <script defer src="../js/mod-contrasena.js"></script>
+</body>
+</html>

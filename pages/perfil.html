@@ -4,24 +4,59 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Perfil – Calendula</title>
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet"/>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap"
+    rel="stylesheet"
+  />
+  <!-- Estilos -->
   <link rel="stylesheet" href="../css/estilos.css"/>
-  <script defer src="../js/perfil.js"></script>
+  <link rel="stylesheet" href="../css/calendario.css"/>
+  <link rel="stylesheet" href="../css/perfil.css"/>
 </head>
 <body>
+  <!-- Nav morado -->
   <header class="encabezado calendario-encabezado"></header>
 
   <main class="principal-usuario">
-    <section class="perfil">
-      <h1>Mi Perfil</h1>
-      <p><strong>Nombre:</strong> <span id="perfil-nombre"></span></p>
-      <p><strong>Correo:</strong> <span id="perfil-correo"></span></p>
+    <section class="perfil-contenedor">
+      <h1>Perfil</h1>
+      <div class="campo-perfil">
+        <label>Nombre:</label>
+        <span id="perfil-nombre"></span>
+      </div>
+      <div class="campo-perfil">
+        <label>Email:</label>
+        <span id="perfil-correo"></span>
+      </div>
+      <div class="campo-perfil">
+        <label>Contraseña:</label>
+        <span>********</span>
+        <button id="btn-mod-contrasena" class="boton-control">Cambiar</button>
+      </div>
+      <div class="acciones-perfil">
+        <button id="btn-mod-perfil" class="boton-control">Modificar</button>
+        <button id="btn-eliminar-cuenta" class="boton-control peligro">Eliminar cuenta</button>
+      </div>
     </section>
+
+    <!-- Modal de confirmación -->
+    <div id="modal-eliminar" class="modal-overlay oculta">
+      <div class="modal">
+        <p>¿Estás seguro de eliminar tu cuenta?</p>
+        <div class="modal-actions">
+          <button id="confirm-eliminar" class="boton-control peligro">Eliminar</button>
+          <button id="cancel-eliminar" class="boton-control">Cancelar</button>
+        </div>
+      </div>
+    </div>
   </main>
 
+  <!-- Scripts -->
   <script defer src="../js/nav.js"></script>
   <script defer src="../js/auth.js"></script>
+  <script defer src="../js/perfil.js"></script>
 </body>
 </html>

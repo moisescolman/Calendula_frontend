@@ -1,0 +1,54 @@
+/* css/mod-perfil.css */
+
+.modificar-perfil-form {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 0.7rem;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+  margin: 2rem auto;
+  max-width: 30rem;
+}
+
+.modificar-perfil-form h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--texto-oscuro);
+  font-size: 2rem;
+}
+
+.modificar-perfil-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modificar-perfil-form label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--texto-oscuro);
+}
+
+.modificar-perfil-form input {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid var(--borde-gris);
+  border-radius: 0.7rem;
+}
+
+/* Botones morados */
+.modificar-perfil-form .boton-control {
+  padding: 0.75rem 1.5rem;
+  background: var(--color-principal);
+  color: #fff;
+  border: none;
+  border-radius: 0.7rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.modificar-perfil-form .boton-control:hover {
+  background: var(--color-principal-oscuro);
+}
+
+/* Botón “Cancelar” sigue siendo morado; si quisieras darle otro estilo, ajustar aquí */
+
+/* Botones “peligro” (si se añadiesen) igual que perfil.css */

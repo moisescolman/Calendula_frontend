@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Modificar Perfil – Calendula</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap"
+    rel="stylesheet"
+  />
+  <!-- Estilos -->
+  <link rel="stylesheet" href="../css/estilos.css"/>
+  <link rel="stylesheet" href="../css/mod-perfil.css"/>
+</head>
+<body>
+  <header class="encabezado calendario-encabezado"></header>
+
+  <main class="principal-usuario">
+    <section class="modificar-perfil-form">
+      <h1>Modificar Perfil</h1>
+      <form id="form-mod-perfil">
+        <div class="campo-formulario">
+          <label for="mod-nombre">Nombre completo</label>
+          <input type="text" id="mod-nombre" required/>
+        </div>
+        <div class="campo-formulario">
+          <label for="mod-email">Correo electrónico</label>
+          <input type="email" id="mod-email" required/>
+        </div>
+        <div class="form-acciones">
+          <button type="submit" class="boton-control">Guardar cambios</button>
+          <button type="button" id="cancel-mod-perfil" class="boton-control">Cancelar</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script defer src="../js/nav.js"></script>
+  <script defer src="../js/auth.js"></script>
+  <script defer src="../js/mod-perfil.js"></script>
+</body>
+</html>

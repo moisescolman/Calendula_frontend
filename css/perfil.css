@@ -1,0 +1,91 @@
+/* css/perfil.css */
+/* Basado en modificar-turno.css */
+
+.perfil-contenedor {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 0.7rem;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+  margin: 2rem auto;
+  max-width: 30rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.perfil-contenedor h1 {
+  text-align: center;
+  color: var(--texto-oscuro);
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.campo-perfil {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.campo-perfil label {
+  font-weight: 500;
+  width: 8rem;
+  color: var(--texto-oscuro);
+}
+
+.campo-perfil span {
+  flex: 1;
+}
+
+.acciones-perfil {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Botones morados (guardar, modificar, cancelar, cambiar contraseña) */
+.perfil-contenedor .boton-control {
+  padding: 0.75rem 1.5rem;
+  background: var(--color-principal);
+  color: #fff;
+  border: none;
+  border-radius: 0.7rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.perfil-contenedor .boton-control:hover {
+  background: var(--color-principal-oscuro);
+}
+
+/* Botones de “peligro” en rojo */
+.perfil-contenedor .boton-control.peligro {
+  background: #e63946;
+}
+.perfil-contenedor .boton-control.peligro:hover {
+  background: #c53030;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+.modal-overlay.oculta { display: none; }
+.modal {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 0.7rem;
+  max-width: 25rem;
+  text-align: center;
+}
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
