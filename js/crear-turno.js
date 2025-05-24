@@ -36,8 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let turnos = JSON.parse(localStorage.getItem(key) || '[]');
 
-  // poblar paletas
-  function poblar(palDiv, selSpan, updatePreview) {
+  // Genera los swatches en una paleta
+  function poblar(palDiv, selSpan, updateBg) {
     palette.forEach(c => {
       const sw = document.createElement('div');
       sw.className = 'swatch';
@@ -45,48 +45,63 @@ document.addEventListener('DOMContentLoaded', () => {
       sw.addEventListener('click', () => {
         selSpan.style.backgroundColor = c;
         palDiv.classList.add('hidden');
-        if (updatePreview) preview.style.backgroundColor = c;
+        if (updateBg) {
+          preview.style.backgroundColor = c;
+        }
       });
       palDiv.append(sw);
     });
   }
+
+  // Pobla paletas
   poblar(palF, selF, true);
   poblar(palT, selT, false);
+
+  // Mostrar/ocultar paletas
   btnF.addEventListener('click', () => palF.classList.toggle('hidden'));
   btnT.addEventListener('click', () => palT.classList.toggle('hidden'));
 
-  // preview abreviatura
+  // Cuando el usuario selecciona un color de texto,
+  // actualizamos también el color de la letra en el preview
+  palT.addEventListener('click', () => {
+    preview.style.color = selT.style.backgroundColor;
+  });
+
+  // Actualiza el contenido del preview al escribir abreviatura
   tAbre.addEventListener('input', () => {
     preview.textContent = tAbre.value.trim().substring(0,3);
   });
 
-  // valores por defecto
-  selF.style.backgroundColor = '#fff';
+  // Valores por defecto: fondo blanco, texto oscuro aleatorio
+  selF.style.backgroundColor    = '#fff';
   preview.style.backgroundColor = '#fff';
-  const rnd = palette[Math.floor(Math.random() * palette.length)];
-  selT.style.backgroundColor = rnd;
-  preview.style.color = rnd;
+  const aleatorio = palette[Math.floor(Math.random() * palette.length)];
+  selT.style.backgroundColor    = aleatorio;
+  preview.style.color           = aleatorio;
 
-  // envío
+  // Envío del formulario
   form.addEventListener('submit', e => {
     e.preventDefault();
     const sinHoras = !tInicio.value && !tFin.value;
-    const isTodo = todo.checked || sinHoras;
+    const isTodo   = todo.checked || sinHoras;
     const nuevo = {
-      id: Date.now(),
-      nombre: tTitulo.value.trim(),
-      abre: tAbre.value.trim(),
-      tipo: radios.value,
-      inicio: isTodo ? '00:00' : tInicio.value,
-      fin: isTodo ? '23:59' : tFin.value,
+      id:      Date.now(),
+      nombre:  tTitulo.value.trim(),
+      abre:    tAbre.value.trim(),
+      tipo:    radios.value,
+      inicio:  isTodo ? '00:00' : tInicio.value,
+      fin:     isTodo ? '23:59' : tFin.value,
       todoDia: isTodo,
-      colorF: selF.style.backgroundColor,
-      colorT: selT.style.backgroundColor
+      colorF:  selF.style.backgroundColor,
+      colorT:  selT.style.backgroundColor
     };
     turnos.push(nuevo);
     localStorage.setItem(key, JSON.stringify(turnos));
     location.href = 'turnos.html';
   });
 
-  btnCan.addEventListener('click', () => location.href = 'turnos.html');
+  // Cancelar → volver a Turnos
+  btnCan.addEventListener('click', () => {
+    location.href = 'turnos.html';
+  });
 });

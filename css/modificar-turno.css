@@ -69,38 +69,28 @@ input[type="time"] {
   font-size: 1rem;
 }
 
-/* Radios */
+/* Horario + checkbox “Todo el día” */
+.horario-inputs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.todo-dia-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+}
+
+/* Tipo de turno (radios) */
 .tipo-horas {
   display: flex;
   gap: 1.5rem;
   align-items: center;
 }
 .tipo-horas input {
-  width: 1rem; height: 1rem;
-}
-
-/* Horario + checkbox “Todo el día” en línea */
-.horario-group label {
-  margin-bottom: 0.5rem;
-}
-.horario-inputs {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-.horario-inputs input[type="time"] {
-  flex: 1;
-}
-.horario-inputs .turno-flecha {
-  font-size: 1.25rem;
-  color: var(--color-principal);
-  font-weight: 700;
-}
-.horario-inputs .todo-dia-inline {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  font-size: 0.875rem;
+  width: 1rem;
+  height: 1rem;
 }
 
 /* Color pickers */
@@ -143,7 +133,8 @@ input[type="time"] {
 }
 .paleta-colores.hidden { display: none; }
 .paleta-colores .swatch {
-  width: 1.5rem; height: 1.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
   border: 1px solid #ddd;
   cursor: pointer;
   border-radius: 0.25rem;
