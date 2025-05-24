@@ -41,12 +41,15 @@
         <h1>Calendario</h1>
         <button id="boton-marcar-turnos" class="boton-control">Marcar turnos</button>
       </div>
-      <div class="controles-anio" id="controles-anio">
-        <button id="boton-prev-anio" class="boton-control">&#8249;</button>
-        <span id="anio-mostrado">2025</span>
-        <button id="boton-next-anio" class="boton-control">&#8250;</button>
-      </div>
+
       <div class="controles-calendario">
+        <!-- controles de año ahora aquí, a la izquierda de “Vista Año” -->
+        <div id="controles-anio" class="controles-anio">
+          <button id="boton-prev-anio" class="boton-control">&#8249;</button>
+          <span id="anio-mostrado">2025</span>
+          <button id="boton-next-anio" class="boton-control">&#8250;</button>
+        </div>
+
         <button id="boton-vista-ano"  class="boton-control activo">Vista Año</button>
         <button id="boton-vista-mes"  class="boton-control">Vista Mes</button>
         <button id="boton-hoy"        class="boton-control">Hoy</button>
@@ -77,7 +80,7 @@
       <div class="texto-progreso">0 días sin marcar • 0%</div>
     </aside>
 
-    <section class="calendario-grid" id="calendario-grid">
+    <section id="calendario-grid" class="calendario-grid">
       <!-- Vaciado y rellenado por JS -->
     </section>
   </main>

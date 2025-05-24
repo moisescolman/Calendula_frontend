@@ -28,7 +28,7 @@
   gap: 2rem;
 }
 
-/* Layout principal full width */
+/* Layout full width */
 .principal-usuario.calendario-principal {
   width: 100%;
   margin: 2rem 0;
@@ -51,21 +51,31 @@
   align-items: center;
   gap: 1rem;
 }
-.controles-anio {
+
+/* Agrupación de controles */
+.controles-calendario {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
-#anio-mostrado {
-  font-weight: 500;
+
+/* Controles de año (ahora dentro de .controles-calendario) */
+.controles-anio {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 .controles-anio button {
   padding: 0.25rem 0.75rem;
 }
-.controles-calendario {
-  display: flex;
-  gap: 1rem;
+
+/* Año destacado */
+#anio-mostrado {
+  font-weight: 600;
+  font-size: 1.25rem;
 }
+
+/* Botones generales */
 .boton-control {
   padding: 0.5rem 1rem;
   border: 1px solid var(--color-principal);
@@ -91,8 +101,11 @@
   border-radius: 0.7rem;
   border: 2px solid var(--borde-gris);
 }
-.resumen-turnos h2 { font-size: 1.5rem; margin-bottom:1rem; }
-/* ... resto de tu CSS de resumen tal cual ... */
+.resumen-turnos h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+/* … resto de tu CSS de resumen … */
 
 /* Grid de meses */
 .calendario-grid {
