@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Contacto – Calendula</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap"
+    rel="stylesheet"
+  />
+  <!-- Estilos globales y específicos -->
+  <link rel="stylesheet" href="../css/estilos.css"/>
+  <link rel="stylesheet" href="../css/contacto.css"/>
+</head>
+<body>
+  <!-- Nav inyectado -->
+  <header class="encabezado"></header>
+
+  <main class="principal">
+    <section class="contacto-form">
+      <h1>Contacto</h1>
+      <p class="saludo">¡Hola! Cuéntanos en qué podemos ayudarte:</p>
+      <form id="form-contacto">
+        <div class="campo-formulario">
+          <label for="contacto-nombre">Nombre</label>
+          <input type="text" id="contacto-nombre" required/>
+        </div>
+        <div class="campo-formulario">
+          <label for="contacto-email">Correo electrónico</label>
+          <input type="email" id="contacto-email" required/>
+        </div>
+        <div class="campo-formulario">
+          <label for="contacto-asunto">Asunto</label>
+          <input type="text" id="contacto-asunto" required/>
+        </div>
+        <div class="campo-formulario">
+          <label for="contacto-mensaje">Mensaje</label>
+          <textarea id="contacto-mensaje" rows="6" required></textarea>
+        </div>
+        <button type="submit" class="boton-control">Enviar</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="pie-pagina">
+    <div class="contenedor-enlaces">
+      <!-- tu footer actual -->
+    </div>
+    <p>© 2025 Calendula. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- Scripts de nav y auth -->
+  <script defer src="../js/nav.js"></script>
+  <script defer src="../js/auth.js"></script>
+</body>
+</html>

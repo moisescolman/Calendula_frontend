@@ -1,0 +1,72 @@
+/* css/contacto.css */
+/* Basado en registro.css / login.css */
+
+.contacto-form {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 0.7rem;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+  margin: 2rem auto;
+  max-width: 30rem;
+}
+
+.contacto-form h1 {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: var(--texto-oscuro);
+  font-size: 2rem;
+}
+
+.contacto-form .saludo {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--texto-claro);
+  font-size: 1rem;
+}
+
+.contacto-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.contacto-form .campo-formulario label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--texto-oscuro);
+  margin-bottom: 0.5rem;
+}
+
+.contacto-form .campo-formulario input,
+.contacto-form .campo-formulario textarea {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid var(--borde-gris);
+  border-radius: 0.7rem;
+  resize: vertical;
+}
+
+.contacto-form .boton-control {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: var(--color-principal);
+  color: #fff;
+  border: none;
+  border-radius: 0.7rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.contacto-form .boton-control:hover {
+  background: var(--color-principal-oscuro);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .contacto-form {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+}

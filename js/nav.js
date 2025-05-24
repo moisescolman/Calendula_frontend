@@ -1,4 +1,5 @@
 // js/nav.js
+
 const enPages = location.pathname.includes('/pages/');
 const base    = enPages ? '' : 'pages/';
 
@@ -12,9 +13,9 @@ const plantillaNav = `
     <ul class="lista-navegacion">
       <li><a href="${enPages ? 'calendario.html' : 'pages/calendario.html'}" class="enlace-nav">Calendario</a></li>
       <li><a href="${enPages ? 'turnos.html'     : 'pages/turnos.html'}"     class="enlace-nav">Turnos</a></li>
-      <li><a href="${enPages ? 'estadisticas.html': 'pages/estadisticas.html'}"class="enlace-nav">Estadísticas</a></li>
+      <li><a href="${enPages ? 'estadisticas.html': 'pages/estadisticas.html'}" class="enlace-nav">Estadísticas</a></li>
       <li><a href="${enPages ? '../index.html'   : './index.html'}"          class="enlace-nav">Cómo funciona</a></li>
-      <li><a href="${enPages ? '../index.html'   : './index.html'}"          class="enlace-nav">Contacto</a></li>
+      <li><a href="${enPages ? 'contacto.html'   : 'pages/contacto.html'}"   class="enlace-nav">Contacto</a></li>
     </ul>
     <ul id="acciones-nav" class="acciones-nav">
       <li>
@@ -41,9 +42,8 @@ const plantillaNav = `
   </nav>
   <div class="nav-movil oculta">
     <ul>
-      <li><a href="${enPages ? '../index.html'   : './index.html'}"        class="enlace-nav">Cómo funciona</a></li>
-      <li><a href="${enPages ? '../index.html'   : './index.html'}"        class="enlace-nav">Ayuda</a></li>
-      <li><a href="${enPages ? '../index.html'   : './index.html'}"        class="enlace-nav">Contacto</a></li>
+      <li><a href="${enPages ? '../index.html'   : './index.html'}"            class="enlace-nav">Cómo funciona</a></li>
+      <li><a href="${enPages ? 'contacto.html'   : 'pages/contacto.html'}"     class="enlace-nav">Contacto</a></li>
       <li><a href="${base}registro.html"          class="enlace-nav">Registrarse</a></li>
       <li><button id="btn-entrar-movil" class="boton-entrar-movil">Entrar</button></li>
     </ul>

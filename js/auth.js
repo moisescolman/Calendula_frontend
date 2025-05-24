@@ -13,11 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Usuario actual
   const usuario = JSON.parse(localStorage.getItem('usuarioActual') || 'null');
 
-  // Rutas públicas de acceso
+  // Nombre del fichero actual
   const pagina   = location.pathname.split('/').pop();
-  const publicas = ['login.html','registro.html'];
+  // Páginas públicas dentro de /pages/
+  const publicas = ['login.html', 'registro.html', 'contacto.html'];
 
-  // Si es página de /pages/ protegida y no hay usuario, redirige a login
+  // Si estamos en /pages/, no es pública y no hay usuario → redirige a login
   if (enPages && !publicas.includes(pagina) && !usuario) {
     return location.href = `${base}login.html`;
   }
@@ -33,10 +34,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const dropdownMenu     = document.getElementById('dropdown-menu');
   const logoutBtn        = document.getElementById('logout');
 
-  // Lista de secciones privadas
-  const seccionesPrivadas = ['Calendario','Turnos','Estadísticas'];
+  // Lista de secciones privadas a ocultar en no-login
+  const seccionesPrivadas = ['Calendario', 'Turnos', 'Estadísticas'];
 
-  // Función para ocultar esos enlaces en nav de escritorio y móvil
   function ocultarPrivadas() {
     // Escritorio
     document.querySelectorAll('.lista-navegacion li a.enlace-nav')
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (usuario) {
     accionesNav?.classList.add('oculta');
     usuarioNav?.classList.remove('oculta');
-    nombreSpan.textContent = usuario.nombre.split(' ')[0]; // solo primer nombre
+    nombreSpan.textContent = usuario.nombre.split(' ')[0]; // sólo primer nombre
   } else {
     accionesNav?.classList.remove('oculta');
     usuarioNav?.classList.add('oculta');
@@ -66,9 +66,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // “Entrar” / “Registrarse”
-  btnEntrar?.addEventListener('click', () => location.href = `${base}login.html`);
+  btnEntrar?.addEventListener('click',      () => location.href = `${base}login.html`);
   btnEntrarMovil?.addEventListener('click', () => location.href = `${base}login.html`);
-  linkReg?.addEventListener('click', () => location.href = `${base}registro.html`);
+  linkReg?.addEventListener('click',        () => location.href = `${base}registro.html`);
 
   // Toggle dropdown de usuario
   toggleMenu?.addEventListener('click', () => {
