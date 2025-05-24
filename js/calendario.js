@@ -13,23 +13,16 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentMes    = ahora.getMonth();
   let currentAnio   = ahora.getFullYear();
 
-  // Mostrar nombre de usuario
-  const usrJSON = localStorage.getItem('usuarioActual');
-  if (usrJSON) {
-    document.getElementById('nombre-usuario').innerText = JSON.parse(usrJSON).nombre;
-  }
-
-  // Arrays de nombres
-  const diasSemanaN = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
   const abrevSemana = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
   const mesesN      = [
     'Enero','Febrero','Marzo','Abril','Mayo','Junio',
     'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'
   ];
 
-  // Rellenar mini-resumen
-  document.getElementById('dia-semana').innerText   = diasSemanaN[ahora.getDay()];
-  document.getElementById('hora-actual').innerText  =
+  // Mini‐resumen
+  document.getElementById('dia-semana').innerText =
+    ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'][ahora.getDay()];
+  document.getElementById('hora-actual').innerText =
     `${String(ahora.getHours()).padStart(2,'0')}:${String(ahora.getMinutes()).padStart(2,'0')}`;
   document.getElementById('fecha-actual').innerText =
     `${ahora.getDate()} de ${mesesN[ahora.getMonth()]} ${ahora.getFullYear()}`;
@@ -41,82 +34,66 @@ document.addEventListener('DOMContentLoaded', () => {
   function crearMes(m, soloUno) {
     const div = document.createElement('div');
     div.className = 'mes';
-    div.dataset.mes = m;
 
-    // Cabecera interna con flechas
     const hdr = document.createElement('div');
     hdr.className = 'mes-header';
 
     const izq = document.createElement('button');
-    izq.innerHTML = '‹';
+    izq.textContent = '‹';
     izq.onclick = () => {
       if (!grid.classList.contains('vista-mes')) return;
-      // Si estamos en enero, retrocedemos año
-      if (currentMes === 0) {
-        currentMes = 11;
-        currentAnio--;
-      } else {
-        currentMes--;
-      }
+      if (currentMes === 0) { currentMes = 11; currentAnio--; }
+      else currentMes--;
       mostrarMes();
     };
 
-    const h3 = document.createElement('h3');
-    h3.textContent = soloUno
+    const title = document.createElement('h3');
+    title.textContent = soloUno
       ? `${mesesN[m]} ${currentAnio}`
       : mesesN[m];
 
     const der = document.createElement('button');
-    der.innerHTML = '›';
+    der.textContent = '›';
     der.onclick = () => {
       if (!grid.classList.contains('vista-mes')) return;
-      // Si estamos en diciembre, avanzamos año
-      if (currentMes === 11) {
-        currentMes = 0;
-        currentAnio++;
-      } else {
-        currentMes++;
-      }
+      if (currentMes === 11) { currentMes = 0; currentAnio++; }
+      else currentMes++;
       mostrarMes();
     };
 
-    hdr.append(izq, h3, der);
-    div.appendChild(hdr);
+    hdr.append(izq, title, der);
+    div.append(hdr);
 
     // Días de la semana
     const ds = document.createElement('div');
     ds.className = 'dias-semana';
     abrevSemana.forEach(d => {
-      const s = document.createElement('span');
-      s.textContent = d;
-      ds.appendChild(s);
+      const cel = document.createElement('span');
+      cel.textContent = d;
+      ds.append(cel);
     });
-    div.appendChild(ds);
+    div.append(ds);
 
     // Fechas
     const fv = document.createElement('div');
     fv.className = 'fechas';
-    const primerDiaSemana = new Date(currentAnio, m, 1).getDay();
-    const offset = (primerDiaSemana + 6) % 7;
-    for (let i = 0; i < offset; i++) {
-      fv.appendChild(document.createElement('span'));
-    }
+    const primer = new Date(currentAnio, m, 1).getDay();
+    const offset = (primer + 6) % 7;
+    for (let i = 0; i < offset; i++) fv.appendChild(document.createElement('span'));
+
     const diasEnMes = new Date(currentAnio, m + 1, 0).getDate();
     for (let d = 1; d <= diasEnMes; d++) {
-      const c = document.createElement('span');
-      c.className = 'celda';
-      c.textContent = d;
-      // Marcamos la fecha actual solo si coinciden mes, día y año
+      const cel = document.createElement('span');
+      cel.className = 'celda';
+      cel.textContent = d;
       if (
+        currentAnio === ahora.getFullYear() &&
         m === ahora.getMonth() &&
-        d === ahora.getDate() &&
-        currentAnio === ahora.getFullYear()
-      ) {
-        c.classList.add('celda-actual');
-      }
-      fv.appendChild(c);
+        d === ahora.getDate()
+      ) cel.classList.add('celda-actual');
+      fv.append(cel);
     }
-    div.appendChild(fv);
+    div.append(fv);
 
     return div;
   }
@@ -126,10 +103,9 @@ document.addEventListener('DOMContentLoaded', () => {
     actualizarAnio();
     for (let m = 0; m < 12; m++) {
       const mesElem = crearMes(m, false);
-      // ocultar flechas en vista Año
       mesElem.querySelectorAll('.mes-header button')
              .forEach(b => b.style.visibility = 'hidden');
-      grid.appendChild(mesElem);
+      grid.append(mesElem);
     }
   }
 
@@ -147,10 +123,9 @@ document.addEventListener('DOMContentLoaded', () => {
     btnAno.classList.remove('activo');
     yearCtrls.style.display = 'none';
     grid.innerHTML = '';
-    grid.appendChild(crearMes(currentMes, true));
+    grid.append(crearMes(currentMes, true));
   }
 
-  // Navegar años (en la vista año)
   btnPrevAnio.onclick = () => {
     currentAnio--;
     if (!grid.classList.contains('vista-mes')) generarAno();
@@ -160,19 +135,18 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!grid.classList.contains('vista-mes')) generarAno();
   };
 
-  // Hoy: ir al mes y año actual en Vista Mes
   btnHoy.onclick = () => {
-    currentAnio = ahora.getFullYear();
-    currentMes  = ahora.getMonth();
+    const hoy = new Date();
+    currentAnio = hoy.getFullYear();
+    currentMes  = hoy.getMonth();
     mostrarMes();
-    const act = document.querySelector('.celda-actual');
-    if (act) act.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    document.querySelector('.celda-actual')
+            ?.scrollIntoView({ behavior:'smooth', block:'center' });
   };
+
+  btnAno.addEventListener('click', mostrarAno);
+  btnMes.addEventListener('click', mostrarMes);
 
   // Inicial
   mostrarAno();
-
-  // Listeners de Vista Año / Vista Mes
-  btnAno.addEventListener('click', mostrarAno);
-  btnMes.addEventListener('click', mostrarMes);
 });

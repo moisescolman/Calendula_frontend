@@ -1,22 +1,25 @@
 // js/login.js
 document.addEventListener('DOMContentLoaded', () => {
-  const formulario = document.getElementById('form-inicio-sesion');
-  const errorMensaje = document.getElementById('error-mensaje');
+  // Detecta si estamos dentro de /pages/
+  const enPages = location.pathname.includes('/pages/');
+  // Para construir rutas relativas
+  const base = enPages ? '' : 'pages/';
 
-  formulario.addEventListener('submit', e => {
+  const form = document.getElementById('form-login');
+  form.addEventListener('submit', e => {
     e.preventDefault();
-    const correo    = document.getElementById('correo').value.trim().toLowerCase();
-    const contrasena= document.getElementById('contrasena').value;
 
+    const email = form['login-email'].value.trim();
+    const pass  = form['login-pass'].value;
     const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
-    const usuario  = usuarios.find(u => u.correo === correo && u.contrasena === contrasena);
 
-    if (usuario) {
-      // Guarda el usuario actual y redirige a calendario
-      localStorage.setItem('usuarioActual', JSON.stringify(usuario));
-      window.location.href = 'calendario.html';
-    } else {
-      errorMensaje.classList.remove('oculta');
+    const usr = usuarios.find(u => u.correo === email && u.contrasena === pass);
+    if (!usr) {
+      return alert('Credenciales incorrectas');
     }
+
+    // Guardamos usuario actual y redirigimos al calendario
+    localStorage.setItem('usuarioActual', JSON.stringify(usr));
+    window.location.href = `${base}calendario.html`;
   });
 });

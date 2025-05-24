@@ -1,83 +1,35 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Registrarse - Calendula</title>
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap"
-    rel="stylesheet"
-  >
-  <link rel="stylesheet" href="../css/estilos.css">
-  <link rel="stylesheet" href="../css/registro.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Registrarse – Calendula</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/estilos.css"/>
+  <link rel="stylesheet" href="../css/registro.css"/>
   <script defer src="../js/registro.js"></script>
 </head>
 <body>
+  <header class="encabezado"></header>
 
-  <header class="encabezado">
-    <nav class="nav">
-      <div class="logo">
-        <a href="../index.html">
-          <img src="../img/logo_calendula-02.svg" alt="Logotipo Calendula">
-        </a>
-      </div>
-      <ul class="lista-navegacion">
-        <li><a href="../index.html" class="enlace-nav">Inicio</a></li>
-        <li><a href="#" class="enlace-nav">Cómo funciona</a></li>
-        <li><a href="#" class="enlace-nav">Ayuda</a></li>
-        <li><a href="#" class="enlace-nav">Contacto</a></li>
-      </ul>
-      <ul class="acciones-nav">
-        <li><a href="registro.html" class="enlace-nav">Registrarse</a></li>
-        <li><a href="login.html" class="boton-entrar">Entrar</a></li>
-      </ul>
-      <button class="boton-hamburguesa" aria-label="Menú">
-        <span class="linea"></span>
-        <span class="linea"></span>
-        <span class="linea"></span>
-      </button>
-    </nav>
-    <div class="nav-movil oculta">
-      <ul>
-        <li><a href="../index.html">Inicio</a></li>
-        <li><a href="#">Cómo funciona</a></li>
-        <li><a href="#">Ayuda</a></li>
-        <li><a href="#">Contacto</a></li>
-        <li><a href="login.html" class="enlace-nav">Entrar</a></li>
-        <li><a href="registro.html" class="boton-entrar-movil">Registrarse</a></li>
-      </ul>
-    </div>
-  </header>
-
-  <main class="principal registro-contenedor">
-    <!-- Formulario de registro -->
-    <div class="formulario-registro">
-      <h2>Crea tu cuenta</h2>
+  <main class="principal">
+    <section class="registro-form">
+      <h1>Crear cuenta</h1>
       <form id="form-registro">
-        <div class="campo-formulario">
-          <label for="nombre">Nombre completo</label>
-          <input type="text" id="nombre" name="nombre" required>
-        </div>
-        <div class="campo-formulario">
-          <label for="correo">Correo electrónico</label>
-          <input type="email" id="correo" name="correo" required>
-        </div>
-        <div class="campo-formulario">
-          <label for="contrasena">Contraseña</label>
-          <input type="password" id="contrasena" name="contrasena" required>
-        </div>
-        <button type="submit" class="boton-iniciar-sesion">Registrarse</button>
-        <p id="error-registro" class="error oculta">Este correo ya está registrado.</p>
+        <label for="reg-nombre">Nombre completo</label>
+        <input type="text" id="reg-nombre" required/>
+        <label for="reg-email">Correo electrónico</label>
+        <input type="email" id="reg-email" required/>
+        <label for="reg-pass">Contraseña</label>
+        <input type="password" id="reg-pass" required/>
+        <button type="submit" class="boton-control">Registrarse</button>
       </form>
-    </div>
-    <!-- Ilustración de registro -->
-    <div class="illustracion-registro">
-      <img src="../img/placeholder-registro.png" alt="Ilustración de registro">
-    </div>
+    </section>
   </main>
 
+  <script defer src="../js/nav.js"></script>
+  <script defer src="../js/auth.js"></script>
 </body>
 </html>
