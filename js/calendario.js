@@ -95,9 +95,9 @@ document.addEventListener('DOMContentLoaded', () => {
     mh.className = 'mes-header';
     if (mostrarNav) {
       mh.innerHTML = `
-        <button class="mes-prev boton-control">‹</button>
+        <button id="mes-prev" class="mes-prev">‹</button>
         <h3>${mesesNom[mes]} ${año}</h3>
-        <button class="mes-next boton-control">›</button>
+        <button id="mes-next" class="mes-next">›</button>
       `;
     } else {
       mh.innerHTML = `<h3>${mesesNom[mes]} ${año}</h3>`;

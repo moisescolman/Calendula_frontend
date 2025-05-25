@@ -75,22 +75,38 @@
 .boton-control {
   padding: 0.5rem 1rem;
   border: 1px solid var(--color-principal);
-  background: transparent;
+  background: var(--color-principal);
   border-radius: 0.7rem;
   cursor: pointer;
   font-weight: 500;
-  color: var(--texto-oscuro);
+  color: #fff;
 }
 .boton-control:hover {
-  background: var(--color-principal);
+  background: var(--color-principal-oscuro);
+  border: 1px solid var(--color-principal-oscuro);
   color: #fff;
 }
 .boton-control.activo {
   background: var(--color-principal);
   color: #fff;
+  border: 1px solid var(--color-principal);
 }
 #boton-hoy {
+  background: var(--fondo-claro);
+  color: var(--color-principal)
+}
+#boton-hoy:hover {
+  background: var(--color-principal-oscuro);
+  color: #fff;
+}
+#mes-next, #mes-prev {
+  padding: 0.3rem 2rem;
+  border: 1px solid var(--color-principal);
   background: var(--color-principal);
+  border-radius: 0.7rem;
+  cursor: pointer;
+  margin: 0rem 2rem;
+  font-weight: 500;
   color: #fff;
 }
 #btn-guardar-turnos[disabled] {
@@ -268,8 +284,8 @@
   font-size: 0.55rem;
 }
 .calendario-grid.vista-mes .fechas .celda {
-  padding-top: 0.25rem;
-  padding-bottom: 3rem;
+  padding-top: 0.45rem;
+  padding-bottom: 6rem;
 }
 
 /* === NÚMEROS DE DÍA === */
@@ -315,8 +331,8 @@
 
 /* === FECHA ACTUAL === */
 .celda-actual {
-  background: var(--color-principal);
-  border: 2px solid var(--color-principal);
+  background: var(--color-principal-claro);
+  border: 1px solid var(--color-principal);
   color: #fff;
   z-index: 5;
 }
