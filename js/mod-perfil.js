@@ -16,20 +16,20 @@ document.addEventListener('DOMContentLoaded', () => {
       const nuevoCorreo = inputCorreo.value.trim();
 
       let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
-      // Actualiza en array
-      usuarios = usuarios.map(u => {
-        if (u.correo === usuario.correo) {
-          return { ...u, nombre: nuevoNombre, correo: nuevoCorreo, contrasena: u.contrasena };
-        }
-        return u;
-      });
+      usuarios = usuarios.map(u => u.correo === usuario.correo
+        ? { ...u, nombre: nuevoNombre, correo: nuevoCorreo }
+        : u
+      );
       localStorage.setItem('usuarios', JSON.stringify(usuarios));
-      // Actualiza sesión
-      localStorage.setItem('usuarioActual', JSON.stringify({ ...usuario, nombre: nuevoNombre, correo: nuevoCorreo }));
+      localStorage.setItem('usuarioActual',
+        JSON.stringify({ ...usuario, nombre: nuevoNombre, correo: nuevoCorreo })
+      );
       location.href = 'perfil.html';
     });
 
-  // Cancelar -> perfil
+  // Cancelar → perfil
   document.getElementById('cancel-mod-perfil')
-    .addEventListener('click', () => location.href = 'perfil.html');
+    .addEventListener('click', () => {
+      location.href = 'perfil.html';
+    });
 });

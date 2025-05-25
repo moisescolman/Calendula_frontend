@@ -88,9 +88,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
   font-size: 1.25rem;
-  border: 0.20rem solid var(--borde-gris);
+  border: 0.15rem solid var(--borde-gris);
 }
 
 /* 2) Nombre */

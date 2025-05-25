@@ -37,18 +37,16 @@
 
 /* Botones morados */
 .modificar-perfil-form .boton-control {
-  padding: 0.75rem 1.5rem;
-  background: var(--color-principal);
+background: var(--color-principal);
   color: #fff;
   border: none;
   border-radius: 0.7rem;
-  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
   cursor: pointer;
 }
 .modificar-perfil-form .boton-control:hover {
   background: var(--color-principal-oscuro);
 }
 
-/* Botón “Cancelar” sigue siendo morado; si quisieras darle otro estilo, ajustar aquí */
-
-/* Botones “peligro” (si se añadiesen) igual que perfil.css */
+/* Si en el futuro quieres botones de “peligro”, usa .peligro igual que en perfil.css */
