@@ -31,6 +31,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnCrear     = document.getElementById('boton-crear-turno');
   const btnMarcarTodo= document.getElementById('btn-marcar-todo');
 
+  // ─── Configurar “hoy” en zona Madrid ───────────────────────────────────────
+  // Fecha “hoy” en formato YYYY-MM-DD según Europe/Madrid
+  const fechaHoy     = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Europe/Madrid'
+  }).format(new Date());
+  const [hoyY, hoyM, hoyD] = fechaHoy.split('-').map(Number);
+
   // ─── Drag state ─────────────────────────────────────────────────────────────
   let isDragging = false;
 
@@ -46,10 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
   let modoMarcar   = false;
   let modoBorrar   = false;
 
-  const hoy      = new Date();
-  let year       = hoy.getFullYear();
-  let month      = hoy.getMonth();
-  let viewMode   = 'anio';
+  // Vista inicial centrada en hoy (Madrid)
+  let year     = hoyY;
+  let month    = hoyM - 1;
+  let viewMode = 'anio';
 
   const mesesNom = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
                     'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
@@ -72,14 +79,32 @@ document.addEventListener('DOMContentLoaded', () => {
     return cel;
   }
 
-  function generarMes(año, mes) {
+  /**
+   * Genera un mes completo.
+   * @param {number} año
+   * @param {number} mes
+   * @param {boolean} mostrarNav  — si true, renderiza las flechas de navegación
+   * @returns {HTMLElement} div.mes
+   */
+  function generarMes(año, mes, mostrarNav) {
     const md = document.createElement('div');
     md.className = 'mes';
+
+    // ─── Cabecera del mes ────────────────────────────────────────────────────
     const mh = document.createElement('div');
     mh.className = 'mes-header';
-    mh.innerHTML = `<h3>${mesesNom[mes]} ${año}</h3>`;
+    if (mostrarNav) {
+      mh.innerHTML = `
+        <button class="mes-prev boton-control">‹</button>
+        <h3>${mesesNom[mes]} ${año}</h3>
+        <button class="mes-next boton-control">›</button>
+      `;
+    } else {
+      mh.innerHTML = `<h3>${mesesNom[mes]} ${año}</h3>`;
+    }
     md.appendChild(mh);
 
+    // ─── Días de la semana ────────────────────────────────────────────────────
     const ds = document.createElement('div');
     ds.className = 'dias-semana';
     diasSem.forEach(d => {
@@ -89,18 +114,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     md.appendChild(ds);
 
+    // ─── Fechas del mes ───────────────────────────────────────────────────────
     const fd = document.createElement('div');
     fd.className = 'fechas';
+    // offset para el primer día
     const prim = new Date(año, mes, 1).getDay();
-    const off = (prim + 6) % 7;
-    for (let i = 0; i < off; i++) fd.appendChild(document.createElement('div'));
+    const off = (prim + 6) % 7; // ajustar a Lunes=0
+    for (let i = 0; i < off; i++) {
+      fd.appendChild(document.createElement('div'));
+    }
+    // días del mes
     const dm = new Date(año, mes + 1, 0).getDate();
     for (let d = 1; d <= dm; d++) {
-      const fecha = new Date(año, mes, d).toISOString().split('T')[0];
+      // fecha en YYYY-MM-DD sin usar toISOString (evita desfases por UTC)
+      const fecha = `${año}-${String(mes + 1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
       const cel = crearCelda(fecha, d);
       fd.appendChild(cel);
     }
     md.appendChild(fd);
+
     return md;
   }
 
@@ -108,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
     clearGrid();
     grid.className = 'calendario-grid vista-anio';
     for (let m = 0; m < 12; m++) {
-      grid.appendChild(generarMes(year, m));
+      grid.appendChild(generarMes(year, m, false));
     }
     bindCeldaClicks();
     aplicarMarcados();
@@ -117,7 +149,30 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderMonth() {
     clearGrid();
     grid.className = 'calendario-grid vista-mes';
-    grid.appendChild(generarMes(year, month));
+    const mesDiv = generarMes(year, month, true);
+    grid.appendChild(mesDiv);
+
+    // ─── Listeners para navegación entre meses ──────────────────────────────
+    const btnMesPrev = mesDiv.querySelector('.mes-prev');
+    const btnMesNext = mesDiv.querySelector('.mes-next');
+
+    btnMesPrev.addEventListener('click', () => {
+      month--;
+      if (month < 0) {
+        month = 11;
+        year--;
+      }
+      renderView();
+    });
+    btnMesNext.addEventListener('click', () => {
+      month++;
+      if (month > 11) {
+        month = 0;
+        year++;
+      }
+      renderView();
+    });
+
     bindCeldaClicks();
     aplicarMarcados();
   }
@@ -130,21 +185,21 @@ document.addEventListener('DOMContentLoaded', () => {
     else renderMonth();
   }
 
+  // ─── Botones de control ───────────────────────────────────────────────────
   btnYear.addEventListener('click', () => { viewMode = 'anio'; renderView(); });
   btnMonth.addEventListener('click', () => { viewMode = 'mes';  renderView(); });
   btnPrevY.addEventListener('click', () => { year--; renderView(); });
   btnNextY.addEventListener('click', () => { year++; renderView(); });
   btnHoy.addEventListener('click', () => {
-    year   = hoy.getFullYear();
-    month  = hoy.getMonth();
+    // Volver a "hoy" Madrid
+    year     = hoyY;
+    month    = hoyM - 1;
     viewMode = 'mes';
     renderView();
   });
 
   // ─── Bind y Marcado ────────────────────────────────────────────────────────
-
   function bindCeldaClicks() {
-    // Attach click for single-cell marking
     document.querySelectorAll('.celda[data-fecha]').forEach(c => {
       c.addEventListener('click', () => manejarCelda(c));
     });
@@ -154,7 +209,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.celda[data-fecha]').forEach(cel => {
       cel.querySelectorAll('.etq-turno').forEach(el => el.remove());
       const f = cel.dataset.fecha;
-      const arr = pendientes[f] !== undefined ? pendientes[f] : (marcados[f] || []);
+      const arr = pendientes[f] !== undefined
+        ? pendientes[f]
+        : (marcados[f] || []);
+      // mostrar turnos como antes...
       if (arr.length === 1) {
         const t = turnos.find(x => x.id === arr[0].idTurno);
         const seg = document.createElement('div');
@@ -174,7 +232,8 @@ document.addEventListener('DOMContentLoaded', () => {
           cel.appendChild(seg);
         });
       }
-      if (cel.dataset.fecha === hoy.toISOString().split('T')[0]) {
+      // resaltar celda de hoy (Madrid)
+      if (cel.dataset.fecha === fechaHoy) {
         cel.classList.add('celda-actual');
       }
     });
@@ -183,7 +242,9 @@ document.addEventListener('DOMContentLoaded', () => {
   function manejarCelda(celda) {
     if (!modoMarcar) return;
     const f = celda.dataset.fecha;
-    let arr = pendientes[f] !== undefined ? pendientes[f] : (marcados[f] || []);
+    let arr = pendientes[f] !== undefined
+      ? pendientes[f]
+      : (marcados[f] || []);
 
     if (modoBorrar) {
       pendientes[f] = [];
@@ -207,7 +268,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ─── Panel de selección de turnos ────────────────────────────────────────────
-
   function renderCarrusel() {
     carrusel.innerHTML = '';
     turnos.slice(indexCarr, indexCarr + VISIBLE_COUNT).forEach(t => {

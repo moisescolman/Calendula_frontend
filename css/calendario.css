@@ -211,7 +211,7 @@
 .mes-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   margin-bottom: 0.5rem;
 }
 .mes-header button {
@@ -315,8 +315,10 @@
 
 /* === FECHA ACTUAL === */
 .celda-actual {
-  background: red;
+  background: var(--color-principal);
+  border: 2px solid var(--color-principal);
   color: #fff;
+  z-index: 5;
 }
 
 /* === RESPONSIVE === */
