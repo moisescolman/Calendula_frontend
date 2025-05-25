@@ -20,6 +20,7 @@ html {
     font-family: 'Lexend', sans-serif;
     scroll-behavior: smooth;
     background-color: var(--fondo-claro);
+    transition: 0.3s ease;
 }
 button {
     font-family: 'Lexend', sans-serif;

@@ -4,85 +4,80 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Calendario – Calendula</title>
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap"
     rel="stylesheet"
   />
-  <!-- Estilos -->
   <link rel="stylesheet" href="../css/estilos.css" />
   <link rel="stylesheet" href="../css/calendario.css" />
-  <!-- Lógica del calendario -->
-  <script defer src="../js/calendario.js"></script>
 </head>
 <body>
-  <!-- Nav inyectado por nav.js -->
   <header class="encabezado calendario-encabezado"></header>
 
   <main class="principal-usuario calendario-principal">
-    <!-- Cabecera de controles -->
     <div class="calendario-header">
       <div class="titulo-y-boton">
         <h1>Calendario</h1>
-        <button id="boton-marcar-turnos" class="boton-control">Marcar turnos</button>
+        <button id="btn-marcar" class="boton-control">Marcar turnos</button>
+        <button id="btn-guardar-turnos" class="boton-control oculta" disabled>
+          Guardar
+        </button>
+        <button id="btn-cancelar-marcar" class="boton-control oculta">
+          Cancelar
+        </button>
       </div>
-      <div class="controles-calendario">
-        <div id="controles-anio" class="controles-anio">
-          <button id="boton-prev-anio" class="boton-control">‹</button>
-          <span id="anio-mostrado">2025</span>
-          <button id="boton-next-anio" class="boton-control">›</button>
+
+      <div id="panel-turnos" class="panel-turnos oculta">
+        <span id="texto-turno-activo">Selecciona turno a marcar</span>
+        <div class="carrusel-turnos">
+          <button id="flecha-izq" class="flecha-turnos">‹</button>
+          <div id="contenedor-turnos" class="contenedor-turnos"></div>
+          <button id="flecha-der" class="flecha-turnos">›</button>
         </div>
-        <button id="boton-vista-ano" class="boton-control activo">Vista Año</button>
-        <button id="boton-vista-mes" class="boton-control">Vista Mes</button>
+        <div class="acciones-turnos">
+          <div
+            id="boton-crear-turno"
+            class="cuadro-turno agregar-turno"
+            title="Crear turno"
+          >
+            +
+          </div>
+          <div
+            id="boton-borrar-turno"
+            class="cuadro-turno borrar-turno"
+            title="Borrar turno"
+          >
+            Borrar
+          </div>
+          <!-- Texto cambiado aquí -->
+          <button id="btn-marcar-todo" class="boton-control">
+            Marcar huecos
+          </button>
+        </div>
+      </div>
+
+      <div class="controles-calendario">
+        <div class="controles-anio">
+          <button id="anio-previo" class="boton-control">‹</button>
+          <span id="anio-mostrado">2025</span>
+          <button id="anio-siguiente" class="boton-control">›</button>
+        </div>
+        <button id="vista-anio" class="boton-control activo">Vista Año</button>
+        <button id="vista-mes" class="boton-control">Vista Mes</button>
         <button id="boton-hoy" class="boton-control">Hoy</button>
         <button id="boton-filtrar" class="boton-control">Filtrar</button>
       </div>
     </div>
 
-    <!-- Panel de resumen (sin cambios) -->
-    <aside class="resumen-turnos">
-      <h2>Resumen</h2>
-      <div class="detalles-fecha">
-        <span id="dia-semana">—</span>
-        <span id="hora-actual">—:—</span>
-        <span id="fecha-actual">—</span>
-      </div>
-      <div class="lista-resumen">
-        <div class="item-resumen">
-          <span class="label">Mañana</span><span class="valor" id="res-manana">0</span>
-        </div>
-        <div class="item-resumen">
-          <span class="label">Tarde</span><span class="valor" id="res-tarde">0</span>
-        </div>
-        <div class="item-resumen">
-          <span class="label">Noche</span><span class="valor" id="res-noche">0</span>
-        </div>
-        <div class="item-resumen">
-          <span class="label">Descansos</span><span class="valor" id="res-descansos">0</span>
-        </div>
-        <div class="item-resumen">
-          <span class="label">Vacaciones</span><span class="valor" id="res-vacaciones">0</span>
-        </div>
-        <div class="item-resumen">
-          <span class="label">Permisos</span><span class="valor" id="res-permisos">0</span>
-        </div>
-      </div>
-      <div class="conteos">
-        <div class="item-conteo"><span>Días ocupados</span><span id="dias-ocupados">0</span></div>
-        <div class="item-conteo"><span>Días libres</span><span id="dias-libres">0</span></div>
-      </div>
-      <div class="barra-progreso"><div class="barra" style="width:0%;"></div></div>
-      <div class="texto-progreso">0 días sin marcar • 0%</div>
-    </aside>
-
-    <!-- <<< AQUÍ estaba el fallo: faltaba el contenedor donde el JS inyecta el calendario >>> -->
-    <section id="calendario-grid" class="calendario-grid"></section>
+    <section class="resumen-turnos" id="resumen-turnos"></section>
+    <section class="calendario-grid vista-anio" id="calendario-grid"></section>
   </main>
 
-  <!-- Inyección de nav + protección de rutas -->
   <script defer src="../js/nav.js"></script>
   <script defer src="../js/auth.js"></script>
+  <script type="module" defer src="../js/utils.js"></script>
+  <script type="module" defer src="../js/calendario.js"></script>
 </body>
 </html>
