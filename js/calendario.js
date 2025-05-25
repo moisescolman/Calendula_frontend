@@ -31,6 +31,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnCrear     = document.getElementById('boton-crear-turno');
   const btnMarcarTodo= document.getElementById('btn-marcar-todo');
 
+  // ─── Drag state ─────────────────────────────────────────────────────────────
+  let isDragging = false;
+
   // ─── Configuración Carrusel ────────────────────────────────────────────────
   const VISIBLE_COUNT = 5;
   let indexCarr       = 0;
@@ -76,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     mh.className = 'mes-header';
     mh.innerHTML = `<h3>${mesesNom[mes]} ${año}</h3>`;
     md.appendChild(mh);
+
     const ds = document.createElement('div');
     ds.className = 'dias-semana';
     diasSem.forEach(d => {
@@ -84,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ds.appendChild(sp);
     });
     md.appendChild(ds);
+
     const fd = document.createElement('div');
     fd.className = 'fechas';
     const prim = new Date(año, mes, 1).getDay();
@@ -139,6 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ─── Bind y Marcado ────────────────────────────────────────────────────────
 
   function bindCeldaClicks() {
+    // Attach click for single-cell marking
     document.querySelectorAll('.celda[data-fecha]').forEach(c => {
       c.addEventListener('click', () => manejarCelda(c));
     });
@@ -148,9 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.celda[data-fecha]').forEach(cel => {
       cel.querySelectorAll('.etq-turno').forEach(el => el.remove());
       const f = cel.dataset.fecha;
-      const arr = pendientes[f] !== undefined
-        ? pendientes[f]
-        : (marcados[f] || []);
+      const arr = pendientes[f] !== undefined ? pendientes[f] : (marcados[f] || []);
       if (arr.length === 1) {
         const t = turnos.find(x => x.id === arr[0].idTurno);
         const seg = document.createElement('div');
@@ -179,12 +183,9 @@ document.addEventListener('DOMContentLoaded', () => {
   function manejarCelda(celda) {
     if (!modoMarcar) return;
     const f = celda.dataset.fecha;
-    let arr = pendientes[f] !== undefined
-      ? pendientes[f]
-      : (marcados[f] || []);
+    let arr = pendientes[f] !== undefined ? pendientes[f] : (marcados[f] || []);
 
     if (modoBorrar) {
-      // Marcamos para borrado independientemente de si estaba guardado
       pendientes[f] = [];
     } else if (turnoActivo) {
       if (turnoActivo.todoDia || arr.length === 0) {
@@ -205,12 +206,11 @@ document.addEventListener('DOMContentLoaded', () => {
     aplicarMarcados();
   }
 
-  // ─── Panel de turnos ────────────────────────────────────────────────────────
+  // ─── Panel de selección de turnos ────────────────────────────────────────────
 
   function renderCarrusel() {
     carrusel.innerHTML = '';
-    const visibles = turnos.slice(indexCarr, indexCarr + VISIBLE_COUNT);
-    visibles.forEach(t => {
+    turnos.slice(indexCarr, indexCarr + VISIBLE_COUNT).forEach(t => {
       const d = document.createElement('div');
       d.className = 'cuadro-turno';
       d.textContent = t.abre;
@@ -271,13 +271,13 @@ document.addEventListener('DOMContentLoaded', () => {
     renderView();
   });
 
+  // ─── Flechas del carrusel ───────────────────────────────────────────────────
   flechaL?.addEventListener('click', () => {
     if (indexCarr > 0) {
       indexCarr--;
       actualizarPanel();
     }
   });
-
   flechaR?.addEventListener('click', () => {
     if (indexCarr + VISIBLE_COUNT < turnos.length) {
       indexCarr++;
@@ -299,13 +299,29 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!turnoActivo) return;
     document.querySelectorAll('.celda[data-fecha]').forEach(c => {
       const f = c.dataset.fecha;
-      if (!((pendientes[f] !== undefined
-             ? pendientes[f]
-             : (marcados[f] || [])).length)) {
+      if (!((pendientes[f] || marcados[f] || []).length)) {
         manejarCelda(c);
       }
     });
     btnGuardar.disabled = false;
+  });
+
+  // ─── Drag-to-mark: click + drag support ────────────────────────────────────
+  grid.addEventListener('mousedown', e => {
+    if (!modoMarcar) return;
+    const cel = e.target.closest('.celda');
+    if (cel) {
+      isDragging = true;
+      manejarCelda(cel);
+    }
+  });
+  grid.addEventListener('mouseover', e => {
+    if (!isDragging) return;
+    const cel = e.target.closest('.celda');
+    if (cel) manejarCelda(cel);
+  });
+  document.addEventListener('mouseup', () => {
+    if (isDragging) isDragging = false;
   });
 
   // ─── Inicio ────────────────────────────────────────────────────────────────
