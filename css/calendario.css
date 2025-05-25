@@ -23,12 +23,13 @@
 
 /* === ESTRUCTURA PRINCIPAL === */
 .principal-usuario.calendario-principal {
-  width: 100%;
+ width: 100%;
   margin: 2rem 0;
   padding: 0 2rem;
   display: grid;
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: 21% auto;
   gap: 2rem;
+
 }
 
 /* === HEADER DEL CALENDARIO === */
@@ -93,7 +94,7 @@
 }
 #boton-hoy {
   background: var(--fondo-claro);
-  color: var(--color-principal)
+  color: var(--color-principal);
 }
 #boton-hoy:hover {
   background: var(--color-principal-oscuro);
@@ -209,6 +210,64 @@
   margin-bottom: 1rem;
 }
 
+/* ——— Estilos nuevos solo para resumen ——— */
+/* Listado de turnos: ícono, texto, cuenta alineados en grid */
+.resumen-lista-turnos {
+  display: block;
+  grid-template-columns: 2rem 1fr auto;
+  column-gap: 0.5rem;
+  row-gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.resumen-lista-turnos .icon-turno {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  font-size: 1.25rem;
+  border-radius: 0.25rem;
+}
+.resumen-lista-turnos .resumen-texto {
+  align-self: center;
+}
+.resumen-lista-turnos .resumen-count {
+  text-align: right;
+  align-self: center;
+}
+
+/* Separador gris antes de totales */
+.resumen-separador {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 1rem 0;
+}
+
+/* Totales: etiqueta y valor en grid */
+.resumen-totales {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 0.5rem;
+}
+/* .resumen-totales .resumen-item {
+  display: contents;
+} */
+.resumen-item {
+  padding: 0.2rem 0.3rem;
+  /* width: 100%; */
+  display: flex;
+  margin: 0.2rem 0.2rem;
+}
+.resumen-item span {
+  margin-right:0.5rem;
+}
+
+.resumen-totales span {
+  margin-right:0.5rem;
+  width: 100%;
+}
+/* ——— Fin estilos nuevos ——— */
+
 /* === GRID DE MESES === */
 .calendario-grid {
   display: grid;
@@ -267,7 +326,7 @@
   align-items: flex-start;
   padding: 0.5rem;
   border-radius: 0.25rem;
-  overflow: hidden;              /* evita desbordes */
+  overflow: hidden;
   border: 1px solid var(--fondo-claro);
   cursor: pointer;
   user-select: none;
@@ -276,7 +335,7 @@
   background: var(--color-principal-claro);
 }
 
-/* Alturas de celdas */
+/* Alturas de celdas según vista */
 .calendario-grid:not(.vista-mes) .fechas .celda {
   padding-top: 0.22rem;
   padding-bottom: 1.5rem;
@@ -302,7 +361,7 @@
 /* === SEGMENTOS DE TURNO === */
 .etq-turno {
   position: absolute;
-  left: 0;                         /* cubre todo el ancho */
+  left: 0;
   width: 100%;
   display: flex;
   align-items: center;
@@ -314,7 +373,7 @@
 .etq-turno.uno {
   top: 0;
   height: 100%;
-  border-radius: 0.25rem;          /* redondea toda la celda */
+  border-radius: 0.25rem;
 }
 .etq-turno.arriba {
   top: 0;

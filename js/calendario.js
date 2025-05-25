@@ -7,53 +7,49 @@ import {
 } from './utils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const usuario = getUsuarioActual();
+  const usuario      = getUsuarioActual();
   if (!usuario) return;
 
   // ─── Elementos DOM ─────────────────────────────────────────────────────────
-  const grid         = document.getElementById('calendario-grid');
-  const headerYear   = document.getElementById('anio-mostrado');
-  const btnPrevY     = document.getElementById('anio-previo');
-  const btnNextY     = document.getElementById('anio-siguiente');
-  const btnYear      = document.getElementById('vista-anio');
-  const btnMonth     = document.getElementById('vista-mes');
-  const btnHoy       = document.getElementById('boton-hoy');
+  const grid          = document.getElementById('calendario-grid');
+  const headerYear    = document.getElementById('anio-mostrado');
+  const btnPrevY      = document.getElementById('anio-previo');
+  const btnNextY      = document.getElementById('anio-siguiente');
+  const btnYear       = document.getElementById('vista-anio');
+  const btnMonth      = document.getElementById('vista-mes');
+  const btnHoy        = document.getElementById('boton-hoy');
+  const resumenEl     = document.getElementById('resumen-turnos');
 
-  const btnMarcar    = document.getElementById('btn-marcar');
-  const btnGuardar   = document.getElementById('btn-guardar-turnos');
-  const btnCancelar  = document.getElementById('btn-cancelar-marcar');
-  const panel        = document.getElementById('panel-turnos');
-  const carrusel     = document.getElementById('contenedor-turnos');
-  const txtActivo    = document.getElementById('texto-turno-activo');
-  const flechaL      = document.getElementById('flecha-izq');
-  const flechaR      = document.getElementById('flecha-der');
-  const btnBorrar    = document.getElementById('boton-borrar-turno');
-  const btnCrear     = document.getElementById('boton-crear-turno');
-  const btnMarcarTodo= document.getElementById('btn-marcar-todo');
+  const btnMarcar     = document.getElementById('btn-marcar');
+  const btnGuardar    = document.getElementById('btn-guardar-turnos');
+  const btnCancelar   = document.getElementById('btn-cancelar-marcar');
+  const panel         = document.getElementById('panel-turnos');
+  const carrusel      = document.getElementById('contenedor-turnos');
+  const txtActivo     = document.getElementById('texto-turno-activo');
+  const flechaL       = document.getElementById('flecha-izq');
+  const flechaR       = document.getElementById('flecha-der');
+  const btnBorrar     = document.getElementById('boton-borrar-turno');
+  const btnCrear      = document.getElementById('boton-crear-turno');
+  const btnMarcarTodo = document.getElementById('btn-marcar-todo');
 
-  // ─── Configurar “hoy” en zona Madrid ───────────────────────────────────────
-  // Fecha “hoy” en formato YYYY-MM-DD según Europe/Madrid
-  const fechaHoy     = new Intl.DateTimeFormat('en-CA', {
+  // ─── “Hoy” en zona Madrid ───────────────────────────────────────────────────
+  const fechaHoyStr = new Intl.DateTimeFormat('en-CA', {
     timeZone: 'Europe/Madrid'
   }).format(new Date());
-  const [hoyY, hoyM, hoyD] = fechaHoy.split('-').map(Number);
+  const [hoyY, hoyM, hoyD] = fechaHoyStr.split('-').map(Number);
 
-  // ─── Drag state ─────────────────────────────────────────────────────────────
-  let isDragging = false;
-
-  // ─── Configuración Carrusel ────────────────────────────────────────────────
+  // ─── Estado interno y carrusel ─────────────────────────────────────────────
+  let isDragging   = false;
   const VISIBLE_COUNT = 5;
-  let indexCarr       = 0;
+  let indexCarr    = 0;
 
-  // ─── Estado interno ────────────────────────────────────────────────────────
-  let turnos       = getTurnos(usuario);
-  let marcados     = getTurnosMarcados(usuario);
+  const turnos      = getTurnos(usuario);
+  const marcados    = getTurnosMarcados(usuario);
   let pendientes   = {};
   let turnoActivo  = null;
   let modoMarcar   = false;
   let modoBorrar   = false;
 
-  // Vista inicial centrada en hoy (Madrid)
   let year     = hoyY;
   let month    = hoyM - 1;
   let viewMode = 'anio';
@@ -62,11 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
   const diasSem  = ['Lun','Mar','Mié','Jue','Vie','Sab','Dom'];
 
-  // ─── Render Dinámico ───────────────────────────────────────────────────────
-
-  function clearGrid() {
-    grid.innerHTML = '';
-  }
+  // ─── Funciones de render ────────────────────────────────────────────────────
+  function clearGrid() { grid.innerHTML = ''; }
 
   function crearCelda(fecha, dia) {
     const cel = document.createElement('div');
@@ -79,32 +72,23 @@ document.addEventListener('DOMContentLoaded', () => {
     return cel;
   }
 
-  /**
-   * Genera un mes completo.
-   * @param {number} año
-   * @param {number} mes
-   * @param {boolean} mostrarNav  — si true, renderiza las flechas de navegación
-   * @returns {HTMLElement} div.mes
-   */
   function generarMes(año, mes, mostrarNav) {
     const md = document.createElement('div');
     md.className = 'mes';
 
-    // ─── Cabecera del mes ────────────────────────────────────────────────────
     const mh = document.createElement('div');
     mh.className = 'mes-header';
     if (mostrarNav) {
       mh.innerHTML = `
-        <button id="mes-prev" class="mes-prev">‹</button>
+        <button class="mes-prev boton-control">‹</button>
         <h3>${mesesNom[mes]} ${año}</h3>
-        <button id="mes-next" class="mes-next">›</button>
+        <button class="mes-next boton-control">›</button>
       `;
     } else {
       mh.innerHTML = `<h3>${mesesNom[mes]} ${año}</h3>`;
     }
     md.appendChild(mh);
 
-    // ─── Días de la semana ────────────────────────────────────────────────────
     const ds = document.createElement('div');
     ds.className = 'dias-semana';
     diasSem.forEach(d => {
@@ -114,22 +98,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     md.appendChild(ds);
 
-    // ─── Fechas del mes ───────────────────────────────────────────────────────
     const fd = document.createElement('div');
     fd.className = 'fechas';
-    // offset para el primer día
     const prim = new Date(año, mes, 1).getDay();
-    const off = (prim + 6) % 7; // ajustar a Lunes=0
-    for (let i = 0; i < off; i++) {
-      fd.appendChild(document.createElement('div'));
-    }
-    // días del mes
+    const off  = (prim + 6) % 7;
+    for (let i = 0; i < off; i++) fd.appendChild(document.createElement('div'));
     const dm = new Date(año, mes + 1, 0).getDate();
     for (let d = 1; d <= dm; d++) {
-      // fecha en YYYY-MM-DD sin usar toISOString (evita desfases por UTC)
-      const fecha = `${año}-${String(mes + 1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-      const cel = crearCelda(fecha, d);
-      fd.appendChild(cel);
+      const fecha = `${año}-${String(mes+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      fd.appendChild(crearCelda(fecha, d));
     }
     md.appendChild(fd);
 
@@ -151,51 +128,115 @@ document.addEventListener('DOMContentLoaded', () => {
     grid.className = 'calendario-grid vista-mes';
     const mesDiv = generarMes(year, month, true);
     grid.appendChild(mesDiv);
-
-    // ─── Listeners para navegación entre meses ──────────────────────────────
-    const btnMesPrev = mesDiv.querySelector('.mes-prev');
-    const btnMesNext = mesDiv.querySelector('.mes-next');
-
-    btnMesPrev.addEventListener('click', () => {
-      month--;
-      if (month < 0) {
-        month = 11;
-        year--;
-      }
-      renderView();
+    mesDiv.querySelector('.mes-prev').addEventListener('click', () => {
+      month--; if (month<0) { month=11; year--; } renderView();
     });
-    btnMesNext.addEventListener('click', () => {
-      month++;
-      if (month > 11) {
-        month = 0;
-        year++;
-      }
-      renderView();
+    mesDiv.querySelector('.mes-next').addEventListener('click', () => {
+      month++; if (month>11) { month=0; year++; } renderView();
     });
-
     bindCeldaClicks();
     aplicarMarcados();
+  }
+
+  function renderResumen() {
+    resumenEl.innerHTML = '';
+
+    // Título
+    const h2 = document.createElement('h2');
+    h2.textContent = viewMode === 'anio'
+      ? `Resumen Año ${year}`
+      : `Resumen ${mesesNom[month]} ${year}`;
+    resumenEl.appendChild(h2);
+
+    // Listado de turnos
+    const lista = document.createElement('div');
+    lista.className = 'resumen-lista-turnos';
+    const contador = {};
+    turnos.forEach(t => contador[t.id] = 0);
+    Object.entries(marcados).forEach(([f, arr]) => {
+      const [y,m] = f.split('-').map(Number);
+      if (viewMode === 'anio' && y !== year) return;
+      if (viewMode === 'mes' && (y !== year || m-1 !== month)) return;
+      arr.forEach(i => { if (contador[i.idTurno] != null) contador[i.idTurno]++; });
+    });
+    turnos.forEach(t => {
+      const item = document.createElement('div');
+      item.className = 'resumen-item';
+      const icon = document.createElement('span');
+      icon.className = 'icon-turno';
+      icon.textContent = t.abre;
+      icon.style.background = t.colorF;
+      icon.style.color      = t.colorT;
+      const txt = document.createElement('span');
+      txt.className = 'resumen-texto';
+      txt.textContent = `${t.nombre}:`;
+      const cnt = document.createElement('span');
+      cnt.className = 'resumen-count';
+      cnt.textContent = contador[t.id];
+      item.append(icon, txt, cnt);
+      lista.appendChild(item);
+    });
+    resumenEl.appendChild(lista);
+
+    // Separador
+    const hr = document.createElement('hr');
+    hr.className = 'resumen-separador';
+    resumenEl.appendChild(hr);
+
+    // Totales
+    const tot = document.createElement('div');
+    tot.className = 'resumen-totales';
+    const idsDesc = turnos.filter(t=>t.nombre==='Descanso').map(t=>t.id);
+    const idsVac  = turnos.filter(t=>t.nombre==='Vacaciones').map(t=>t.id);
+    const idsAct  = turnos.filter(t=>t.tipo==='suma').map(t=>t.id);
+    let dDesc=0, dVac=0, dOcu=0, hOcu=0;
+    Object.entries(marcados).forEach(([f, arr]) => {
+      const [y,m] = f.split('-').map(Number);
+      if (viewMode==='anio' && y!==year) return;
+      if (viewMode==='mes' && (y!==year||m-1!==month)) return;
+      if (arr.some(i=>idsDesc.includes(i.idTurno))) dDesc++;
+      if (arr.some(i=>idsVac.includes(i.idTurno))) dVac++;
+      if (arr.some(i=>idsAct.includes(i.idTurno))) dOcu++;
+      arr.forEach(i=>{
+        if (!idsAct.includes(i.idTurno)) return;
+        const t = turnos.find(x=>x.id===i.idTurno);
+        let [h1,m1]=t.inicio.split(':').map(Number);
+        let [h2,m2]=t.fin.split(':').map(Number);
+        let dur = (h2 + (h2<h1?24:0)) + m2/60 - (h1 + m1/60);
+        hOcu += dur;
+      });
+    });
+    [
+      ['Días descanso', dDesc],
+      ['Días vacaciones', dVac],
+      ['Días ocupados', dOcu],
+      ['Total horas ocupadas', Math.round(hOcu*100)/100 + ' h']
+    ].forEach(([lab, val]) => {
+      const item = document.createElement('div');
+      item.className = 'resumen-item';
+      const a = document.createElement('span'); a.textContent = lab;
+      const b = document.createElement('span'); b.textContent = val;
+      item.append(a, b);
+      tot.appendChild(item);
+    });
+    resumenEl.appendChild(tot);
   }
 
   function renderView() {
     headerYear.textContent = year;
     btnYear.classList.toggle('activo', viewMode === 'anio');
     btnMonth.classList.toggle('activo', viewMode === 'mes');
-    if (viewMode === 'anio') renderYear();
-    else renderMonth();
+    if (viewMode === 'anio') renderYear(); else renderMonth();
+    renderResumen();
   }
 
-  // ─── Botones de control ───────────────────────────────────────────────────
-  btnYear.addEventListener('click', () => { viewMode = 'anio'; renderView(); });
-  btnMonth.addEventListener('click', () => { viewMode = 'mes';  renderView(); });
-  btnPrevY.addEventListener('click', () => { year--; renderView(); });
-  btnNextY.addEventListener('click', () => { year++; renderView(); });
-  btnHoy.addEventListener('click', () => {
-    // Volver a "hoy" Madrid
-    year     = hoyY;
-    month    = hoyM - 1;
-    viewMode = 'mes';
-    renderView();
+  // ─── Controles ─────────────────────────────────────────────────────────────
+  btnYear.addEventListener('click',   () => { viewMode = 'anio'; renderView(); });
+  btnMonth.addEventListener('click',  () => { viewMode = 'mes';  renderView(); });
+  btnPrevY.addEventListener('click',  () => { year--; renderView(); });
+  btnNextY.addEventListener('click',  () => { year++; renderView(); });
+  btnHoy.addEventListener('click',    () => {
+    year = hoyY; month = hoyM - 1; viewMode = 'mes'; renderView();
   });
 
   // ─── Bind y Marcado ────────────────────────────────────────────────────────
@@ -212,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const arr = pendientes[f] !== undefined
         ? pendientes[f]
         : (marcados[f] || []);
-      // mostrar turnos como antes...
+
       if (arr.length === 1) {
         const t = turnos.find(x => x.id === arr[0].idTurno);
         const seg = document.createElement('div');
@@ -221,19 +262,20 @@ document.addEventListener('DOMContentLoaded', () => {
         seg.style.background = t.colorF;
         seg.style.color      = t.colorT;
         cel.appendChild(seg);
+
       } else if (arr.length === 2) {
         arr.forEach((item, i) => {
           const t = turnos.find(x => x.id === item.idTurno);
           const seg = document.createElement('div');
-          seg.className = `etq-turno ${i === 0 ? 'arriba' : 'abajo'}`;
+          seg.className = `etq-turno ${i===0?'arriba':'abajo'}`;
           seg.textContent   = t.abre;
           seg.style.background = t.colorF;
           seg.style.color      = t.colorT;
           cel.appendChild(seg);
         });
       }
-      // resaltar celda de hoy (Madrid)
-      if (cel.dataset.fecha === fechaHoy) {
+
+      if (cel.dataset.fecha === fechaHoyStr) {
         cel.classList.add('celda-actual');
       }
     });
@@ -254,7 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (arr.length === 1) {
         const ex = turnos.find(t => t.id === arr[0].idTurno);
         if (!ex.todoDia && ex.id !== turnoActivo.id) {
-          const duo = [ex, turnoActivo].sort((a, b) =>
+          const duo = [ex, turnoActivo].sort((a,b) =>
             a.inicio.localeCompare(b.inicio)
           );
           arr = duo.map(t => ({ idTurno: t.id }));
@@ -288,7 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function actualizarPanel() {
     renderCarrusel();
-    if (modoBorrar)     txtActivo.textContent = 'Modo borrado activo';
+    if (modoBorrar)      txtActivo.textContent = 'Modo borrado activo';
     else if (turnoActivo) txtActivo.textContent = `Turno seleccionado: ${turnoActivo.nombre}`;
     else                   txtActivo.textContent = 'Selecciona turno a marcar';
   }
@@ -331,18 +373,12 @@ document.addEventListener('DOMContentLoaded', () => {
     renderView();
   });
 
-  // ─── Flechas del carrusel ───────────────────────────────────────────────────
+  // ─── Carrusel ───────────────────────────────────────────────────────────────
   flechaL?.addEventListener('click', () => {
-    if (indexCarr > 0) {
-      indexCarr--;
-      actualizarPanel();
-    }
+    if (indexCarr > 0) { indexCarr--; actualizarPanel(); }
   });
   flechaR?.addEventListener('click', () => {
-    if (indexCarr + VISIBLE_COUNT < turnos.length) {
-      indexCarr++;
-      actualizarPanel();
-    }
+    if (indexCarr + VISIBLE_COUNT < turnos.length) { indexCarr++; actualizarPanel(); }
   });
 
   btnBorrar.addEventListener('click', () => {
@@ -366,14 +402,11 @@ document.addEventListener('DOMContentLoaded', () => {
     btnGuardar.disabled = false;
   });
 
-  // ─── Drag-to-mark: click + drag support ────────────────────────────────────
+  // ─── Drag-to-mark ───────────────────────────────────────────────────────────
   grid.addEventListener('mousedown', e => {
     if (!modoMarcar) return;
     const cel = e.target.closest('.celda');
-    if (cel) {
-      isDragging = true;
-      manejarCelda(cel);
-    }
+    if (cel) { isDragging = true; manejarCelda(cel); }
   });
   grid.addEventListener('mouseover', e => {
     if (!isDragging) return;
