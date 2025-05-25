@@ -1,6 +1,6 @@
 /* css/modificar-turno.css */
 
-/* Wrapper del formulario: ocupa 100% del ancho del contenedor */
+/* Contenedor general */
 .modificar-form {
   width: 100%;
   background: #fff;
@@ -13,13 +13,13 @@
   gap: 2rem;
 }
 
-/* Layout en tres columnas */
+/* Flex wrapper columnas */
 .modificar-form-wrapper {
   display: flex;
   gap: 2rem;
 }
 
-/* Columna izquierda (preview) */
+/* Izquierda: preview */
 .modificar-left { flex: 0 0 auto; }
 .preview-container {
   display: flex;
@@ -33,7 +33,7 @@
   border: 0.15rem solid var(--borde-gris);
 }
 
-/* Columna central */
+/* Central */
 .modificar-center {
   flex: 1;
   display: flex;
@@ -41,7 +41,7 @@
   gap: 1.5rem;
 }
 
-/* Columna derecha */
+/* Derecha */
 .modificar-right {
   flex: 1;
   display: flex;
@@ -49,15 +49,13 @@
   gap: 1.5rem;
 }
 
-/* Grupos de formulario */
+/* Grupos label+input */
 .form-group {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
-
-/* Labels e inputs */
-label {
+.form-group label {
   font-size: 1rem;
   color: var(--texto-oscuro);
 }
@@ -69,7 +67,7 @@ input[type="time"] {
   font-size: 1rem;
 }
 
-/* Horario + checkbox “Todo el día” */
+/* Horario + checkbox */
 .horario-inputs {
   display: flex;
   align-items: center;
@@ -88,15 +86,10 @@ input[type="time"] {
   gap: 1.5rem;
   align-items: center;
 }
-.tipo-horas input {
-  width: 1rem;
-  height: 1rem;
-}
+.tipo-horas input { pointer-events: none; }
 
 /* Color pickers */
-.color-group label {
-  margin-bottom: 0.5rem;
-}
+.color-group label { margin-bottom: 0.5rem; }
 .color-picker-container {
   position: relative;
   display: inline-block;
@@ -140,18 +133,29 @@ input[type="time"] {
   border-radius: 0.25rem;
 }
 
-/* Botones de acción al pie */
+/* Botones pie */
 .modificar-buttons {
   display: flex;
   gap: 1rem;
   justify-content: flex-end;
 }
+/* Guardar y Cancelar en morado */
 .modificar-buttons .boton-control {
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-}
-.modificar-buttons .delete {
-  background: #e63946;
+  background: var(--color-principal);
   color: #fff;
   border: none;
+  border-radius: 0.7rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+.modificar-buttons .boton-control:hover {
+  background: var(--color-principal-oscuro);
+}
+/* Botón Eliminar en rojo */
+.modificar-buttons .boton-control.peligro {
+  background: #e63946;
+}
+.modificar-buttons .boton-control.peligro:hover {
+  opacity: 0.9;
 }

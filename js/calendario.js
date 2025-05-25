@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const mesesNom = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
                     'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-  const diasSem  = ['L','M','X','J','V','S','D'];
+  const diasSem  = ['Lun','Mar','Mié','Jue','Vie','Sab','Dom'];
 
   // ─── Render Dinámico ───────────────────────────────────────────────────────
 

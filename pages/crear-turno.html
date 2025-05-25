@@ -16,11 +16,13 @@
   <link rel="stylesheet" href="../css/turnos.css"/>
   <!-- Reutilizamos los estilos precisos de modificar-turno -->
   <link rel="stylesheet" href="../css/modificar-turno.css"/>
-  <script defer src="../js/crear-turno.js"></script>
+
+  <!-- IMPORTANTE: type="module" para poder usar import/export -->
+  <script type="module" defer src="../js/crear-turno.js"></script>
   <script defer src="../js/nav.js"></script>
   <script defer src="../js/auth.js"></script>
 </head>
-<body>
+<body data-nav="morado">
 
   <header class="encabezado calendario-encabezado"></header>
 
@@ -93,7 +95,7 @@
 
       </div> <!-- /.modificar-form-wrapper -->
 
-      <!-- Botones abajo: sólo Guardar y Cancelar -->
+      <!-- Botones abajo: solo Guardar y Cancelar -->
       <div class="form-acciones modificar-buttons">
         <button type="submit" class="boton-control">Guardar</button>
         <button type="button" id="cancelar-crear" class="boton-control">Cancelar</button>

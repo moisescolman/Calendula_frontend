@@ -21,71 +21,86 @@
   <link rel="stylesheet" href="../css/turnos.css"/>
   <!-- Estilos específicos de modificar turno -->
   <link rel="stylesheet" href="../css/modificar-turno.css"/>
+
+  <!-- Lógica -->
+  <script type="module" defer src="../js/modificar-turno.js"></script>
+  <script defer src="../js/nav.js"></script>
+  <script defer src="../js/auth.js"></script>
 </head>
-<body>
-  <!-- Nav morado generado en js/nav.js -->
+<body data-nav="morado">
+
+  <!-- Nav morado inyectado por nav.js -->
   <header class="encabezado calendario-encabezado"></header>
 
   <main class="principal-usuario turnos-principal">
     <h1>Modificar Turno</h1>
-    <form id="form-modificar-turno" class="turno-form">
-      <div class="cell-preview">
-        <div id="preview-sq" class="turno-abre"></div>
-      </div>
 
-      <div class="form-group">
-        <label for="titulo-turno">Título de turno</label>
-        <input type="text" id="titulo-turno" required/>
-      </div>
+    <form id="form-modificar-turno" class="modificar-form">
+      <div class="modificar-form-wrapper">
 
-      <div class="form-group">
-        <label for="abreviatura-turno">Abreviatura</label>
-        <input type="text" id="abreviatura-turno" maxlength="3" required/>
-      </div>
-
-      <fieldset class="form-group">
-        <legend>Tipo de turno</legend>
-        <div class="tipo-horas">
-          <label><input type="radio" name="tipo-turno" value="suma"/> Trabajo</label>
-          <label><input type="radio" name="tipo-turno" value="resta"/> Libre</label>
-          <label><input type="radio" name="tipo-turno" value="nada"/> Vacaciones</label>
+        <!-- Preview -->
+        <div class="modificar-left">
+          <div class="preview-container">
+            <div id="preview-sq" class="turno-abre"></div>
+          </div>
         </div>
-      </fieldset>
 
-      <div class="form-group horario-group">
-        <label>Horario</label>
-        <div class="horario-inputs">
-          <input type="time" id="inicio-turno"/>
-          <span class="turno-flecha">→</span>
-          <input type="time" id="fin-turno"/>
-          <label class="todo-dia-inline">
-            <input type="checkbox" id="todo-dia"/>
-            Todo el día
-          </label>
+        <!-- Datos centrales -->
+        <div class="modificar-center">
+          <div class="form-group">
+            <label for="titulo-turno">Título de turno</label>
+            <input type="text" id="titulo-turno" required/>
+          </div>
+          <div class="form-group">
+            <label for="abreviatura-turno">Abreviatura</label>
+            <input type="text" id="abreviatura-turno" maxlength="3" required/>
+          </div>
+          <fieldset class="form-group tipo-turno-group">
+            <legend>Tipo de turno</legend>
+            <div class="tipo-horas">
+              <label><input type="radio" name="tipo-turno" value="suma"/> Trabajo</label>
+              <label><input type="radio" name="tipo-turno" value="resta"/> Libre</label>
+              <label><input type="radio" name="tipo-turno" value="nada"/> Vacaciones</label>
+            </div>
+          </fieldset>
         </div>
-      </div>
 
-      <div class="form-group color-group">
-        <label>Color de fondo</label>
-        <div class="color-picker-container">
-          <button type="button" id="boton-color-fondo" class="color-picker-button">
-            <span class="selected-color"></span>
-          </button>
-          <div id="paleta-fondo" class="paleta-colores hidden"></div>
+        <!-- Datos laterales -->
+        <div class="modificar-right">
+          <div class="form-group horario-group">
+            <label>Horario</label>
+            <div class="horario-inputs">
+              <input type="time" id="inicio-turno"/>
+              <span class="turno-flecha">→</span>
+              <input type="time" id="fin-turno"/>
+              <label class="todo-dia-inline">
+                <input type="checkbox" id="todo-dia"/> Todo el día
+              </label>
+            </div>
+          </div>
+          <div class="form-group color-group">
+            <label>Color de fondo</label>
+            <div class="color-picker-container">
+              <button type="button" id="boton-color-fondo" class="color-picker-button">
+                <span class="selected-color"></span>
+              </button>
+              <div id="paleta-fondo" class="paleta-colores hidden"></div>
+            </div>
+          </div>
+          <div class="form-group color-group">
+            <label>Color de texto</label>
+            <div class="color-picker-container">
+              <button type="button" id="boton-color-texto" class="color-picker-button">
+                <span class="selected-color"></span>
+              </button>
+              <div id="paleta-texto" class="paleta-colores hidden"></div>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group color-group">
-        <label>Color de texto</label>
-        <div class="color-picker-container">
-          <button type="button" id="boton-color-texto" class="color-picker-button">
-            <span class="selected-color"></span>
-          </button>
-          <div id="paleta-texto" class="paleta-colores hidden"></div>
-        </div>
-      </div>
+      </div><!-- /.modificar-form-wrapper -->
 
-      <div class="form-acciones">
+      <div class="form-acciones modificar-buttons">
         <button type="submit" class="boton-control">Guardar</button>
         <button type="button" id="cancelar-modificacion" class="boton-control">Cancelar</button>
         <button type="button" id="btn-eliminar-turno" class="boton-control peligro">Eliminar</button>
@@ -93,10 +108,5 @@
     </form>
   </main>
 
-  <!-- Scripts -->
-  <script type="module" defer src="../js/utils.js"></script>
-  <script type="module" defer src="../js/modificar-turno.js"></script>
-  <script defer src="../js/auth.js"></script>
-  <script defer src="../js/nav.js"></script>
 </body>
 </html>
