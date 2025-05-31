@@ -431,9 +431,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   btnMarcarTodo.addEventListener('click', () => {
     if (modoBorrar) {
-      // “Borrar todo” en la vista actual: eliminamos cada fecha del año/mes
-      Object.keys(marcados).forEach(f => {
-        const [y,m] = f.split('-').map(Number);
+      // “Borrar todo” en la vista actual: recorremos todas las celdas visibles
+      document.querySelectorAll('.celda[data-fecha]').forEach(c => {
+        const f = c.dataset.fecha;
+        const [y, m] = f.split('-').map(Number);
         if (viewMode === 'anio' && y === year) {
           pendientes[f] = [];
         }
