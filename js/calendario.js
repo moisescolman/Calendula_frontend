@@ -39,9 +39,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const [hoyY, hoyM, hoyD] = fechaHoyStr.split('-').map(Number);
 
   // ─── Estado interno y carrusel ─────────────────────────────────────────────
-  let isDragging   = false;
-  const VISIBLE_COUNT = 5;
-  let indexCarr    = 0;
+  let isDragging           = false;
+  const VISIBLE_COUNT      = 5;
+  let indexCarr            = 0;
 
   const turnos      = getTurnos(usuario);
   const marcados    = getTurnosMarcados(usuario);
@@ -104,10 +104,12 @@ document.addEventListener('DOMContentLoaded', () => {
     fd.className = 'fechas';
     const prim = new Date(año, mes, 1).getDay();
     const off  = (prim + 6) % 7; // ajustar para que Lunes sea 0
-    for (let i = 0; i < off; i++) fd.appendChild(document.createElement('div'));
+    for (let i = 0; i < off; i++) {
+      fd.appendChild(document.createElement('div'));
+    }
     const dm = new Date(año, mes + 1, 0).getDate();
     for (let d = 1; d <= dm; d++) {
-      const fecha = `${año}-${String(mes+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const fecha = `${año}-${String(mes + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
       fd.appendChild(crearCelda(fecha, d));
     }
     md.appendChild(fd);
@@ -121,7 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let m = 0; m < 12; m++) {
       grid.appendChild(generarMes(year, m, false));
     }
-    bindCeldaClicks();
     aplicarMarcados();
   }
 
@@ -143,7 +144,6 @@ document.addEventListener('DOMContentLoaded', () => {
       renderView();
     });
 
-    bindCeldaClicks();
     aplicarMarcados();
   }
 
@@ -157,15 +157,15 @@ document.addEventListener('DOMContentLoaded', () => {
       : `Resumen ${mesesNom[month]} ${year}`;
     resumenEl.appendChild(h2);
 
-    // Listado de turnos (idéntico a antes)
+    // Listado de turnos
     const lista = document.createElement('div');
     lista.className = 'resumen-lista-turnos';
     const contador = {};
     turnos.forEach(t => contador[t.id] = 0);
     Object.entries(marcados).forEach(([f, arr]) => {
-      const [y,m] = f.split('-').map(Number);
+      const [y, m] = f.split('-').map(Number);
       if (viewMode === 'anio' && y !== year) return;
-      if (viewMode === 'mes' && (y !== year || m-1 !== month)) return;
+      if (viewMode === 'mes' && (y !== year || m - 1 !== month)) return;
       arr.forEach(i => {
         if (contador[i.idTurno] != null) contador[i.idTurno]++;
       });
@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
     hr.className = 'resumen-separador';
     resumenEl.appendChild(hr);
 
-    // Totales (idéntico a antes)
+    // Totales
     const tot = document.createElement('div');
     tot.className = 'resumen-totales';
     const idsDesc = turnos.filter(t => t.nombre === 'Descanso').map(t => t.id);
@@ -202,18 +202,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const idsAct  = turnos.filter(t => t.tipo === 'suma').map(t => t.id);
     let dDesc = 0, dVac = 0, dOcu = 0, hOcu = 0;
     Object.entries(marcados).forEach(([f, arr]) => {
-      const [y,m] = f.split('-').map(Number);
+      const [y, m] = f.split('-').map(Number);
       if (viewMode === 'anio' && y !== year) return;
-      if (viewMode === 'mes' && (y !== year || m-1 !== month)) return;
+      if (viewMode === 'mes' && (y !== year || m - 1 !== month)) return;
       if (arr.some(i => idsDesc.includes(i.idTurno))) dDesc++;
       if (arr.some(i => idsVac.includes(i.idTurno))) dVac++;
       if (arr.some(i => idsAct.includes(i.idTurno))) dOcu++;
       arr.forEach(i => {
         if (!idsAct.includes(i.idTurno)) return;
         const t = turnos.find(x => x.id === i.idTurno);
-        let [h1,m1] = t.inicio.split(':').map(Number);
-        let [h2,m2] = t.fin.split(':').map(Number);
-        let dur = (h2 + (h2 < h1 ? 24 : 0)) + m2/60 - (h1 + m1/60);
+        let [h1, m1] = t.inicio.split(':').map(Number);
+        let [h2, m2] = t.fin.split(':').map(Number);
+        let dur = (h2 + (h2 < h1 ? 24 : 0)) + m2 / 60 - (h1 + m1 / 60);
         hOcu += dur;
       });
     });
@@ -237,7 +237,11 @@ document.addEventListener('DOMContentLoaded', () => {
     headerYear.textContent = year;
     btnYear.classList.toggle('activo', viewMode === 'anio');
     btnMonth.classList.toggle('activo', viewMode === 'mes');
-    if (viewMode === 'anio') renderYear(); else renderMonth();
+    if (viewMode === 'anio') {
+      renderYear();
+    } else {
+      renderMonth();
+    }
     renderResumen();
   }
 
@@ -250,13 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
     year = hoyY; month = hoyM - 1; viewMode = 'mes'; renderView();
   });
 
-  // ─── Bind y Marcado ────────────────────────────────────────────────────────
-  function bindCeldaClicks() {
-    document.querySelectorAll('.celda[data-fecha]').forEach(c => {
-      c.addEventListener('click', () => manejarCelda(c));
-    });
-  }
-
+  // ─── Marcado y Borrado ──────────────────────────────────────────────────────
   function aplicarMarcados() {
     document.querySelectorAll('.celda[data-fecha]').forEach(cel => {
       cel.querySelectorAll('.etq-turno').forEach(el => el.remove());
@@ -295,30 +293,94 @@ document.addEventListener('DOMContentLoaded', () => {
   function manejarCelda(celda) {
     if (!modoMarcar) return;
     const f = celda.dataset.fecha;
-    let arr = pendientes[f] !== undefined
-      ? pendientes[f]
-      : (marcados[f] || []);
 
+    // Tomamos el estado actual de esa fecha (pendientes tiene prioridad)
+    let arrOriginal = pendientes[f] !== undefined
+      ? pendientes[f].slice()
+      : ((marcados[f] || []).slice());
+
+    // Si estamos en modo "borrar", borramos todo
     if (modoBorrar) {
       pendientes[f] = [];
-    } else if (turnoActivo) {
-      if (turnoActivo.todoDia || arr.length === 0) {
-        arr = [{ idTurno: turnoActivo.id }];
-      } else if (arr.length === 1) {
-        const ex = turnos.find(t => t.id === arr[0].idTurno);
-        if (!ex.todoDia && ex.id !== turnoActivo.id) {
-          const duo = [ex, turnoActivo].sort((a,b) =>
-            a.inicio.localeCompare(b.inicio)
-          );
-          arr = duo.map(t => ({ idTurno: t.id }));
-        }
-      }
-      pendientes[f] = arr;
+      btnGuardar.disabled = false;
+      aplicarMarcados();
+      return;
     }
 
+    // Si no hay turnoActivo, no hacemos nada
+    if (!turnoActivo) return;
+
+    // Identificamos si arrOriginal contiene un turno "todo el día"
+    const tieneTodoDia = arrOriginal.some(item => {
+      const t = turnos.find(x => x.id === item.idTurno);
+      return t && t.todoDia;
+    });
+
+    // Nuevo array que construiremos según la lógica
+    let nuevoArr = [];
+
+    // Caso 1: Si la celda ya tiene dos turnos distintos OR tiene un turno "todo el día"
+    //         OR el turnoActivo es "todo el día", sobrescribimos con turnoActivo solo
+    if (
+      arrOriginal.length >= 2 ||
+      tieneTodoDia ||
+      turnoActivo.todoDia
+    ) {
+      nuevoArr = [{ idTurno: turnoActivo.id }];
+    } else {
+      // Aquí arrOriginal puede ser 0 o 1
+      if (arrOriginal.length === 0) {
+        // Si estaba vacía, añadimos turnoActivo
+        nuevoArr = [{ idTurno: turnoActivo.id }];
+      } else if (arrOriginal.length === 1) {
+        // Si tenía exactamente un turno, comprobamos si es distinto y ninguno es "todo el día"
+        const turnoExistente = turnos.find(t => t.id === arrOriginal[0].idTurno);
+        if (
+          turnoExistente &&
+          !turnoExistente.todoDia &&
+          turnoExistente.id !== turnoActivo.id &&
+          !turnoActivo.todoDia
+        ) {
+          // Combinamos ambos turnos y los ordenamos por hora de inicio
+          const duo = [turnoExistente, turnoActivo].sort((a, b) =>
+            a.inicio.localeCompare(b.inicio)
+          );
+          nuevoArr = duo.map(t => ({ idTurno: t.id }));
+        } else {
+          // O bien es el mismo turno que ya existía, o había "todo el día", o turnoActivo es "todo el día"
+          // En cualquiera de esos casos, sobrescribimos con turnoActivo solo
+          nuevoArr = [{ idTurno: turnoActivo.id }];
+        }
+      }
+    }
+
+    // Guardamos el resultado en pendientes
+    pendientes[f] = nuevoArr;
+
+    // Habilitamos el botón Guardar si hay pendientes
     btnGuardar.disabled = Object.keys(pendientes).length === 0;
     aplicarMarcados();
   }
+
+  // ─── Eventos de ratón para marcar/arrastrar ─────────────────────────────────
+  grid.addEventListener('mousedown', e => {
+    if (!modoMarcar) return;
+    const cel = e.target.closest('.celda');
+    if (cel) {
+      isDragging = true;
+      manejarCelda(cel);
+    }
+  });
+
+  grid.addEventListener('mouseover', e => {
+    if (!isDragging) return;
+    const cel = e.target.closest('.celda');
+    if (cel) manejarCelda(cel);
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (isDragging) isDragging = false;
+  });
 
   // ─── Panel de selección de turnos ────────────────────────────────────────────
   function renderCarrusel() {
@@ -343,12 +405,10 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCarrusel();
     if (modoBorrar) {
       txtActivo.textContent = 'Modo borrado activo';
-      // Al activar modoBorrar, cambiamos el texto y estilo del botón
       btnMarcarTodo.textContent = 'Borrar todo';
       btnBorrar.classList.add('activo');
     } else if (turnoActivo) {
       txtActivo.textContent = `Seleccionado: ${turnoActivo.nombre}`;
-      // Restaurar botón a “Marcar huecos” si no está en modo borrado
       btnMarcarTodo.textContent = 'Marcar huecos';
       btnBorrar.classList.remove('activo');
     } else {
@@ -380,7 +440,6 @@ document.addEventListener('DOMContentLoaded', () => {
     btnGuardar.classList.add('oculta');
     btnCancelar.classList.add('oculta');
     btnMarcar.classList.remove('oculta');
-    // Restablecemos texto y estilo del botón “Marcar huecos”
     btnMarcarTodo.textContent = 'Marcar huecos';
     btnBorrar.classList.remove('activo');
     renderView();
@@ -398,13 +457,12 @@ document.addEventListener('DOMContentLoaded', () => {
     btnGuardar.classList.add('oculta');
     btnCancelar.classList.add('oculta');
     btnMarcar.classList.remove('oculta');
-    // Restaurar botón “Marcar huecos”
     btnMarcarTodo.textContent = 'Marcar huecos';
     btnBorrar.classList.remove('activo');
     renderView();
   });
 
-  // ─── Carrusel ───────────────────────────────────────────────────────────────
+  // ─── Navegación Carrusel ────────────────────────────────────────────────────
   flechaL?.addEventListener('click', () => {
     if (indexCarr > 0) {
       indexCarr--;
@@ -421,7 +479,6 @@ document.addEventListener('DOMContentLoaded', () => {
   btnBorrar.addEventListener('click', () => {
     turnoActivo = null;
     modoBorrar = true;
-    // Al entrar en modo borrar, actualizamos el panel
     actualizarPanel();
   });
 
@@ -457,24 +514,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ─── Drag-to-mark ───────────────────────────────────────────────────────────
-  grid.addEventListener('mousedown', e => {
-    if (!modoMarcar) return;
-    const cel = e.target.closest('.celda');
-    if (cel) {
-      isDragging = true;
-      manejarCelda(cel);
-    }
-  });
-  grid.addEventListener('mouseover', e => {
-    if (!isDragging) return;
-    const cel = e.target.closest('.celda');
-    if (cel) manejarCelda(cel);
-  });
-  document.addEventListener('mouseup', () => {
-    if (isDragging) isDragging = false;
-  });
-
-  // ─── Inicio ────────────────────────────────────────────────────────────────
+  // ─── Inicialización ─────────────────────────────────────────────────────────
   renderView();
 });
