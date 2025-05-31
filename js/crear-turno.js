@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   preview.style.background = colorFondo;
   preview.style.color      = colorTexto;
-  preview.textContent      = 'A';
+  preview.textContent      = '?';
 
   // 4) Actualizar preview
   function actualizarPreview() {

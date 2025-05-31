@@ -13,11 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const raw = localStorage.getItem(key);
     if (raw) return JSON.parse(raw);
     const def = [
-      { id: 1, abre: 'M', nombre: 'Mañana',    inicio: '08:00', fin: '14:00', tipo: 'suma',   colorF: '#F06292', colorT: '#000', todoDia: false },
-      { id: 2, abre: 'T', nombre: 'Tarde',     inicio: '14:00', fin: '20:00', tipo: 'suma',   colorF: '#64B5F6', colorT: '#000', todoDia: false },
-      { id: 3, abre: 'N', nombre: 'Noche',     inicio: '20:00', fin: '02:00', tipo: 'nada',   colorF: '#9575CD', colorT: '#fff', todoDia: false },
-      { id: 4, abre: 'D', nombre: 'Descanso',  inicio: '00:00', fin: '00:00', tipo: 'resta',  colorF: '#AED581', colorT: '#000', todoDia: true  },
-      { id: 5, abre: 'V', nombre: 'Vacaciones',inicio: '00:00', fin: '00:00', tipo: 'nada',   colorF: '#FFEB3B', colorT: '#000', todoDia: true  }
+      { id: 1, abre: 'M', nombre: 'Mañana',    inicio: '08:00', fin: '15:00', tipo: 'suma',   colorF: '#ff7bac', colorT: '#000', todoDia: false },
+      { id: 2, abre: 'T', nombre: 'Tarde',     inicio: '15:00', fin: '22:00', tipo: 'suma',   colorF: '#FF8049', colorT: '#000', todoDia: false },
+      { id: 3, abre: 'N', nombre: 'Noche',     inicio: '22:00', fin: '08:00', tipo: 'suma',   colorF: '#3fa9f5', colorT: '#000', todoDia: false },
+      { id: 4, abre: 'D', nombre: 'Descanso',  inicio: '00:00', fin: '00:00', tipo: 'resta',  colorF: '#7ac943', colorT: '#000', todoDia: true  },
+      { id: 5, abre: 'V', nombre: 'Vacaciones',inicio: '00:00', fin: '00:00', tipo: 'nada',   colorF: '#FCCB31', colorT: '#000', todoDia: true  }
     ];
     localStorage.setItem(key, JSON.stringify(def));
     return def;

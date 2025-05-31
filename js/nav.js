@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
       <ul class="lista-navegacion">
         <li><a href="${enPages ? 'calendario.html' : 'pages/calendario.html'}" class="enlace-nav">Calendario</a></li>
         <li><a href="${enPages ? 'turnos.html'     : 'pages/turnos.html'}"     class="enlace-nav">Turnos</a></li>
-        <li><a href="${enPages ? 'estadisticas.html': 'pages/estadisticas.html'}"class="enlace-nav">Estadísticas</a></li>
         <li><a href="${enPages ? '../index.html'   : './index.html'}"          class="enlace-nav">Cómo funciona</a></li>
         <li><a href="${enPages ? 'contacto.html'   : 'pages/contacto.html'}"   class="enlace-nav">Contacto</a></li>
       </ul>

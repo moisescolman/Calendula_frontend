@@ -42,6 +42,7 @@
   border: none;
   border-radius: 0.7rem;
   cursor: pointer;
+  
 }
 
 .boton-crear-turno:hover {
@@ -56,22 +57,7 @@
 
 .turno-item {
   display: grid;
-  grid-template-columns:
-    0.4fr
-    /* abreviatura */
-    1fr
-    /* nombre */
-    0.25fr
-    /* inicio o “Todo el día” */
-    auto
-    /* flecha */
-    0.25fr
-    /* fin */
-    2fr
-    /* radios */
-    auto
-    /* Modificar */
-    auto;
+  grid-template-columns:0.4fr 1fr 0.25fr auto 0.25fr 2fr 0.5fr 0.5fr;
   align-items: center;
   gap: 1rem;
   padding: 1rem;

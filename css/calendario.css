@@ -23,13 +23,12 @@
 
 /* === ESTRUCTURA PRINCIPAL === */
 .principal-usuario.calendario-principal {
- width: 100%;
+  width: 100%;
   margin: 2rem 0;
   padding: 0 2rem;
   display: grid;
   grid-template-columns: 21% auto;
   gap: 2rem;
-
 }
 
 /* === HEADER DEL CALENDARIO === */
@@ -100,7 +99,8 @@
   background: var(--color-principal-oscuro);
   color: #fff;
 }
-#mes-next, #mes-prev {
+#mes-next,
+#mes-prev {
   padding: 0.3rem 2rem;
   border: 1px solid var(--color-principal);
   background: var(--color-principal);
@@ -119,9 +119,11 @@
 
 /* === PANEL DE TURNOS === */
 #texto-turno-activo {
-  font-weight: 500;
+  max-width: 6rem;
+  text-align: center;
+  font-size: 0.8rem;
   margin-right: 1rem;
-  color: var(--color-principal);
+  color: var(--color-principal-oscuro);
 }
 .carrusel-turnos {
   display: flex;
@@ -169,6 +171,9 @@
   cursor: pointer;
   transition: border 0.2s;
 }
+.cuadro-turno img {
+  height: 60%;
+}
 .cuadro-turno.seleccionado {
   border: 2px solid var(--color-principal);
 }
@@ -179,10 +184,17 @@
   font-size: 1.5rem;
 }
 .borrar-turno {
-  border: 2px solid var(--texto-oscuro);
+  /* Borde neutro por defecto */
+  border: 2px solid #7d80a0;
   background: #f8f8f8;
   font-size: 0.55rem;
 }
+/* Cuando esté en modo borrar (tenemos la clase .activo en el botón), el borde será color principal */
+.borrar-turno.activo {
+  border-color: var(--color-principal);
+  background-color: var(--color-principal);
+}
+
 .acciones-turnos {
   display: flex;
   align-items: center;
@@ -201,9 +213,10 @@
 /* === RESUMEN LATERAL === */
 .resumen-turnos {
   background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 1rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
   padding: 1rem;
-  border-radius: 0.7rem;
-  border: 2px solid var(--borde-gris);
 }
 .resumen-turnos h2 {
   font-size: 1.5rem;
@@ -225,7 +238,7 @@
   justify-content: center;
   width: 2rem;
   height: 2rem;
-  font-size: 1.25rem;
+  font-size: 1rem;
   border-radius: 0.25rem;
 }
 .resumen-lista-turnos .resumen-texto {
@@ -249,21 +262,16 @@
   grid-template-columns: 1fr;
   row-gap: 0.5rem;
 }
-/* .resumen-totales .resumen-item {
-  display: contents;
-} */
 .resumen-item {
   padding: 0.2rem 0.3rem;
-  /* width: 100%; */
   display: flex;
   margin: 0.2rem 0.2rem;
 }
 .resumen-item span {
-  margin-right:0.5rem;
+  margin-right: 0.5rem;
 }
-
 .resumen-totales span {
-  margin-right:0.5rem;
+  margin-right: 0.5rem;
   width: 100%;
 }
 /* ——— Fin estilos nuevos ——— */
@@ -279,8 +287,9 @@
 }
 .mes {
   background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 1rem;
   padding: 0.5rem;
-  border-radius: 0.7rem;
   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
 }
 .mes-header {
@@ -293,6 +302,7 @@
   background: transparent;
   border: none;
   font-size: 1.25rem;
+  padding: 0.5rem 1rem;
   cursor: pointer;
   color: var(--texto-oscuro);
 }

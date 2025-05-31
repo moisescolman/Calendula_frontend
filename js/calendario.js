@@ -54,9 +54,11 @@ document.addEventListener('DOMContentLoaded', () => {
   let month    = hoyM - 1;
   let viewMode = 'anio';
 
-  const mesesNom = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
-                    'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-  const diasSem  = ['Lun','Mar','Mié','Jue','Vie','Sab','Dom'];
+  const mesesNom = [
+    'Enero','Febrero','Marzo','Abril','Mayo','Junio',
+    'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'
+  ];
+  const diasSem = ['Lun','Mar','Mié','Jue','Vie','Sab','Dom'];
 
   // ─── Funciones de render ────────────────────────────────────────────────────
   function clearGrid() { grid.innerHTML = ''; }
@@ -101,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fd = document.createElement('div');
     fd.className = 'fechas';
     const prim = new Date(año, mes, 1).getDay();
-    const off  = (prim + 6) % 7;
+    const off  = (prim + 6) % 7; // ajustar para que Lunes sea 0
     for (let i = 0; i < off; i++) fd.appendChild(document.createElement('div'));
     const dm = new Date(año, mes + 1, 0).getDate();
     for (let d = 1; d <= dm; d++) {
@@ -128,12 +130,19 @@ document.addEventListener('DOMContentLoaded', () => {
     grid.className = 'calendario-grid vista-mes';
     const mesDiv = generarMes(year, month, true);
     grid.appendChild(mesDiv);
+
+    // Flechas para navegar meses
     mesDiv.querySelector('.mes-prev').addEventListener('click', () => {
-      month--; if (month<0) { month=11; year--; } renderView();
+      month--;
+      if (month < 0) { month = 11; year--; }
+      renderView();
     });
     mesDiv.querySelector('.mes-next').addEventListener('click', () => {
-      month++; if (month>11) { month=0; year++; } renderView();
+      month++;
+      if (month > 11) { month = 0; year++; }
+      renderView();
     });
+
     bindCeldaClicks();
     aplicarMarcados();
   }
@@ -148,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
       : `Resumen ${mesesNom[month]} ${year}`;
     resumenEl.appendChild(h2);
 
-    // Listado de turnos
+    // Listado de turnos (idéntico a antes)
     const lista = document.createElement('div');
     lista.className = 'resumen-lista-turnos';
     const contador = {};
@@ -157,7 +166,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const [y,m] = f.split('-').map(Number);
       if (viewMode === 'anio' && y !== year) return;
       if (viewMode === 'mes' && (y !== year || m-1 !== month)) return;
-      arr.forEach(i => { if (contador[i.idTurno] != null) contador[i.idTurno]++; });
+      arr.forEach(i => {
+        if (contador[i.idTurno] != null) contador[i.idTurno]++;
+      });
     });
     turnos.forEach(t => {
       const item = document.createElement('div');
@@ -183,26 +194,26 @@ document.addEventListener('DOMContentLoaded', () => {
     hr.className = 'resumen-separador';
     resumenEl.appendChild(hr);
 
-    // Totales
+    // Totales (idéntico a antes)
     const tot = document.createElement('div');
     tot.className = 'resumen-totales';
-    const idsDesc = turnos.filter(t=>t.nombre==='Descanso').map(t=>t.id);
-    const idsVac  = turnos.filter(t=>t.nombre==='Vacaciones').map(t=>t.id);
-    const idsAct  = turnos.filter(t=>t.tipo==='suma').map(t=>t.id);
-    let dDesc=0, dVac=0, dOcu=0, hOcu=0;
+    const idsDesc = turnos.filter(t => t.nombre === 'Descanso').map(t => t.id);
+    const idsVac  = turnos.filter(t => t.nombre === 'Vacaciones').map(t => t.id);
+    const idsAct  = turnos.filter(t => t.tipo === 'suma').map(t => t.id);
+    let dDesc = 0, dVac = 0, dOcu = 0, hOcu = 0;
     Object.entries(marcados).forEach(([f, arr]) => {
       const [y,m] = f.split('-').map(Number);
-      if (viewMode==='anio' && y!==year) return;
-      if (viewMode==='mes' && (y!==year||m-1!==month)) return;
-      if (arr.some(i=>idsDesc.includes(i.idTurno))) dDesc++;
-      if (arr.some(i=>idsVac.includes(i.idTurno))) dVac++;
-      if (arr.some(i=>idsAct.includes(i.idTurno))) dOcu++;
-      arr.forEach(i=>{
+      if (viewMode === 'anio' && y !== year) return;
+      if (viewMode === 'mes' && (y !== year || m-1 !== month)) return;
+      if (arr.some(i => idsDesc.includes(i.idTurno))) dDesc++;
+      if (arr.some(i => idsVac.includes(i.idTurno))) dVac++;
+      if (arr.some(i => idsAct.includes(i.idTurno))) dOcu++;
+      arr.forEach(i => {
         if (!idsAct.includes(i.idTurno)) return;
-        const t = turnos.find(x=>x.id===i.idTurno);
-        let [h1,m1]=t.inicio.split(':').map(Number);
-        let [h2,m2]=t.fin.split(':').map(Number);
-        let dur = (h2 + (h2<h1?24:0)) + m2/60 - (h1 + m1/60);
+        const t = turnos.find(x => x.id === i.idTurno);
+        let [h1,m1] = t.inicio.split(':').map(Number);
+        let [h2,m2] = t.fin.split(':').map(Number);
+        let dur = (h2 + (h2 < h1 ? 24 : 0)) + m2/60 - (h1 + m1/60);
         hOcu += dur;
       });
     });
@@ -210,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ['Días descanso', dDesc],
       ['Días vacaciones', dVac],
       ['Días ocupados', dOcu],
-      ['Total horas ocupadas', Math.round(hOcu*100)/100 + ' h']
+      ['Total horas ocupadas', Math.round(hOcu * 100) / 100 + ' h']
     ].forEach(([lab, val]) => {
       const item = document.createElement('div');
       item.className = 'resumen-item';
@@ -230,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderResumen();
   }
 
-  // ─── Controles ─────────────────────────────────────────────────────────────
+  // ─── Botones de control ───────────────────────────────────────────────────
   btnYear.addEventListener('click',   () => { viewMode = 'anio'; renderView(); });
   btnMonth.addEventListener('click',  () => { viewMode = 'mes';  renderView(); });
   btnPrevY.addEventListener('click',  () => { year--; renderView(); });
@@ -267,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
         arr.forEach((item, i) => {
           const t = turnos.find(x => x.id === item.idTurno);
           const seg = document.createElement('div');
-          seg.className = `etq-turno ${i===0?'arriba':'abajo'}`;
+          seg.className = `etq-turno ${i === 0 ? 'arriba' : 'abajo'}`;
           seg.textContent   = t.abre;
           seg.style.background = t.colorF;
           seg.style.color      = t.colorT;
@@ -330,14 +341,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function actualizarPanel() {
     renderCarrusel();
-    if (modoBorrar)      txtActivo.textContent = 'Modo borrado activo';
-    else if (turnoActivo) txtActivo.textContent = `Turno seleccionado: ${turnoActivo.nombre}`;
-    else                   txtActivo.textContent = 'Selecciona turno a marcar';
+    if (modoBorrar) {
+      txtActivo.textContent = 'Modo borrado activo';
+      // Al activar modoBorrar, cambiamos el texto y estilo del botón
+      btnMarcarTodo.textContent = 'Borrar todo';
+      btnBorrar.classList.add('activo');
+    } else if (turnoActivo) {
+      txtActivo.textContent = `Seleccionado: ${turnoActivo.nombre}`;
+      // Restaurar botón a “Marcar huecos” si no está en modo borrado
+      btnMarcarTodo.textContent = 'Marcar huecos';
+      btnBorrar.classList.remove('activo');
+    } else {
+      txtActivo.textContent = 'Selecciona turno a marcar';
+      btnMarcarTodo.textContent = 'Marcar huecos';
+      btnBorrar.classList.remove('activo');
+    }
   }
 
   btnMarcar.addEventListener('click', () => {
     indexCarr = 0;
     modoMarcar = true;
+    modoBorrar = false;
+    turnoActivo = null;
     panel.classList.remove('oculta');
     btnGuardar.classList.remove('oculta');
     btnGuardar.disabled = true;
@@ -355,6 +380,9 @@ document.addEventListener('DOMContentLoaded', () => {
     btnGuardar.classList.add('oculta');
     btnCancelar.classList.add('oculta');
     btnMarcar.classList.remove('oculta');
+    // Restablecemos texto y estilo del botón “Marcar huecos”
+    btnMarcarTodo.textContent = 'Marcar huecos';
+    btnBorrar.classList.remove('activo');
     renderView();
   });
 
@@ -370,20 +398,30 @@ document.addEventListener('DOMContentLoaded', () => {
     btnGuardar.classList.add('oculta');
     btnCancelar.classList.add('oculta');
     btnMarcar.classList.remove('oculta');
+    // Restaurar botón “Marcar huecos”
+    btnMarcarTodo.textContent = 'Marcar huecos';
+    btnBorrar.classList.remove('activo');
     renderView();
   });
 
   // ─── Carrusel ───────────────────────────────────────────────────────────────
   flechaL?.addEventListener('click', () => {
-    if (indexCarr > 0) { indexCarr--; actualizarPanel(); }
+    if (indexCarr > 0) {
+      indexCarr--;
+      actualizarPanel();
+    }
   });
   flechaR?.addEventListener('click', () => {
-    if (indexCarr + VISIBLE_COUNT < turnos.length) { indexCarr++; actualizarPanel(); }
+    if (indexCarr + VISIBLE_COUNT < turnos.length) {
+      indexCarr++;
+      actualizarPanel();
+    }
   });
 
   btnBorrar.addEventListener('click', () => {
     turnoActivo = null;
     modoBorrar = true;
+    // Al entrar en modo borrar, actualizamos el panel
     actualizarPanel();
   });
 
@@ -392,21 +430,40 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   btnMarcarTodo.addEventListener('click', () => {
-    if (!turnoActivo) return;
-    document.querySelectorAll('.celda[data-fecha]').forEach(c => {
-      const f = c.dataset.fecha;
-      if (!((pendientes[f] || marcados[f] || []).length)) {
-        manejarCelda(c);
-      }
-    });
-    btnGuardar.disabled = false;
+    if (modoBorrar) {
+      // “Borrar todo” en la vista actual: eliminamos cada fecha del año/mes
+      Object.keys(marcados).forEach(f => {
+        const [y,m] = f.split('-').map(Number);
+        if (viewMode === 'anio' && y === year) {
+          pendientes[f] = [];
+        }
+        if (viewMode === 'mes' && y === year && m - 1 === month) {
+          pendientes[f] = [];
+        }
+      });
+      aplicarMarcados();
+      btnGuardar.disabled = false;
+    } else {
+      // “Marcar huecos” (comportamiento original)
+      if (!turnoActivo) return;
+      document.querySelectorAll('.celda[data-fecha]').forEach(c => {
+        const f = c.dataset.fecha;
+        if (!((pendientes[f] || marcados[f] || []).length)) {
+          manejarCelda(c);
+        }
+      });
+      btnGuardar.disabled = false;
+    }
   });
 
   // ─── Drag-to-mark ───────────────────────────────────────────────────────────
   grid.addEventListener('mousedown', e => {
     if (!modoMarcar) return;
     const cel = e.target.closest('.celda');
-    if (cel) { isDragging = true; manejarCelda(cel); }
+    if (cel) {
+      isDragging = true;
+      manejarCelda(cel);
+    }
   });
   grid.addEventListener('mouseover', e => {
     if (!isDragging) return;
