@@ -157,12 +157,24 @@ document.addEventListener('DOMContentLoaded', () => {
       : `Resumen ${mesesNom[month]} ${year}`;
     resumenEl.appendChild(h2);
 
+    // Calculamos un objeto "efectivo" que combina marcados y pendientes
+    const efectivo = {};
+    // Primero, copiamos marcados
+    Object.entries(marcados).forEach(([f, arr]) => {
+      efectivo[f] = arr.slice();
+    });
+    // Luego, sobrescribimos con pendientes donde existan
+    Object.entries(pendientes).forEach(([f, arr]) => {
+      efectivo[f] = arr.slice();
+    });
+
     // Listado de turnos
     const lista = document.createElement('div');
     lista.className = 'resumen-lista-turnos';
     const contador = {};
     turnos.forEach(t => contador[t.id] = 0);
-    Object.entries(marcados).forEach(([f, arr]) => {
+
+    Object.entries(efectivo).forEach(([f, arr]) => {
       const [y, m] = f.split('-').map(Number);
       if (viewMode === 'anio' && y !== year) return;
       if (viewMode === 'mes' && (y !== year || m - 1 !== month)) return;
@@ -170,6 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (contador[i.idTurno] != null) contador[i.idTurno]++;
       });
     });
+
     turnos.forEach(t => {
       const item = document.createElement('div');
       item.className = 'resumen-item';
@@ -201,7 +214,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const idsVac  = turnos.filter(t => t.nombre === 'Vacaciones').map(t => t.id);
     const idsAct  = turnos.filter(t => t.tipo === 'suma').map(t => t.id);
     let dDesc = 0, dVac = 0, dOcu = 0, hOcu = 0;
-    Object.entries(marcados).forEach(([f, arr]) => {
+
+    Object.entries(efectivo).forEach(([f, arr]) => {
       const [y, m] = f.split('-').map(Number);
       if (viewMode === 'anio' && y !== year) return;
       if (viewMode === 'mes' && (y !== year || m - 1 !== month)) return;
@@ -217,6 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
         hOcu += dur;
       });
     });
+
     [
       ['Días descanso', dDesc],
       ['Días vacaciones', dVac],
@@ -304,6 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
       pendientes[f] = [];
       btnGuardar.disabled = false;
       aplicarMarcados();
+      renderResumen(); // ← Actualizar resumen en tiempo real
       return;
     }
 
@@ -360,6 +376,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Habilitamos el botón Guardar si hay pendientes
     btnGuardar.disabled = Object.keys(pendientes).length === 0;
     aplicarMarcados();
+    renderResumen(); // ← Actualizar resumen en tiempo real
   }
 
   // ─── Eventos de ratón para marcar/arrastrar ─────────────────────────────────
@@ -500,6 +517,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
       aplicarMarcados();
+      renderResumen(); // ← Actualizar resumen en tiempo real
       btnGuardar.disabled = false;
     } else {
       // “Marcar huecos” (comportamiento original)
@@ -510,6 +528,8 @@ document.addEventListener('DOMContentLoaded', () => {
           manejarCelda(c);
         }
       });
+      aplicarMarcados();
+      renderResumen(); // ← Actualizar resumen en tiempo real
       btnGuardar.disabled = false;
     }
   });
