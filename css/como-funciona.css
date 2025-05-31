@@ -1,0 +1,116 @@
+/* ------------------------------------------------------------
+   Estilos específicos para la página “Cómo funciona”
+   ------------------------------------------------------------ */
+
+/* Reutilizamos tipografía y variables de colores de ../css/estilos.css */
+
+/* Contenedor general */
+.contenido-comofunciona {
+  margin: 2rem auto;
+  max-width: 800px;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Encabezado de cada sección */
+.contenido-comofunciona h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.contenido-comofunciona h2 {
+  font-size: 1.75rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 0.5rem;
+}
+.contenido-comofunciona h3 {
+  font-size: 1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #444;
+}
+
+/* Subtítulos de subsecciones (con efecto de sangría) */
+.subseccion {
+  margin-top: 1rem;
+  padding-left: 1rem;
+  border-left: 3px solid #ddd;
+}
+
+/* Listas ordenadas y no ordenadas dentro de la página */
+.contenido-comofunciona ol,
+.contenido-comofunciona ul {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+.contenido-comofunciona li {
+  margin-bottom: 0.5rem;
+}
+
+/* Estilo de código en línea */
+.contenido-comofunciona code {
+  background-color: #f5f5f5;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-family: Consolas, monospace;
+  font-size: 0.95rem;
+}
+
+/* Placeholders para las imágenes/capturas */
+.image-placeholder {
+  margin: 1rem 0;
+  width: 100%;
+  height: 200px;
+  background-color: #fafafa;
+  border: 1px dashed #bbb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+/* Definición de sección FAQ (títulos y definiciones) */
+#faq dt {
+  font-weight: bold;
+  margin-top: 1rem;
+}
+#faq dd {
+  margin-left: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Pie de página */
+.footer {
+  margin-top: 3rem;
+  padding: 1rem 0;
+  background-color: #f8f8f8;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Responsive para tablets y móviles */
+@media (max-width: 768px) {
+  .contenido-comofunciona {
+    margin: 1rem;
+    padding: 0 0.5rem;
+  }
+  .image-placeholder {
+    height: 150px;
+  }
+}
+@media (max-width: 480px) {
+  .contenido-comofunciona h1 {
+    font-size: 1.5rem;
+  }
+  .contenido-comofunciona h2 {
+    font-size: 1.3rem;
+  }
+  .image-placeholder {
+    height: 120px;
+  }
+}

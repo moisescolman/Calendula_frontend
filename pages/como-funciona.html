@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cómo funciona – Calendula</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="../css/estilos.css" />
+  <link rel="stylesheet" href="../css/como-funciona.css" />
+
+  <!-- Cargamos nav.js y auth.js (justo igual que en contacto.html) -->
+  <script defer src="../js/nav.js"></script>
+  <script defer src="../js/auth.js"></script>
+</head>
+
+<body>
+  <!-- El <header> se rellenará vía nav.js y luego auth.js esconderá/mostrará los ítems -->
+  <header class="encabezado"></header>
+
+  <main class="principal-publico contenido-comofunciona container">
+    <!-- ===== 1. INTRODUCCIÓN ===== -->
+    <section id="introduccion">
+      <h1>Cómo funciona Calendula</h1>
+      <p>
+        Bienvenido a <strong>Calendula</strong>, la herramienta ideal para personas que necesitan
+        marcar y gestionar sus propias jornadas de trabajo de manera rápida y visual.  
+        A lo largo de este tutorial aprenderás, paso a paso, desde crear tu cuenta hasta manejar
+        todas las funciones del calendario y la sección de resumen.
+      </p>
+      <div class="image-placeholder">[Imagen 1: Pantalla principal del calendario vacío (Vista mes)]</div>
+    </section>
+
+    <!-- ===== 2. REGISTRO Y CREACIÓN DE CUENTA ===== -->
+    <section id="registro">
+      <h2>Registro y creación de cuenta</h2>
+      <ol>
+        <li>
+          Abre la página de registro:  
+          <div class="image-placeholder">[Imagen 2: Formulario de registro (vacío)]</div>
+        </li>
+        <li>
+          Completa los campos obligatorios:
+          <ul>
+            <li>Nombre completo</li>
+            <li>Correo electrónico</li>
+            <li>Contraseña (y confirmación)</li>
+          </ul>
+          Luego haz clic en <strong>“Registrarse”</strong> para crear tu cuenta.
+          <div class="image-placeholder">[Imagen 3: Formulario de registro (relleno)]</div>
+        </li>
+        <li>
+          Si el registro es exitoso, verás un mensaje de confirmación y podrás iniciar sesión.
+        </li>
+      </ol>
+    </section>
+
+    <!-- ===== 3. INICIO DE SESIÓN ===== -->
+    <section id="login">
+      <h2>Inicio de sesión</h2>
+      <ol>
+        <li>
+          Para entrar, ingresa tu <strong>correo electrónico</strong> y <strong>contraseña</strong>.
+          <div class="image-placeholder">[Imagen 4: Pantalla de login (campos vacíos)]</div>
+        </li>
+        <li>
+          Pulsa el botón <strong>“Entrar”</strong>.
+        </li>
+        <li>
+          Si las credenciales son incorrectas, aparecerá un mensaje de error como este:
+          <div class="image-placeholder">[Imagen 5: “Credenciales incorrectas”]</div>
+        </li>
+        <li>
+          Con datos válidos, accederás automáticamente al calendario principal.
+        </li>
+      </ol>
+    </section>
+
+    <!-- ===== 4. MODIFICACIÓN DE DATOS DE PERFIL ===== -->
+    <section id="perfil">
+      <h2>Modificación de datos de perfil</h2>
+      <ol>
+        <li>
+          Una vez logueado, haz clic en tu nombre o icono de usuario en la barra de navegación
+          y selecciona <strong>“Perfil”</strong>.
+          <div class="image-placeholder">[Imagen 6: Pantalla de perfil mostrando datos personales]</div>
+        </li>
+        <li>
+          En tu perfil podrás ver:
+          <ul>
+            <li>Nombre completo</li>
+            <li>Correo electrónico</li>
+            <li>Contraseña (oculta)</li>
+          </ul>
+        </li>
+        <li>
+          Para editar tu información, pulsa <strong>“Modificar perfil”</strong>, cambia los campos necesarios 
+          y luego haz clic en <strong>“Guardar cambios”</strong>.
+        </li>
+        <li>
+          Para cambiar la contraseña, haz clic en <strong>“Cambiar contraseña”</strong>, 
+          ingresa tu contraseña actual y la nueva, confirma y guarda.
+          <div class="image-placeholder">[Imagen 7: Formulario de cambio de contraseña]</div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ===== 5. TURNOS (LISTADO, CREACIÓN Y MODIFICACIÓN) ===== -->
+    <section id="turnos">
+      <h2>Turnos</h2>
+
+      <!-- 5.1 Listado de turnos -->
+      <div class="subseccion">
+        <h3>5.1. Listado de turnos</h3>
+        <p>
+          Haz clic en <strong>“Turnos”</strong> en el menú principal para acceder a la sección 
+          donde se muestra cada turno existente. En la lista encontrarás:
+        </p>
+        <ul>
+          <li><strong>Nombre:</strong> por ejemplo, “Mañana”, “Tarde”, “Descanso”.</li>
+          <li><strong>Abreviatura:</strong> 2–3 caracteres (p. ej. “Mñ”, “Tt”).</li>
+          <li><strong>Horario:</strong> horas de inicio y fin (si no es “todo el día”).</li>
+          <li><strong>Colores:</strong> de fondo y de texto para identificarlos rápidamente en el calendario.</li>
+          <li><strong>Botones “Editar” / “Eliminar”</strong> a la derecha de cada fila.</li>
+        </ul>
+        <div class="image-placeholder">[Imagen 8: Lista de turnos con varios ejemplos]</div>
+      </div>
+
+      <!-- 5.2 Crear nuevo turno -->
+      <div class="subseccion">
+        <h3>5.2. Crear un nuevo turno</h3>
+        <ol>
+          <li>
+            En la lista de turnos, pulsa <strong>“Crear nuevo turno”</strong>.
+          </li>
+          <li>
+            Completa el formulario (`crear-turno.html`) con:
+            <ul>
+              <li>Nombre del turno (texto libre).</li>
+              <li>Abreviatura (texto breve, 2–3 caracteres).</li>
+              <li>Hora de inicio y Hora de fin (si aplica).</li>
+              <li>Checkbox “Todo el día” (si el turno no tiene horario específico).</li>
+              <li>Selección de color de fondo.</li>
+              <li>Selección de color de texto.</li>
+            </ul>
+            Luego pulsa <strong>“Guardar”</strong>.
+          </li>
+          <li>
+            El nuevo turno aparecerá en la lista inmediatamente.
+          </li>
+        </ol>
+        <div class="image-placeholder">[Imagen 9: Formulario de crear turno (con datos de ejemplo)]</div>
+      </div>
+
+      <!-- 5.3 Modificar o eliminar un turno -->
+      <div class="subseccion">
+        <h3>5.3. Modificar o eliminar un turno</h3>
+        <ol>
+          <li>
+            En la lista de turnos, haz clic en <strong>“Editar”</strong> junto al turno que deseas modificar.
+          </li>
+          <li>
+            Se abrirá un formulario con los datos del turno precargados. 
+            Cambia lo que necesites (nombre, horario, colores, abreviatura) y pulsa <strong>“Actualizar”</strong>.
+          </li>
+          <li>
+            Para eliminar un turno, haz clic en <strong>“Eliminar”</strong> y confirma en la ventana emergente.
+          </li>
+        </ol>
+        <!-- (Opcional: se puede reutilizar Imagen 9 con detalles de campos para indicar edición) -->
+      </div>
+    </section>
+
+    <!-- ===== 6. CALENDARIO Y MARCADO DE TURNOS ===== -->
+    <section id="calendario">
+      <h2>Calendario y marcado de turnos</h2>
+
+      <!-- 6.1 Navegar entre meses y años -->
+      <div class="subseccion">
+        <h3>6.1. Navegar entre meses y años</h3>
+        <p>
+          Al iniciar sesión, verás el calendario en <strong>Vista mes</strong> del mes actual.  
+          - Flechas ‹ y › cambian de mes.  
+          - El botón <strong>“Hoy”</strong> regresa al mes actual.  
+          - Pulsar <strong>“Vista año”</strong> muestra todos los 12 mini-meses del año.  
+          En <strong>Vista año</strong>, las flechas “‹ Año previo” y “› Año siguiente” permiten moverte de año.  
+          Haciendo clic en cualquier mini-mes vuelves a <strong>Vista mes</strong> de ese mes.
+        </p>
+        <div class="image-placeholder">[Imagen 10: Vista mes (encabezado, flechas, botones)]</div>
+      </div>
+
+      <!-- 6.2 Entrar en “modo marcar turnos” -->
+      <div class="subseccion">
+        <h3>6.2. Entrar en “modo marcar turnos”</h3>
+        <ol>
+          <li>
+            En Vista mes o Vista año, pulsa el botón <strong>“Marcar turnos”</strong> (ubicado en la parte superior).
+          </li>
+          <li>
+            El <strong>panel lateral</strong> se desplegará a la derecha e incluirá:
+            <ul>
+              <li>
+                Un carrusel horizontal con los iconos de los turnos.
+              </li>
+              <li>
+                Texto que indica cuál es el turno activo, o bien “Selecciona turno a marcar”.
+              </li>
+              <li>
+                Botones en la parte inferior:
+                <ul>
+                  <li><strong>Borrar</strong> (Goma de borrar) → activa “Modo borrado”.</li>
+                  <li><strong>Crear turno</strong>.</li>
+                </ul>
+              </li>
+              <li>
+                Más abajo, los botones <strong>“Guardar turnos”</strong> y <strong>“Cancelar”</strong>.
+              </li>
+            </ul>
+          </li>
+        </ol>
+        <div class="image-placeholder">[Imagen 11: Panel lateral con carrusel de turnos]</div>
+      </div>
+
+      <!-- 6.3 Seleccionar un turno para marcar -->
+      <div class="subseccion">
+        <h3>6.3. Seleccionar un turno para marcar</h3>
+        <p>
+          Dentro del carrusel, haz clic en un turno (por ejemplo, “M” en rosa).  
+          El texto cambiará a <strong>“Seleccionado: Mañana”</strong>, indicando que ese será el turno que marcarás.
+        </p>
+        <div class="image-placeholder">[Imagen 12: “Mñ” seleccionado en el carrusel]</div>
+      </div>
+
+      <!-- 6.4 Marcar celdas -->
+      <div class="subseccion">
+        <h3>6.4. Marcar celdas en el calendario</h3>
+        <p><strong>Reglas generales:</strong></p>
+        <ul>
+          <li>
+            Cada día admite <strong>hasta dos turnos distintos</strong> (si ninguno es “todo el día”).
+          </li>
+          <li>
+            Si marcas un turno “todo el día”, éste se muestra en toda la celda y sobrescribe los demás.
+          </li>
+        </ul>
+
+        <ol>
+          <li>
+            <strong>Marcar un solo turno:</strong><br />
+            Haz clic en una celda vacía (p. ej. 10 de mayo) para asignar el turno activo.  
+            <div class="image-placeholder">[Imagen 13: Celda vacía antes de marcar]</div>
+            <div class="image-placeholder">[Imagen 14: Celda marcada con “Mñ”]</div>
+          </li>
+          <li>
+            <strong>Añadir un segundo turno:</strong><br />
+            Si la celda ya tenía otro turno (por ejemplo, “T”), al marcar con “M” aparecerán
+            ambas etiquetas (M arriba, T abajo).  
+            <div class="image-placeholder">[Imagen 15: Celda con dos turnos – “M” y “T”]</div>
+          </li>
+          <li>
+            <strong>Sobrescribir:</strong><br />
+            Si la celda ya tiene dos turnos o un turno “todo el día”, al volver a marcar con otro turno,
+            se borrarán las etiquetas anteriores y quedará solo el nuevo.  
+            <div class="image-placeholder">[Imagen 16: Celda sobrescrita con “Vacaciones”]</div>
+          </li>
+          <li>
+            <strong>Clic y arrastre:</strong><br />
+            Mantén presionado el botón del ratón y arrastra sobre varias celdas. Al soltar, las etiquetas
+            permanecerán en cada día por el que pasaste.  
+            <div class="image-placeholder">[Imagen 17: Varias celdas pintadas durante arrastre]</div>
+          </li>
+        </ol>
+      </div>
+
+      <!-- 6.5 Modo “Borrar” -->
+      <div class="subseccion">
+        <h3>6.5. Modo “Borrar”</h3>
+        <ol>
+          <li>
+            Dentro del panel lateral, haz clic en el icono <strong>“Borrar”</strong> (papelera).  
+            El panel mostrará <strong>“Modo borrado activo”</strong> y el botón inferior cambiará a <strong>“Borrar todo”</strong>.
+          </li>
+          <li>
+            Haz clic en cualquier celda con etiquetas para eliminarlas. Puedes mantener presionado y arrastrar
+            para borrar varias celdas a la vez.
+          </li>
+          <li>
+            Para salir de “Modo borrado”, pulsa “Cancelar” o selecciona otro turno en el carrusel.
+          </li>
+        </ol>
+        <div class="image-placeholder">[Imagen 18: Panel en “Modo borrado activo”]</div>
+        <div class="image-placeholder">[Imagen 19: Celda antes de borrar (con 2 turnos)]</div>
+        <div class="image-placeholder">[Imagen 20: Celda vacía después de borrar]</div>
+      </div>
+
+      <!-- 6.6 “Marcar huecos” y “Borrar todo” -->
+      <div class="subseccion">
+        <h3>6.6. “Marcar huecos” y “Borrar todo”</h3>
+        <ul>
+          <li>
+            <strong>Marcar huecos</strong> (con turno activo):<br />
+            Pulsa el botón <em>“Marcar huecos”</em> para que todas las celdas vacías del mes (o año)
+            reciban automáticamente el turno activo.  
+            <div class="image-placeholder">[Imagen 21: “Marcar huecos” rellenando casillas]</div>
+          </li>
+          <li>
+            <strong>Borrar todo</strong> (en “Modo borrado”):<br />
+            Pulsa <em>“Borrar todo”</em> para eliminar todas las etiquetas de cada celda del mes
+            (o del año si estás en Vista año).  
+            <div class="image-placeholder">[Imagen 22: “Borrar todo” limpiando todo el mes]</div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- 6.7 Guardar cambios y cancelar -->
+      <div class="subseccion">
+        <h3>6.7. Guardar cambios y cancelar</h3>
+        <ol>
+          <li>
+            <strong>Guardar turnos:</strong>  
+            Una vez termines de marcar o borrar, pulsa <em>“Guardar turnos”</em>.  
+            Esto confirmará tus cambios, cerrará el panel lateral y actualizará el calendario.
+          </li>
+          <li>
+            <strong>Cancelar:</strong>  
+            Si no deseas guardar, pulsa <em>“Cancelar”</em>. Se descartarán todos los cambios
+            y volverás al estado anterior del calendario.
+          </li>
+        </ol>
+        <div class="image-placeholder">[Imagen 23: Botones “Guardar turnos” y “Cancelar”]</div>
+        <div class="image-placeholder">[Imagen 24: Calendario antes y después de guardar]</div>
+      </div>
+    </section>
+
+    <!-- ===== 7. SECCIÓN RESUMEN ===== -->
+    <section id="resumen">
+      <h2>Sección Resumen</h2>
+      <p>
+        Siempre que estés en “modo marcar”, a la derecha (o debajo en móvil) aparecerá la sección
+        <strong>“Resumen”</strong> que se actualiza en tiempo real. Contiene:
+      </p>
+      <ul>
+        <li>
+          <strong>Título:</strong> “Resumen Año 2025” (en Vista año) o “Resumen Mayo 2025” (en Vista mes).
+        </li>
+        <li>
+          <strong>Listado de turnos:</strong>  
+          - Cada ícono de turno (abreviatura y color) seguido del nombre completo y el conteo de días marcados.
+        </li>
+        <li>
+          <strong>Totales:</strong>  
+          - Días descanso  
+          - Días vacaciones  
+          - Días ocupados  
+          - Total horas ocupadas (suma de horas de turnos tipo “suma” en el periodo).
+        </li>
+      </ul>
+      <div class="image-placeholder">[Imagen 25: Resumen en Vista mes con conteos]</div>
+      <div class="image-placeholder">[Imagen 26: Resumen en Vista año con conteos por meses]</div>
+    </section>
+
+    <!-- ===== 8. PREGUNTAS FRECUENTES ===== -->
+    <section id="faq">
+      <h2>Preguntas frecuentes (FAQ)</h2>
+      <dl>
+        <dt>¿Por qué solo puedo marcar dos turnos por día?</dt>
+        <dd>
+          Para permitir la combinación “Mañana + Tarde” sin solapamientos. Si necesitas cubrir
+          todo el día, utiliza un turno configurado como <em>“Todo el día”</em>, que sobrescribe cualquier otro.
+        </dd>
+
+        <dt>¿Qué hago si me equivoco al marcar un turno?</dt>
+        <dd>
+          Activa <strong>“Modo borrar”</strong> (icono de papelera) y haz clic en la celda errónea para limpiarla. Luego vuelve a “modo marcar” si deseas corregir.
+        </dd>
+
+        <dt>¿Cómo limpio todos mis turnos de un mes rápidamente?</dt>
+        <dd>
+          En <strong>“Modo borrar”</strong>, pulsa <strong>“Borrar todo”</strong> y se eliminarán
+          todas las etiquetas de ese mes (o del año si estás en Vista año).
+        </dd>
+
+        <dt>¿Cuál es la diferencia entre “Guardar turnos” y cerrar el panel?</dt>
+        <dd>
+          <strong>Guardar turnos</strong> confirma y guarda permanentemente las marcas que hayas hecho.
+          Si pulsas <strong>“Cancelar”</strong> (o cierras el panel), se descartan todos los cambios actuales.
+        </dd>
+
+        <dt>¿Puedo usar la aplicación en el móvil?</dt>
+        <dd>
+          Sí, es totalmente <em>responsive</em>. En pantallas pequeñas, el calendario se adapta y el panel lateral
+          se muestra como modal desde abajo.
+          <div class="image-placeholder">[Imagen 27: Calendario en vista móvil]</div>
+        </dd>
+      </dl>
+    </section>
+  </main>
+
+  <!-- -------------------------------------------------------------------
+       Pie de página (reutilizar estilo de footer del proyecto)
+       ------------------------------------------------------------------- -->
+  <footer class="footer">
+    <div class="container-footer">
+      <p>&copy; 2025 Calendula. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+</body>
+</html>

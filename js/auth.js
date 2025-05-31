@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Nombre del fichero actual
   const pagina   = location.pathname.split('/').pop();
   // Páginas públicas dentro de /pages/
-  const publicas = ['login.html', 'registro.html', 'contacto.html'];
+  const publicas = ['login.html', 'registro.html', 'contacto.html', 'como-funciona.html'];
 
   // Si estamos en /pages/, no es pública y no hay usuario → redirige a login
   if (enPages && !publicas.includes(pagina) && !usuario) {
