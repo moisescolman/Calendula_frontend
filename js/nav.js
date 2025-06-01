@@ -6,6 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Determina si el nav debe ir morado (header tiene la clase calendario-encabezado)
   const navMorado = header.classList.contains('calendario-encabezado');
 
+  // Comprobar si hay usuario logueado (guardado en localStorage)
+  const usuario = JSON.parse(localStorage.getItem('usuarioActual') || 'null');
+
   // Elegir logo según variante
   const logoSrc = navMorado
     ? (enPages ? '../img/logo_calendula-01.svg' : 'img/logo_calendula-01.svg')
@@ -56,6 +59,12 @@ document.addEventListener('DOMContentLoaded', () => {
   `;
 
   header.innerHTML = plantillaNav;
+
+  // Si hay usuario logueado, ocultar el botón "Entrar" del menú móvil
+  if (usuario) {
+    const btnEntrarMovilLi = document.querySelector('#btn-entrar-movil')?.closest('li');
+    if (btnEntrarMovilLi) btnEntrarMovilLi.remove();
+  }
 
   // Funcionalidad del menú hamburguesa para navegación móvil
   const btnHamburguesa = document.querySelector('.boton-hamburguesa');

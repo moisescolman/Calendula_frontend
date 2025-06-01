@@ -3,7 +3,7 @@
     --color-principal-oscuro: #4F46E5;
     --color-principal-claro: #878cf5;
     --espaciado-base: 1rem;
-    --texto-oscuro: #222;
+    --texto-oscuro: #333333;
     --texto-claro: #64748b;
     --fondo-claro: #F1F5F9;
     --borde-gris: #d3d4d4;
@@ -103,7 +103,7 @@ button {
 .boton-hamburguesa .linea {
     width: 1.5rem;
     height: 0.2rem;
-    background: var(--texto-oscuro);
+    background: #fff;
 }
 
 .nav-movil {
