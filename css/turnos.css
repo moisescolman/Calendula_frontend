@@ -42,7 +42,6 @@
   border: none;
   border-radius: 0.7rem;
   cursor: pointer;
-  
 }
 
 .boton-crear-turno:hover {
@@ -57,7 +56,7 @@
 
 .turno-item {
   display: grid;
-  grid-template-columns:0.4fr 1fr 0.25fr auto 0.25fr 2fr 0.5fr 0.5fr;
+  grid-template-columns: 0.4fr 1fr 0.25fr auto 0.25fr 2fr 0.5fr 0.5fr;
   align-items: center;
   gap: 1rem;
   padding: 1rem;
@@ -115,7 +114,6 @@
   justify-self: start;
   font-size: 0.875rem;
   padding-left: 2rem;
-
 }
 
 .tipo-horas label {
@@ -156,4 +154,93 @@
 
 .boton-eliminar-turno:hover {
   opacity: 0.9;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .turnos-principal {
+    padding: 0 1rem;
+  }
+
+  /* Apilar título y botón en header */
+  .turnos-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  /* Crear turno ocupa todo el ancho */
+  .boton-crear-turno {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Cada ítem de turno pasa a flex vertical */
+  .turno-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .turno-item > * {
+    width: 100%;
+    margin: 0;
+  }
+
+  /* Ajustar etiqueta “Todo el día” para que no ocupe tantas columnas */
+  .turno-todo {
+    grid-column: auto;
+    text-align: left;
+  }
+
+  /* Ocultar flecha en móvil */
+  .turno-flecha {
+    display: none;
+  }
+
+  /* Radios sin padding extra lateral */
+  .tipo-horas {
+    padding-left: 0;
+  }
+
+  /* Botones modificar y eliminar ocupan todo el ancho */
+  .boton-modificar-turno,
+  .boton-eliminar-turno {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .turno-item {
+    padding: 0.75rem;
+  }
+
+  /* Reducir tamaño de abreviatura */
+  .turno-abre {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1rem;
+  }
+
+  /* Texto de nombre y fechas más pequeño */
+  .turno-nombre,
+  .turno-todo,
+  .turno-inicio,
+  .turno-fin {
+    font-size: 0.9rem;
+  }
+
+  /* Ajustes de margenes en botones */
+  .boton-modificar-turno,
+  .boton-eliminar-turno {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  /* Menor espacio vertical entre elementos dentro del ítem */
+  .turno-item {
+    gap: 0.4rem;
+  }
 }

@@ -7,6 +7,7 @@
   box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
   margin: 2rem auto;
   max-width: 30rem;
+  width: 90%;
 }
 
 .modificar-contrasena-form h1 {
@@ -33,6 +34,7 @@
   font-size: 1rem;
   border: 1px solid var(--borde-gris);
   border-radius: 0.7rem;
+  width: 100%;
 }
 
 /* Botones morados */
@@ -44,9 +46,39 @@
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
   cursor: pointer;
+  width: 100%;
+  text-align: center;
 }
+
 .modificar-contrasena-form .boton-control:hover {
   background: var(--color-principal-oscuro);
 }
 
 /* El “Cancelar” aquí también morado; si quisieras diferenciar, aplicar clase .peligro */
+
+/* Responsive */
+@media (max-width: 640px) {
+  .modificar-contrasena-form {
+    margin: 1rem;
+    padding: 1.5rem;
+    max-width: none;
+    width: 95%;
+  }
+}
+
+@media (max-width: 480px) {
+  .modificar-contrasena-form h1 {
+    font-size: 1.5rem;
+  }
+  .modificar-contrasena-form label {
+    font-size: 0.9rem;
+  }
+  .modificar-contrasena-form input {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+  .modificar-contrasena-form .boton-control {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+}

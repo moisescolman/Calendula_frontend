@@ -413,16 +413,43 @@
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
 @media (max-width: 1024px) {
   .principal-usuario.calendario-principal {
     grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+  }
+  /* Apilar sidebar sobre calendario */
+  .principal-usuario.calendario-principal aside {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  .principal-usuario.calendario-principal section {
+    width: 100%;
   }
   .calendario-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  .calendario-encabezado .enlace-nav,
+  .calendario-encabezado .usuario-nav span {
+  color: var(--texto-oscuro);
+  }
 }
+
 @media (max-width: 640px) {
   .calendario-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Ajustes extra para pantallas muy estrechas */
+@media (max-width: 480px) {
+  .fechas {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(2rem, 1fr));
+    overflow-x: auto;
+  }
+  .fechas .celda {
+    padding: 0.25rem;
   }
 }

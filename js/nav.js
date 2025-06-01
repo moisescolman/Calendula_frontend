@@ -14,21 +14,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const plantillaNav = `
     <nav class="nav">
       <div class="logo">
-        <a href="${enPages ? (navMorado ? '../index.html' : '../index.html') : './index.html'}">
+        <a href="${enPages ? '../index.html' : './index.html'}">
           <img src="${logoSrc}" alt="Logotipo Calendula">
         </a>
       </div>
       <ul class="lista-navegacion">
         <li><a href="${enPages ? 'calendario.html' : 'pages/calendario.html'}" class="enlace-nav">Calendario</a></li>
         <li><a href="${enPages ? 'turnos.html'     : 'pages/turnos.html'}"     class="enlace-nav">Turnos</a></li>
-        <li><a href="${enPages ? 'como-funciona.html'   : 'pages/como-funciona.html'}"          class="enlace-nav">Cómo funciona</a></li>
+        <li><a href="${enPages ? 'como-funciona.html' : 'pages/como-funciona.html'}" class="enlace-nav">Cómo funciona</a></li>
         <li><a href="${enPages ? 'contacto.html'   : 'pages/contacto.html'}"   class="enlace-nav">Contacto</a></li>
       </ul>
       <ul id="acciones-nav" class="acciones-nav">
         <li>
           <a href="${base}registro.html" id="link-registrarse" class="enlace-nav">Registrarse</a>
-        </li>
-        <li>
           <button id="btn-entrar" class="boton-entrar">Entrar</button>
         </li>
       </ul>
@@ -47,13 +45,39 @@ document.addEventListener('DOMContentLoaded', () => {
     </nav>
     <div class="nav-movil oculta">
       <ul>
-        <li><a href="${enPages ? '../index.html'   : './index.html'}"          class="enlace-nav">Cómo funciona</a></li>
-        <li><a href="${enPages ? 'contacto.html'   : 'pages/contacto.html'}"   class="enlace-nav">Contacto</a></li>
-        <li><a href="${base}registro.html"        class="enlace-nav">Registrarse</a></li>
+        <li><a href="${enPages ? 'calendario.html' : 'pages/calendario.html'}" class="enlace-nav">Calendario</a></li>
+        <li><a href="${enPages ? 'turnos.html' : 'pages/turnos.html'}" class="enlace-nav">Turnos</a></li>
+        <li><a href="${enPages ? 'como-funciona.html' : 'pages/como-funciona.html'}" class="enlace-nav">Cómo funciona</a></li>
+        <li><a href="${enPages ? 'contacto.html' : 'pages/contacto.html'}" class="enlace-nav">Contacto</a></li>
+        <li><a href="${base}registro.html" class="enlace-nav">Registrarse</a></li>
         <li><button id="btn-entrar-movil" class="boton-entrar-movil">Entrar</button></li>
       </ul>
     </div>
   `;
 
   header.innerHTML = plantillaNav;
+
+  // Funcionalidad del menú hamburguesa para navegación móvil
+  const btnHamburguesa = document.querySelector('.boton-hamburguesa');
+  const navMovil       = document.querySelector('.nav-movil');
+  if (btnHamburguesa && navMovil) {
+    btnHamburguesa.addEventListener('click', () => {
+      navMovil.classList.toggle('oculta');
+    });
+  }
+
+  // Cerrar menú al hacer clic en un enlace dentro del menú móvil
+  document.querySelectorAll('.nav-movil .enlace-nav').forEach(link => {
+    link.addEventListener('click', () => {
+      navMovil.classList.add('oculta');
+    });
+  });
+
+  // Manejo del botón "Entrar" en navegación móvil
+  const btnEntrarMovil = document.querySelector('#btn-entrar-movil');
+  if (btnEntrarMovil) {
+    btnEntrarMovil.addEventListener('click', () => {
+      window.location.href = `${base}login.html`;
+    });
+  }
 });

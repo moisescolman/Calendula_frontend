@@ -8,8 +8,10 @@
 .contenido-comofunciona {
   margin: 2rem auto;
   max-width: 800px;
+  width: 90%;
   line-height: 1.6;
   color: #333;
+  padding: 0 1rem;
 }
 
 /* Encabezado de cada sección */
@@ -96,21 +98,48 @@
 /* Responsive para tablets y móviles */
 @media (max-width: 768px) {
   .contenido-comofunciona {
-    margin: 1rem;
-    padding: 0 0.5rem;
+    margin: 1rem auto;
+    padding: 0 0.75rem;
+    max-width: 100%;
+    width: 95%;
   }
   .image-placeholder {
     height: 150px;
   }
+  .contenido-comofunciona h2 {
+    font-size: 1.5rem;
+  }
+  .contenido-comofunciona h3 {
+    font-size: 1.25rem;
+  }
 }
+
 @media (max-width: 480px) {
+  .contenido-comofunciona {
+    margin: 0.5rem auto;
+    padding: 0 0.5rem;
+    width: 100%;
+  }
   .contenido-comofunciona h1 {
     font-size: 1.5rem;
   }
   .contenido-comofunciona h2 {
     font-size: 1.3rem;
   }
+  .contenido-comofunciona h3 {
+    font-size: 1.1rem;
+  }
   .image-placeholder {
     height: 120px;
+  }
+  .subseccion {
+    padding-left: 0.75rem;
+  }
+  .contenido-comofunciona ol,
+  .contenido-comofunciona ul {
+    margin-left: 1rem;
+  }
+  .contenido-comofunciona li {
+    margin-bottom: 0.4rem;
   }
 }

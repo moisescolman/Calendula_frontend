@@ -8,6 +8,7 @@
   box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
   margin: 2rem auto;
   max-width: 30rem;
+  width: 90%;
 }
 
 .contacto-form h1 {
@@ -57,6 +58,8 @@
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
+  width: 100%;
+  text-align: center;
 }
 
 .contacto-form .boton-control:hover {
@@ -68,5 +71,28 @@
   .contacto-form {
     margin: 1rem;
     padding: 1.5rem;
+    max-width: none;
+    width: 95%;
+  }
+}
+
+@media (max-width: 480px) {
+  .contacto-form h1 {
+    font-size: 1.5rem;
+  }
+  .contacto-form .saludo {
+    font-size: 0.9rem;
+  }
+  .contacto-form .campo-formulario label {
+    font-size: 0. Ninerem;
+  }
+  .contacto-form .campo-formulario input,
+  .contacto-form .campo-formulario textarea {
+    font-size: 0. Ninerem;
+    padding: 0.5rem;
+  }
+  .contacto-form .boton-control {
+    font-size: 0. Ninerem;
+    padding: 0.5rem;
   }
 }

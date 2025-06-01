@@ -8,6 +8,7 @@
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
   margin: 2rem auto;
   max-width: 25rem;
+  width: 90%;
 }
 
 .registro-form h1 {
@@ -34,6 +35,7 @@
   font-size: 1rem;
   border: 1px solid var(--borde-gris);
   border-radius: 0.7rem;
+  width: 100%;
 }
 
 .registro-form .boton-control {
@@ -63,7 +65,31 @@
 /* Responsive */
 @media (max-width: 640px) {
   .registro-form {
-    margin: 1rem;
+    margin: 1rem auto;
     padding: 1.5rem;
+    max-width: none;
+    width: 95%;
+  }
+}
+
+@media (max-width: 480px) {
+  .registro-form h1 {
+    font-size: 1.5rem;
+  }
+  .registro-form label {
+    font-size: 0.9rem;
+  }
+  .registro-form input {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+  .registro-form .boton-control {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+  .registro-form #error-registro {
+    font-size: 0.85rem;
+    margin-top: -0.25rem;
+    margin-bottom: 0.25rem;
   }
 }

@@ -7,6 +7,7 @@
   box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
   margin: 2rem auto;
   max-width: 30rem;
+  width: 90%;
 }
 
 .modificar-perfil-form h1 {
@@ -33,20 +34,50 @@
   font-size: 1rem;
   border: 1px solid var(--borde-gris);
   border-radius: 0.7rem;
+  width: 100%;
 }
 
 /* Botones morados */
 .modificar-perfil-form .boton-control {
-background: var(--color-principal);
+  background: var(--color-principal);
   color: #fff;
   border: none;
   border-radius: 0.7rem;
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
   cursor: pointer;
+  width: 100%;
+  text-align: center;
 }
 .modificar-perfil-form .boton-control:hover {
   background: var(--color-principal-oscuro);
 }
 
 /* Si en el futuro quieres botones de “peligro”, usa .peligro igual que en perfil.css */
+
+/* Responsive */
+@media (max-width: 640px) {
+  .modificar-perfil-form {
+    margin: 1rem;
+    padding: 1.5rem;
+    max-width: none;
+    width: 95%;
+  }
+}
+
+@media (max-width: 480px) {
+  .modificar-perfil-form h1 {
+    font-size: 1.5rem;
+  }
+  .modificar-perfil-form label {
+    font-size: 0.9rem;
+  }
+  .modificar-perfil-form input {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+  .modificar-perfil-form .boton-control {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+}
