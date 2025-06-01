@@ -5,22 +5,22 @@ export function getUsuarioActual() {
 }
 
 export function getTurnos(usuario) {
-  const clave = `turnos_${usuario.email}`;
+  const clave = `turnos_${usuario.correo}`;
   return JSON.parse(localStorage.getItem(clave) || '[]');
 }
 
 export function guardarTurnos(usuario, lista) {
-  const clave = `turnos_${usuario.email}`;
+  const clave = `turnos_${usuario.correo}`;
   localStorage.setItem(clave, JSON.stringify(lista));
 }
 
 export function getTurnosMarcados(usuario) {
-  const clave = `turnosMarcados_${usuario.email}`;
+  const clave = `turnosMarcados_${usuario.correo}`;
   return JSON.parse(localStorage.getItem(clave) || '{}');
 }
 
 export function guardarTurnosMarcados(usuario, datos) {
-  const clave = `turnosMarcados_${usuario.email}`;
+  const clave = `turnosMarcados_${usuario.correo}`;
   localStorage.setItem(clave, JSON.stringify(datos));
 }
 

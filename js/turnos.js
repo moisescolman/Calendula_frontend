@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const lista    = document.getElementById('lista-turnos');
   const btnCrear = document.getElementById('btn-crear-turno');
   const usr      = JSON.parse(localStorage.getItem('usuarioActual') || '{}');
-  const key      = `turnos_${usr.email}`;
+  const key      = `turnos_${usr.correo}`;
 
   // Almacena los nombres de los turnos que NO deben poder modificarse ni eliminarse
   const idsNoModificables = ['Descanso', 'Vacaciones'];
