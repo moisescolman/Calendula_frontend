@@ -1,4 +1,3 @@
-// js/mod-contrasena.js
 document.addEventListener('DOMContentLoaded', async () => {
   // 1) Verificar sesión
   try {

@@ -1,4 +1,3 @@
-// js/login.js
 document.addEventListener('DOMContentLoaded', () => {
   // Detecta si estamos dentro de /pages/
   const enPages = location.pathname.includes('/pages/');
@@ -26,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!res.ok) {
         return alert(data.error);
       }
-      // data = { id, nombre, correo }
       localStorage.setItem('usuarioActual', JSON.stringify(data));
       window.location.href = `${base}calendario.html`;
     } catch {

@@ -1,4 +1,3 @@
-// js/perfil.js
 document.addEventListener('DOMContentLoaded', async () => {
   // 1) Verificar sesión y obtener usuario del backend
   let usuario;

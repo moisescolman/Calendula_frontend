@@ -1,4 +1,3 @@
-// js/registro.js
 document.addEventListener('DOMContentLoaded', () => {
   const formulario = document.getElementById('form-registro');
   const mensajeError = document.getElementById('error-registro');

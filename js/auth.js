@@ -1,4 +1,3 @@
-// js/auth.js
 document.addEventListener('DOMContentLoaded', async () => {
   const enPages = location.pathname.includes('/pages/');
   const base    = enPages ? '' : 'pages/';
@@ -47,22 +46,21 @@ document.addEventListener('DOMContentLoaded', async () => {
       credentials: 'include'
     });
     if (res.ok) {
-      usuario = await res.json(); // { id, nombre, correo }
+      usuario = await res.json(); 
     }
   } catch {
-    // Si hay error de conexión, consideramos "no autenticado"
+  
   }
 
-  // Si estamos en /pages/, no es pública y no hay usuario → redirige a login
   if (enPages && !publicas.includes(pagina) && !usuario) {
     return location.href = `${base}login.html`;
   }
 
-  // Mostrar/ocultar bloques según sesión
+
   if (usuario) {
     accionesNav?.classList.add('oculta');
     usuarioNav?.classList.remove('oculta');
-    nombreSpan.textContent = usuario.nombre.split(' ')[0]; // sólo primer nombre
+    nombreSpan.textContent = usuario.nombre.split(' ')[0]; 
   } else {
     accionesNav?.classList.remove('oculta');
     usuarioNav?.classList.add('oculta');

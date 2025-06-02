@@ -1,5 +1,3 @@
-// js/calendario.js
-
 document.addEventListener('DOMContentLoaded', async () => {
   // ─── Verificar sesión y obtener usuario ─────────────────────────────────────
   let usuario;
@@ -39,20 +37,18 @@ document.addEventListener('DOMContentLoaded', async () => {
   const btnCrear      = document.getElementById('boton-crear-turno');
   const btnMarcarTodo = document.getElementById('btn-marcar-todo');
 
-  // ─── “Hoy” en zona Madrid ───────────────────────────────────────────────────
   const fechaHoyStr = new Intl.DateTimeFormat('en-CA', {
     timeZone: 'Europe/Madrid'
   }).format(new Date());
   const [hoyY, hoyM, hoyD] = fechaHoyStr.split('-').map(Number);
 
-  // ─── Estado interno y carrusel ─────────────────────────────────────────────
   let isDragging           = false;
   const VISIBLE_COUNT      = 5;
   let indexCarr            = 0;
 
   // Desde el backend: obtener turnos y marcados
   let turnos = [];
-  let marcadosMap = {}; // { fecha: [ { id: markedId, idTurno } ] }
+  let marcadosMap = {}; 
 
   try {
     // Obtener turnos
@@ -80,7 +76,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
-  let pendientes   = {};  // { fecha: [ { idTurno } ] }
+  let pendientes   = {};  
   let turnoActivo  = null;
   let modoMarcar   = false;
   let modoBorrar   = false;

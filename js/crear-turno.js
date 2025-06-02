@@ -1,4 +1,3 @@
-// js/crear-turno.js
 document.addEventListener('DOMContentLoaded', async () => {
   // 1) Verificar sesión y obtener usuario
   let usuario;

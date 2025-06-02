@@ -1,5 +1,3 @@
-// js/turnos.js
-
 document.addEventListener('DOMContentLoaded', async () => {
   const lista    = document.getElementById('lista-turnos');
   const btnCrear = document.getElementById('btn-crear-turno');
@@ -19,7 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     return window.location.href = 'login.html';
   }
 
-  // 2) Obtener lista de turnos desde el backend
+
   let turnos = [];
   try {
     const resTurnos = await fetch('http://127.0.0.1:50001/api/turnos', {
@@ -32,7 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
-  // 3) Función que renderiza la lista en el DOM
+
   function render() {
     lista.innerHTML = '';
     turnos.forEach(t => {
@@ -96,7 +94,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
       div.append(cont);
 
-      // 5) Botones Modificar / Eliminar si el nombre no está en la lista de no modificables
       if (!namesNoModificables.includes(t.nombre)) {
         // Botón Modificar
         const btnEdit = document.createElement('button');
@@ -122,7 +119,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (!res.ok) {
               return alert(data.error || 'Error al eliminar turno');
             }
-            // Quitar turno localmente y re-renderizar
             turnos = turnos.filter(x => x.id !== t.id);
             render();
           } catch {
@@ -136,11 +132,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // 6) Botón Crear → redirige a la página de creación
   btnCrear.addEventListener('click', () => {
     location.href = 'crear-turno.html';
   });
 
-  // 7) Mostrar lista inicialmente
   render();
 });

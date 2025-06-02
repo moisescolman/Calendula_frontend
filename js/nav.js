@@ -1,4 +1,3 @@
-// js/nav.js
 document.addEventListener('DOMContentLoaded', async () => {
   const enPages = location.pathname.includes('/pages/');
   const base    = enPages ? '' : 'pages/';
