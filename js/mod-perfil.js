@@ -1,7 +1,19 @@
 // js/mod-perfil.js
-document.addEventListener('DOMContentLoaded', () => {
-  const usuario = JSON.parse(localStorage.getItem('usuarioActual'));
-  if (!usuario) return;
+document.addEventListener('DOMContentLoaded', async () => {
+  // 1) Verificar sesión y obtener usuario
+  let usuario;
+  try {
+    const resUser = await fetch('http://127.0.0.1:50001/api/usuarios/me', {
+      method: 'GET',
+      credentials: 'include'
+    });
+    if (!resUser.ok) {
+      return window.location.href = 'login.html';
+    }
+    usuario = await resUser.json(); // { id, nombre, correo }
+  } catch {
+    return window.location.href = 'login.html';
+  }
 
   const inputNombre = document.getElementById('mod-nombre');
   const inputCorreo = document.getElementById('mod-email');
@@ -10,21 +22,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Guardar cambios
   document.getElementById('form-mod-perfil')
-    .addEventListener('submit', e => {
+    .addEventListener('submit', async e => {
       e.preventDefault();
       const nuevoNombre = inputNombre.value.trim();
-      const nuevoCorreo = inputCorreo.value.trim();
+      const nuevoCorreo = inputCorreo.value.trim().toLowerCase();
+      if (!nuevoNombre || !nuevoCorreo) {
+        return alert('Todos los campos son obligatorios');
+      }
 
-      let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
-      usuarios = usuarios.map(u => u.correo === usuario.correo
-        ? { ...u, nombre: nuevoNombre, correo: nuevoCorreo }
-        : u
-      );
-      localStorage.setItem('usuarios', JSON.stringify(usuarios));
-      localStorage.setItem('usuarioActual',
-        JSON.stringify({ ...usuario, nombre: nuevoNombre, correo: nuevoCorreo })
-      );
-      location.href = 'perfil.html';
+      try {
+        const res = await fetch('http://127.0.0.1:50001/api/usuarios/me', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ nombre: nuevoNombre, correo: nuevoCorreo })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          return alert(data.error);
+        }
+        location.href = 'perfil.html';
+      } catch {
+        alert('Error al conectar con el servidor');
+      }
     });
 
   // Cancelar → perfil

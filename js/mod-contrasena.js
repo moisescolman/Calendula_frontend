@@ -1,38 +1,52 @@
 // js/mod-contrasena.js
-document.addEventListener('DOMContentLoaded', () => {
-  const usuario = JSON.parse(localStorage.getItem('usuarioActual'));
-  if (!usuario) return;
+document.addEventListener('DOMContentLoaded', async () => {
+  // 1) Verificar sesión
+  try {
+    const resUser = await fetch('http://127.0.0.1:50001/api/usuarios/me', {
+      method: 'GET',
+      credentials: 'include'
+    });
+    if (!resUser.ok) {
+      return window.location.href = 'login.html';
+    }
+  } catch {
+    return window.location.href = 'login.html';
+  }
 
   const passActual  = document.getElementById('actual-pass');
   const passNueva   = document.getElementById('nueva-pass');
   const passConfirm = document.getElementById('confirm-pass');
 
   document.getElementById('form-mod-contrasena')
-    .addEventListener('submit', e => {
+    .addEventListener('submit', async e => {
       e.preventDefault();
-      if (passActual.value !== usuario.contrasena) {
-        return alert('La contraseña actual no coincide');
+      if (!passActual.value || !passNueva.value) {
+        return alert('Todos los campos son obligatorios');
       }
       if (passNueva.value !== passConfirm.value) {
         return alert('La nueva contraseña y la confirmación no coinciden');
       }
 
-      // Actualiza en localStorage
-      let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
-      usuarios = usuarios.map(u => {
-        if (u.correo === usuario.correo) {
-          return { ...u, contrasena: passNueva.value };
+      // Llamada al backend para cambiar contraseña
+      try {
+        const res = await fetch('http://127.0.0.1:50001/api/usuarios/me/contrasena', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({
+            actual: passActual.value,
+            nueva: passNueva.value
+          })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          return alert(data.error);
         }
-        return u;
-      });
-      localStorage.setItem('usuarios', JSON.stringify(usuarios));
-
-      // Actualiza sesión
-      localStorage.setItem('usuarioActual',
-        JSON.stringify({ ...usuario, contrasena: passNueva.value })
-      );
-      alert('Contraseña cambiada con éxito');
-      location.href = 'perfil.html';
+        alert('Contraseña cambiada con éxito');
+        location.href = 'perfil.html';
+      } catch {
+        alert('Error al conectar con el servidor');
+      }
     });
 
   document.getElementById('cancel-mod-contrasena')

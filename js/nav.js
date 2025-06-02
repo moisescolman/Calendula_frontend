@@ -1,13 +1,10 @@
 // js/nav.js
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const enPages = location.pathname.includes('/pages/');
   const base    = enPages ? '' : 'pages/';
   const header  = document.querySelector('header.encabezado');
   // Determina si el nav debe ir morado (header tiene la clase calendario-encabezado)
   const navMorado = header.classList.contains('calendario-encabezado');
-
-  // Comprobar si hay usuario logueado (guardado en localStorage)
-  const usuario = JSON.parse(localStorage.getItem('usuarioActual') || 'null');
 
   // Elegir logo según variante
   const logoSrc = navMorado
@@ -60,7 +57,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   header.innerHTML = plantillaNav;
 
-  // Si hay usuario logueado, ocultar el botón "Entrar" del menú móvil
+  // Verificar sesión llamando al backend
+  let usuario;
+  try {
+    const res = await fetch('http://127.0.0.1:50001/api/usuarios/me', {
+      method: 'GET',
+      credentials: 'include'
+    });
+    if (res.ok) {
+      usuario = await res.json();
+    }
+  } catch {
+    // error de conexión: asumimos no autenticado
+  }
+
+  // Si hay sesión, ocultar el botón "Entrar" del menú móvil
   if (usuario) {
     const btnEntrarMovilLi = document.querySelector('#btn-entrar-movil')?.closest('li');
     if (btnEntrarMovilLi) btnEntrarMovilLi.remove();

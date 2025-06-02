@@ -1,17 +1,34 @@
 // js/crear-turno.js
-import {
-  getUsuarioActual,
-  getTurnos,
-  guardarTurnos
-} from './utils.js';
+document.addEventListener('DOMContentLoaded', async () => {
+  // 1) Verificar sesión y obtener usuario
+  let usuario;
+  try {
+    const resUser = await fetch('http://127.0.0.1:50001/api/usuarios/me', {
+      method: 'GET',
+      credentials: 'include'
+    });
+    if (!resUser.ok) {
+      return window.location.href = 'login.html';
+    }
+    usuario = await resUser.json(); // { id, nombre, correo }
+  } catch {
+    return window.location.href = 'login.html';
+  }
 
-document.addEventListener('DOMContentLoaded', () => {
-  // 1) Obtener usuario y su lista de turnos
-  const usuario = getUsuarioActual();
-  if (!usuario) return location.href = 'login.html';
-  let turnos = getTurnos(usuario);
+  // 2) Obtener lista de turnos desde el backend (no la almacenamos localmente)
+  let turnos = [];
+  try {
+    const resTurnos = await fetch('http://127.0.0.1:50001/api/turnos', {
+      method: 'GET',
+      credentials: 'include'
+    });
+    turnos = await resTurnos.json();
+  } catch {
+    alert('Error al cargar turnos');
+    return;
+  }
 
-  // 2) Referencias al DOM
+  // 3) Referencias al DOM
   const form         = document.getElementById('form-crear-turno');
   const inputTitulo  = document.getElementById('titulo-turno');
   const inputAbr     = document.getElementById('abreviatura-turno');
@@ -28,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const palTexto     = document.getElementById('paleta-texto');
   const selTexto     = btnTexto.querySelector('.selected-color');
 
-  // 3) Estado inicial de colores y preview
+  // 4) Estado inicial de colores y preview
   let colorFondo = '#ffffff';
   let colorTexto = getComputedStyle(document.documentElement)
                      .getPropertyValue('--texto-oscuro').trim();
@@ -37,15 +54,15 @@ document.addEventListener('DOMContentLoaded', () => {
   preview.style.color      = colorTexto;
   preview.textContent      = '?';
 
-  // 4) Actualizar preview
+  // 5) Actualizar preview
   function actualizarPreview() {
-    const letra = inputAbr.value.trim().charAt(0).toUpperCase() || 'A';
+    const letra = inputAbr.value.trim().substring(0,3) || 'A';
     preview.textContent      = letra;
     preview.style.background = colorFondo;
     preview.style.color      = colorTexto;
   }
 
-  // 5) Paleta de colores (55)
+  // 6) Paleta de colores (55)
   const COLORES = [
     '#E57373','#F06292','#BA68C8','#9575CD','#7986CB',
     '#64B5F6','#4FC3F7','#4DD0E1','#4DB6AC','#81C784',
@@ -77,11 +94,11 @@ document.addEventListener('DOMContentLoaded', () => {
   poblarPaleta(palFondo, selFondo, c => colorFondo = c);
   poblarPaleta(palTexto, selTexto, c => colorTexto = c);
 
-  // 6) Toggle paletas
+  // 7) Toggle paletas
   btnFondo.addEventListener('click', () => palFondo.classList.toggle('hidden'));
   btnTexto.addEventListener('click', () => palTexto.classList.toggle('hidden'));
 
-  // 7) Reactividad al cambiar abreviatura / todo día
+  // 8) Reactividad al cambiar abreviatura / todo día
   inputAbr.addEventListener('input', actualizarPreview);
   chkTodoDia.addEventListener('change', () => {
     const des = chkTodoDia.checked;
@@ -89,29 +106,48 @@ document.addEventListener('DOMContentLoaded', () => {
     actualizarPreview();
   });
 
-  // 8) Cancelar → history.back()
+  // 9) Cancelar → history.back()
   btnCancel.addEventListener('click', () => history.back());
 
-  // 9) Guardar → montar objeto, persistir y redirigir
-  form.addEventListener('submit', e => {
+  // 10) Guardar → llamar a API y redirigir
+  form.addEventListener('submit', async e => {
     e.preventDefault();
-    const tipo  = Array.from(radiosTipo).find(r => r.checked).value;
-    const todo  = chkTodoDia.checked || (!inputInicio.value && !inputFin.value);
+    const titulo = inputTitulo.value.trim();
+    const abre   = inputAbr.value.trim();
+    const tipo   = Array.from(radiosTipo).find(r => r.checked)?.value;
+    const todo   = chkTodoDia.checked || (!inputInicio.value && !inputFin.value);
+    const inicio = todo ? null : inputInicio.value;
+    const fin    = todo ? null : inputFin.value;
 
-    const nuevo = {
-      id: Date.now().toString(),
-      nombre: inputTitulo.value.trim(),
-      abre:   inputAbr.value.trim(),
-      tipo:   tipo,
-      inicio: todo ? null : inputInicio.value,
-      fin:    todo ? null : inputFin.value,
-      todoDia:todo,
-      colorF: colorFondo,
-      colorT: colorTexto
-    };
+    if (!titulo || !abre || !tipo) {
+      return alert('Datos de turno inválidos');
+    }
 
-    turnos.push(nuevo);
-    guardarTurnos(usuario, turnos);
-    location.href = 'turnos.html';
+    // Llamada al backend para crear el turno
+    try {
+      const res = await fetch('http://127.0.0.1:50001/api/turnos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          nombre: titulo,
+          abre: abre,
+          tipo: tipo,
+          todoDia: todo,
+          inicio: inicio,
+          fin: fin,
+          colorF: colorFondo,
+          colorT: colorTexto
+        })
+      });
+      const nuevoTurno = await res.json();
+      if (!res.ok) {
+        return alert(nuevoTurno.error || 'Error al crear turno');
+      }
+      // Redirigir a la página de listado de turnos
+      location.href = 'turnos.html';
+    } catch {
+      alert('Error al conectar con el servidor');
+    }
   });
 });

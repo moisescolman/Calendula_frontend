@@ -6,20 +6,31 @@ document.addEventListener('DOMContentLoaded', () => {
   const base = enPages ? '' : 'pages/';
 
   const form = document.getElementById('form-login');
-  form.addEventListener('submit', e => {
+  form.addEventListener('submit', async e => {
     e.preventDefault();
 
-    const email = form['login-email'].value.trim();
+    const email = form['login-email'].value.trim().toLowerCase();
     const pass  = form['login-pass'].value;
-    const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
-
-    const usr = usuarios.find(u => u.correo === email && u.contrasena === pass);
-    if (!usr) {
-      return alert('Credenciales incorrectas');
+    if (!email || !pass) {
+      return alert('Debes ingresar correo y contraseña');
     }
 
-    // Guardamos usuario actual y redirigimos al calendario
-    localStorage.setItem('usuarioActual', JSON.stringify(usr));
-    window.location.href = `${base}calendario.html`;
+    try {
+      const res = await fetch('http://127.0.0.1:50001/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ correo: email, contrasena: pass })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        return alert(data.error);
+      }
+      // data = { id, nombre, correo }
+      localStorage.setItem('usuarioActual', JSON.stringify(data));
+      window.location.href = `${base}calendario.html`;
+    } catch {
+      alert('Error al conectar con el servidor');
+    }
   });
 });

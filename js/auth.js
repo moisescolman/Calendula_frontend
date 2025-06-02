@@ -1,27 +1,12 @@
 // js/auth.js
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const enPages = location.pathname.includes('/pages/');
   const base    = enPages ? '' : 'pages/';
-
-  // Asegura usuario demo
-  let usuarios = JSON.parse(localStorage.getItem('usuarios') || 'null');
-  if (!usuarios) {
-    usuarios = [{ nombre: 'Demo', correo: 'demo@demo.com', contrasena: 'demo123' }];
-    localStorage.setItem('usuarios', JSON.stringify(usuarios));
-  }
-
-  // Usuario actual
-  const usuario = JSON.parse(localStorage.getItem('usuarioActual') || 'null');
 
   // Nombre del fichero actual
   const pagina   = location.pathname.split('/').pop();
   // Páginas públicas dentro de /pages/
   const publicas = ['login.html', 'registro.html', 'contacto.html', 'como-funciona.html'];
-
-  // Si estamos en /pages/, no es pública y no hay usuario → redirige a login
-  if (enPages && !publicas.includes(pagina) && !usuario) {
-    return location.href = `${base}login.html`;
-  }
 
   // Referencias al DOM
   const accionesNav      = document.getElementById('acciones-nav');
@@ -54,6 +39,25 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   }
 
+  // 1) Comprobar sesión llamando al backend
+  let usuario;
+  try {
+    const res = await fetch('http://127.0.0.1:50001/api/usuarios/me', {
+      method: 'GET',
+      credentials: 'include'
+    });
+    if (res.ok) {
+      usuario = await res.json(); // { id, nombre, correo }
+    }
+  } catch {
+    // Si hay error de conexión, consideramos "no autenticado"
+  }
+
+  // Si estamos en /pages/, no es pública y no hay usuario → redirige a login
+  if (enPages && !publicas.includes(pagina) && !usuario) {
+    return location.href = `${base}login.html`;
+  }
+
   // Mostrar/ocultar bloques según sesión
   if (usuario) {
     accionesNav?.classList.add('oculta');
@@ -75,10 +79,17 @@ document.addEventListener('DOMContentLoaded', () => {
     dropdownMenu.classList.toggle('oculta');
   });
 
-  // Logout
-  logoutBtn?.addEventListener('click', e => {
+  // Logout: llamar a backend y redirigir
+  logoutBtn?.addEventListener('click', async e => {
     e.preventDefault();
-    localStorage.removeItem('usuarioActual');
+    try {
+      await fetch('http://127.0.0.1:50001/api/logout', {
+        method: 'POST',
+        credentials: 'include'
+      });
+    } catch {
+      // Ignorar errores al cerrar sesión
+    }
     location.href = enPages ? '../index.html' : './index.html';
   });
 });

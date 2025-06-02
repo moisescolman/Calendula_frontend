@@ -1,29 +1,42 @@
 // js/modificar-turno.js
-import {
-  getUsuarioActual,
-  getTurnos,
-  guardarTurnos
-} from './utils.js';
-
-document.addEventListener('DOMContentLoaded', () => {
-  // 1) Usuario y recuperación de lista de turnos
-  const usuario = getUsuarioActual();
-  if (!usuario) return location.href = 'login.html';
-  let turnos = getTurnos(usuario);
+document.addEventListener('DOMContentLoaded', async () => {
+  // 1) Verificar sesión y obtener usuario
+  try {
+    const resUser = await fetch('http://127.0.0.1:50001/api/usuarios/me', {
+      method: 'GET',
+      credentials: 'include'
+    });
+    if (!resUser.ok) {
+      return location.href = 'login.html';
+    }
+  } catch {
+    return location.href = 'login.html';
+  }
 
   // 2) Extraer id de la URL (string)
   const params  = new URLSearchParams(location.search);
-  const idTurno = params.get('id');       // <<< string
+  const idTurno = params.get('id'); // string
 
-  // 3) Buscar convirtiendo t.id a string para que coincida
-  const turno   = turnos.find(t => String(t.id) === idTurno);
-
-  if (!turno) {
-    // No se encontró → vuelta a lista
+  // 3) Obtener lista de turnos desde el backend
+  let turnos = [];
+  try {
+    const resTurnos = await fetch('http://127.0.0.1:50001/api/turnos', {
+      method: 'GET',
+      credentials: 'include'
+    });
+    turnos = await resTurnos.json();
+  } catch {
+    alert('Error al cargar turnos');
     return location.href = 'turnos.html';
   }
 
-  // 4) Referencias al DOM
+  // 4) Buscar turno en la lista
+  const turno = turnos.find(t => String(t.id) === idTurno);
+  if (!turno) {
+    return location.href = 'turnos.html';
+  }
+
+  // 5) Referencias al DOM
   const form        = document.getElementById('form-modificar-turno');
   const inputTit    = document.getElementById('titulo-turno');
   const inputAbr    = document.getElementById('abreviatura-turno');
@@ -41,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnCancel   = document.getElementById('cancelar-modificacion');
   const btnEliminar = document.getElementById('btn-eliminar-turno');
 
-  // 5) Cargar datos en el formulario
+  // 6) Cargar datos en el formulario
   inputTit.value    = turno.nombre;
   inputAbr.value    = turno.abre;
   preview.textContent      = turno.abre;
@@ -59,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
   inputFin.value  = turno.fin    || '';
   if (turno.todoDia) inputIni.disabled = inputFin.disabled = true;
 
-  // 6) Paleta de colores (55 muestras)
+  // 7) Paleta de colores (55 muestras)
   const COLORES = [
     '#E57373','#F06292','#BA68C8','#9575CD','#7986CB',
     '#64B5F6','#4FC3F7','#4DD0E1','#4DB6AC','#81C784',
@@ -95,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
   btnFondo.addEventListener('click', () => palFondo.classList.toggle('hidden'));
   btnTexto.addEventListener('click', () => palTexto.classList.toggle('hidden'));
 
-  // 7) Reactividad del preview
+  // 8) Reactividad del preview
   inputAbr.addEventListener('input', () => {
     preview.textContent = inputAbr.value.trim().substring(0,3) || '';
   });
@@ -104,30 +117,59 @@ document.addEventListener('DOMContentLoaded', () => {
     inputIni.disabled = inputFin.disabled = des;
   });
 
-  // 8) Cancelar → vuelve a lista
+  // 9) Cancelar → vuelve a lista
   btnCancel.addEventListener('click', () => location.href = 'turnos.html');
 
-  // 9) Eliminar → filtra y guarda
-  btnEliminar.addEventListener('click', () => {
-    if (confirm(`¿Eliminar "${turno.nombre}"?`)) {
-      turnos = turnos.filter(t => String(t.id) !== idTurno);
-      guardarTurnos(usuario, turnos);
+  // 10) Eliminar → llamado al backend
+  btnEliminar.addEventListener('click', async () => {
+    if (!confirm(`¿Eliminar "${turno.nombre}"?`)) return;
+    try {
+      const res = await fetch(`http://127.0.0.1:50001/api/turnos/${idTurno}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        return alert(data.error || 'Error al eliminar turno');
+      }
       location.href = 'turnos.html';
+    } catch {
+      alert('Error al conectar con el servidor');
     }
   });
 
-  // 10) Guardar → actualiza el objeto y salva
-  form.addEventListener('submit', e => {
+  // 11) Guardar → actualización vía API
+  form.addEventListener('submit', async e => {
     e.preventDefault();
-    turno.nombre  = inputTit.value.trim();
-    turno.abre    = inputAbr.value.trim();
-    turno.tipo    = form.elements['tipo-turno'].value;
-    turno.todoDia = chkTodo.checked;
-    turno.inicio  = chkTodo.checked ? null : inputIni.value;
-    turno.fin     = chkTodo.checked ? null : inputFin.value;
-    turno.colorF  = selFondo.style.background;
-    turno.colorT  = selTexto.style.background;
-    guardarTurnos(usuario, turnos);
-    location.href = 'turnos.html';
+    const nombre  = inputTit.value.trim();
+    const abre    = inputAbr.value.trim();
+    const tipo    = form.elements['tipo-turno'].value;
+    const todoDia = chkTodo.checked;
+    const inicio  = chkTodo.checked ? null : inputIni.value;
+    const fin     = chkTodo.checked ? null : inputFin.value;
+    const colorF  = selFondo.style.background;
+    const colorT  = selTexto.style.background;
+
+    if (!nombre || !abre || !tipo) {
+      return alert('Datos de turno inválidos');
+    }
+
+    try {
+      const res = await fetch(`http://127.0.0.1:50001/api/turnos/${idTurno}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          nombre, abre, tipo, todoDia, inicio, fin, colorF, colorT
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        return alert(data.error || 'Error al actualizar turno');
+      }
+      location.href = 'turnos.html';
+    } catch {
+      alert('Error al conectar con el servidor');
+    }
   });
 });

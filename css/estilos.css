@@ -231,6 +231,7 @@ button {
 
 .pie-pagina {
     background: var(--color-principal);
+    height: 9rem;
     padding: 2rem 1rem;
 }
 

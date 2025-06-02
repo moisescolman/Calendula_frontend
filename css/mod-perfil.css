@@ -48,6 +48,8 @@
   cursor: pointer;
   width: 100%;
   text-align: center;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 .modificar-perfil-form .boton-control:hover {
   background: var(--color-principal-oscuro);

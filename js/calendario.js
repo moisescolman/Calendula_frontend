@@ -1,14 +1,21 @@
 // js/calendario.js
-import {
-  getUsuarioActual,
-  getTurnos,
-  getTurnosMarcados,
-  guardarTurnosMarcados
-} from './utils.js';
 
-document.addEventListener('DOMContentLoaded', () => {
-  const usuario      = getUsuarioActual();
-  if (!usuario) return;
+document.addEventListener('DOMContentLoaded', async () => {
+  // ─── Verificar sesión y obtener usuario ─────────────────────────────────────
+  let usuario;
+  try {
+    const resUser = await fetch('http://127.0.0.1:50001/api/usuarios/me', {
+      method: 'GET',
+      credentials: 'include'
+    });
+    if (!resUser.ok) {
+      // No autenticado → redirigir a login
+      return window.location.href = '../pages/login.html';
+    }
+    usuario = await resUser.json(); // { id, nombre, correo }
+  } catch {
+    return window.location.href = '../pages/login.html';
+  }
 
   // ─── Elementos DOM ─────────────────────────────────────────────────────────
   const grid          = document.getElementById('calendario-grid');
@@ -43,9 +50,37 @@ document.addEventListener('DOMContentLoaded', () => {
   const VISIBLE_COUNT      = 5;
   let indexCarr            = 0;
 
-  const turnos      = getTurnos(usuario);
-  const marcados    = getTurnosMarcados(usuario);
-  let pendientes   = {};
+  // Desde el backend: obtener turnos y marcados
+  let turnos = [];
+  let marcadosMap = {}; // { fecha: [ { id: markedId, idTurno } ] }
+
+  try {
+    // Obtener turnos
+    const resTurnos = await fetch('http://127.0.0.1:50001/api/turnos', {
+      method: 'GET',
+      credentials: 'include'
+    });
+    turnos = await resTurnos.json();
+
+    // Obtener turnos marcados
+    const resMarcados = await fetch('http://127.0.0.1:50001/api/turnos_marcados', {
+      method: 'GET',
+      credentials: 'include'
+    });
+    const listMarc = await resMarcados.json(); // [ { id, fecha, turno_id } ]
+
+    // Agrupar por fecha
+    marcadosMap = {};
+    listMarc.forEach(item => {
+      if (!marcadosMap[item.fecha]) marcadosMap[item.fecha] = [];
+      marcadosMap[item.fecha].push({ id: item.id, idTurno: item.turno_id });
+    });
+  } catch {
+    alert('Error al cargar datos del servidor');
+    return;
+  }
+
+  let pendientes   = {};  // { fecha: [ { idTurno } ] }
   let turnoActivo  = null;
   let modoMarcar   = false;
   let modoBorrar   = false;
@@ -159,13 +194,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Calculamos un objeto "efectivo" que combina marcados y pendientes
     const efectivo = {};
-    // Primero, copiamos marcados
-    Object.entries(marcados).forEach(([f, arr]) => {
-      efectivo[f] = arr.slice();
+    // primero, copiamos marcados
+    Object.entries(marcadosMap).forEach(([f, arr]) => {
+      efectivo[f] = arr.map(item => ({ idTurno: item.idTurno }));
     });
-    // Luego, sobrescribimos con pendientes donde existan
+    // luego, sobrescribimos con pendientes donde existan
     Object.entries(pendientes).forEach(([f, arr]) => {
-      efectivo[f] = arr.slice();
+      efectivo[f] = arr.map(item => ({ idTurno: item.idTurno }));
     });
 
     // Listado de turnos
@@ -274,9 +309,12 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.celda[data-fecha]').forEach(cel => {
       cel.querySelectorAll('.etq-turno').forEach(el => el.remove());
       const f = cel.dataset.fecha;
-      const arr = pendientes[f] !== undefined
-        ? pendientes[f]
-        : (marcados[f] || []);
+      let arr = [];
+      if (pendientes[f] !== undefined) {
+        arr = pendientes[f];
+      } else if (marcadosMap[f]) {
+        arr = marcadosMap[f].map(item => ({ idTurno: item.idTurno }));
+      }
 
       if (arr.length === 1) {
         const t = turnos.find(x => x.id === arr[0].idTurno);
@@ -309,34 +347,30 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!modoMarcar) return;
     const f = celda.dataset.fecha;
 
-    // Tomamos el estado actual de esa fecha (pendientes tiene prioridad)
-    let arrOriginal = pendientes[f] !== undefined
-      ? pendientes[f].slice()
-      : ((marcados[f] || []).slice());
+    let arrOriginal = [];
+    if (pendientes[f] !== undefined) {
+      arrOriginal = pendientes[f].slice();
+    } else if (marcadosMap[f]) {
+      arrOriginal = marcadosMap[f].map(item => ({ idTurno: item.idTurno }));
+    }
 
-    // Si estamos en modo "borrar", borramos todo
     if (modoBorrar) {
       pendientes[f] = [];
       btnGuardar.disabled = false;
       aplicarMarcados();
-      renderResumen(); // ← Actualizar resumen en tiempo real
+      renderResumen();
       return;
     }
 
-    // Si no hay turnoActivo, no hacemos nada
     if (!turnoActivo) return;
 
-    // Identificamos si arrOriginal contiene un turno "todo el día"
     const tieneTodoDia = arrOriginal.some(item => {
       const t = turnos.find(x => x.id === item.idTurno);
       return t && t.todoDia;
     });
 
-    // Nuevo array que construiremos según la lógica
     let nuevoArr = [];
 
-    // Caso 1: Si la celda ya tiene dos turnos distintos OR tiene un turno "todo el día"
-    //         OR el turnoActivo es "todo el día", sobrescribimos con turnoActivo solo
     if (
       arrOriginal.length >= 2 ||
       tieneTodoDia ||
@@ -344,12 +378,9 @@ document.addEventListener('DOMContentLoaded', () => {
     ) {
       nuevoArr = [{ idTurno: turnoActivo.id }];
     } else {
-      // Aquí arrOriginal puede ser 0 o 1
       if (arrOriginal.length === 0) {
-        // Si estaba vacía, añadimos turnoActivo
         nuevoArr = [{ idTurno: turnoActivo.id }];
       } else if (arrOriginal.length === 1) {
-        // Si tenía exactamente un turno, comprobamos si es distinto y ninguno es "todo el día"
         const turnoExistente = turnos.find(t => t.id === arrOriginal[0].idTurno);
         if (
           turnoExistente &&
@@ -357,26 +388,20 @@ document.addEventListener('DOMContentLoaded', () => {
           turnoExistente.id !== turnoActivo.id &&
           !turnoActivo.todoDia
         ) {
-          // Combinamos ambos turnos y los ordenamos por hora de inicio
           const duo = [turnoExistente, turnoActivo].sort((a, b) =>
             a.inicio.localeCompare(b.inicio)
           );
           nuevoArr = duo.map(t => ({ idTurno: t.id }));
         } else {
-          // O bien es el mismo turno que ya existía, o había "todo el día", o turnoActivo es "todo el día"
-          // En cualquiera de esos casos, sobrescribimos con turnoActivo solo
           nuevoArr = [{ idTurno: turnoActivo.id }];
         }
       }
     }
 
-    // Guardamos el resultado en pendientes
     pendientes[f] = nuevoArr;
-
-    // Habilitamos el botón Guardar si hay pendientes
     btnGuardar.disabled = Object.keys(pendientes).length === 0;
     aplicarMarcados();
-    renderResumen(); // ← Actualizar resumen en tiempo real
+    renderResumen();
   }
 
   // ─── Eventos de ratón para marcar/arrastrar ─────────────────────────────────
@@ -462,9 +487,50 @@ document.addEventListener('DOMContentLoaded', () => {
     renderView();
   });
 
-  btnGuardar.addEventListener('click', () => {
-    Object.assign(marcados, pendientes);
-    guardarTurnosMarcados(usuario, marcados);
+  btnGuardar.addEventListener('click', async () => {
+    // Iterar sobre fechas pendientes y sincronizar con backend
+    for (const [f, arrNuevo] of Object.entries(pendientes)) {
+      const orig = (marcadosMap[f] || []).map(item => item.idTurno);
+
+      // Turnos a eliminar
+      for (const marcadoObj of (marcadosMap[f] || [])) {
+        if (!arrNuevo.some(x => x.idTurno === marcadoObj.idTurno)) {
+          // Borrar marcado
+          await fetch(`http://127.0.0.1:50001/api/turnos_marcados/${marcadoObj.id}`, {
+            method: 'DELETE',
+            credentials: 'include'
+          });
+        }
+      }
+      // Turnos a agregar
+      for (const x of arrNuevo) {
+        if (!orig.includes(x.idTurno)) {
+          await fetch('http://127.0.0.1:50001/api/turnos_marcados', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ fecha: f, turno_id: x.idTurno })
+          });
+        }
+      }
+    }
+
+    // Después de sincronizar, recargar marcadosMap desde el backend
+    try {
+      const res = await fetch('http://127.0.0.1:50001/api/turnos_marcados', {
+        method: 'GET',
+        credentials: 'include'
+      });
+      const listMarc = await res.json();
+      marcadosMap = {};
+      listMarc.forEach(item => {
+        if (!marcadosMap[item.fecha]) marcadosMap[item.fecha] = [];
+        marcadosMap[item.fecha].push({ id: item.id, idTurno: item.turno_id });
+      });
+    } catch {
+      alert('Error al recargar marcados');
+    }
+
     pendientes = {};
     btnGuardar.disabled = true;
     modoMarcar = false;
@@ -520,11 +586,11 @@ document.addEventListener('DOMContentLoaded', () => {
       renderResumen(); // ← Actualizar resumen en tiempo real
       btnGuardar.disabled = false;
     } else {
-      // “Marcar huecos” (comportamiento original)
+      // “Marcar huecos”
       if (!turnoActivo) return;
       document.querySelectorAll('.celda[data-fecha]').forEach(c => {
         const f = c.dataset.fecha;
-        if (!((pendientes[f] || marcados[f] || []).length)) {
+        if (!((pendientes[f] || marcadosMap[f] || []).length)) {
           manejarCelda(c);
         }
       });

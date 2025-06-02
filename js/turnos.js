@@ -1,34 +1,38 @@
 // js/turnos.js
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const lista    = document.getElementById('lista-turnos');
   const btnCrear = document.getElementById('btn-crear-turno');
-  const usr      = JSON.parse(localStorage.getItem('usuarioActual') || '{}');
-  const key      = `turnos_${usr.correo}`;
+  // IDs de turnos que no deben modificarse/eliminarse
+  const namesNoModificables = ['Descanso', 'Vacaciones'];
 
-  // Almacena los nombres de los turnos que NO deben poder modificarse ni eliminarse
-  const idsNoModificables = ['Descanso', 'Vacaciones'];
-
-  function loadTurnos() {
-    const raw = localStorage.getItem(key);
-    if (raw) return JSON.parse(raw);
-    const def = [
-      { id: 1, abre: 'M', nombre: 'Mañana',    inicio: '08:00', fin: '15:00', tipo: 'suma',   colorF: '#ff7bac', colorT: '#000', todoDia: false },
-      { id: 2, abre: 'T', nombre: 'Tarde',     inicio: '15:00', fin: '22:00', tipo: 'suma',   colorF: '#FF8049', colorT: '#000', todoDia: false },
-      { id: 3, abre: 'N', nombre: 'Noche',     inicio: '22:00', fin: '08:00', tipo: 'suma',   colorF: '#3fa9f5', colorT: '#000', todoDia: false },
-      { id: 4, abre: 'D', nombre: 'Descanso',  inicio: '00:00', fin: '00:00', tipo: 'resta',  colorF: '#7ac943', colorT: '#000', todoDia: true  },
-      { id: 5, abre: 'V', nombre: 'Vacaciones',inicio: '00:00', fin: '00:00', tipo: 'nada',   colorF: '#FCCB31', colorT: '#000', todoDia: true  }
-    ];
-    localStorage.setItem(key, JSON.stringify(def));
-    return def;
+  // 1) Verificar sesión
+  try {
+    const resUser = await fetch('http://127.0.0.1:50001/api/usuarios/me', {
+      method: 'GET',
+      credentials: 'include'
+    });
+    if (!resUser.ok) {
+      return window.location.href = 'login.html';
+    }
+  } catch {
+    return window.location.href = 'login.html';
   }
 
-  let turnos = loadTurnos();
-
-  function saveTurnos() {
-    localStorage.setItem(key, JSON.stringify(turnos));
+  // 2) Obtener lista de turnos desde el backend
+  let turnos = [];
+  try {
+    const resTurnos = await fetch('http://127.0.0.1:50001/api/turnos', {
+      method: 'GET',
+      credentials: 'include'
+    });
+    turnos = await resTurnos.json();
+  } catch {
+    alert('Error al cargar los turnos');
+    return;
   }
 
+  // 3) Función que renderiza la lista en el DOM
   function render() {
     lista.innerHTML = '';
     turnos.forEach(t => {
@@ -72,11 +76,11 @@ document.addEventListener('DOMContentLoaded', () => {
         div.append(fin);
       }
 
-      // 4) Radios informativas
+      // 4) Radios informativas (solo lectura)
       const cont = document.createElement('div');
       cont.className = 'tipo-horas';
       [
-        ['suma', 'Trabajo'],
+        ['completo', 'Trabajo'],
         ['resta', 'Libre'],
         ['nada', 'Vacaciones']
       ].forEach(([val, label]) => {
@@ -92,8 +96,8 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       div.append(cont);
 
-      // 5) Botones Modificar / Eliminar SI y SOLO SI no es Descanso/Vacaciones
-      if (!idsNoModificables.includes(t.nombre)) {
+      // 5) Botones Modificar / Eliminar si el nombre no está en la lista de no modificables
+      if (!namesNoModificables.includes(t.nombre)) {
         // Botón Modificar
         const btnEdit = document.createElement('button');
         btnEdit.className = 'boton-modificar-turno';
@@ -107,11 +111,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const btnEliminar = document.createElement('button');
         btnEliminar.className = 'boton-eliminar-turno';
         btnEliminar.textContent = 'Eliminar';
-        btnEliminar.addEventListener('click', () => {
-          if (confirm('¿Eliminar este turno?')) {
+        btnEliminar.addEventListener('click', async () => {
+          if (!confirm('¿Eliminar este turno?')) return;
+          try {
+            const res = await fetch(`http://127.0.0.1:50001/api/turnos/${t.id}`, {
+              method: 'DELETE',
+              credentials: 'include'
+            });
+            const data = await res.json();
+            if (!res.ok) {
+              return alert(data.error || 'Error al eliminar turno');
+            }
+            // Quitar turno localmente y re-renderizar
             turnos = turnos.filter(x => x.id !== t.id);
-            saveTurnos();
             render();
+          } catch {
+            alert('Error al conectar con el servidor');
           }
         });
         div.append(btnEliminar);
@@ -121,11 +136,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Crear turno
+  // 6) Botón Crear → redirige a la página de creación
   btnCrear.addEventListener('click', () => {
     location.href = 'crear-turno.html';
   });
 
-  // Primera renderización
+  // 7) Mostrar lista inicialmente
   render();
 });
