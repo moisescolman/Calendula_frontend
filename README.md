@@ -5,7 +5,7 @@ Es una aplicación web diseñada para facilitar la planificación y gestión de 
 
 ---
 
-## ✨ Funcionalidades clave
+## Funcionalidades clave
 - **Autenticación y perfil:** registro, inicio/cierre de sesión, edición de perfil y cambio de contraseña.
 - **Gestión de turnos (CRUD):** nombre, abreviatura (máx. 3), tipo (`suma`, `resta`, `nada`), colores (fondo/texto), horario o día completo.
 - **Calendario interactivo:** vista **Mes** y **Año**, **máximo 2 turnos por día**, ordenados por hora de inicio.
@@ -16,29 +16,86 @@ Es una aplicación web diseñada para facilitar la planificación y gestión de 
 
 El frontend se comunica con el **backend Flask** a través de `fetch` y utiliza **cookies de sesión** para mantener la autenticación del usuario.
 
-## 🧱 Stack y arquitectura
+## Stack y arquitectura
 - **Frontend:** HTML5, CSS3, JavaScript (algunos módulos ES).  
 - **Infraestructura:** sitio estático (sin build).  
 - **Backend (otro repositorio):** Python + Flask + SQLite  en `http://127.0.0.1:50001`, con CORS.
 
-### Estructura del proyecto
-```
-├── css/                 # estilos por página/feature
-├── img/                 # logotipos e iconografía
-├── js/                  # lógica de UI y API (módulos ES en partes)
-│   ├── auth.js          # estado de sesión, logout, guardas de ruta
-│   ├── calendario.js    # render mensual/anual, marcado, diff y resumen
-│   ├── turnos.js        # listado/acciones sobre turnos
-│   ├── crear-turno.js   # alta con previsualización y paleta de colores
+## Estructura del proyecto
+
+```bash
+CALENDULA-Front/
+│
+├── index.html             # Página principal / acceso
+├── registro.html          # Registro de nuevos usuarios
+├── login.html             # Inicio de sesión
+├── calendario.html        # Vista del calendario con turnos
+├── turnos.html            # Gestión de turnos del usuario
+├── crear-turno.html       # Creación de turnos personalizados
+├── modificar-turno.html   # Edición de turnos existentes
+│
+├── css/                   # Estilos CSS
+│   ├── main.css
+│   └── responsive.css
+│
+├── js/                    # Lógica Frontend
+│   ├── registro.js
+│   ├── login.js
+│   ├── calendario.js
+│   ├── turnos.js
+│   ├── crear-turno.js
 │   ├── modificar-turno.js
-│   ├── utils.js         # utilidades de sincronización con backend
-│   ├── login.js         # formulario de acceso
-│   ├── registro.js      # formulario de alta
-│   ├── perfil.js        # vista de perfil
-│   ├── mod-perfil.js    # edición de perfil
-│   ├── mod-contrasena.js# cambio de contraseña
-│   └── nav.js           # cabecera y navegación
-├── pages/               # vistas (login, calendario, turnos, perfil, …)
-└── index.html           # landing
+│   └── utils.js
+│
+└── assets/                # Recursos (imágenes, íconos, etc.)
 ```
+
+---
+
+## Ejecución del proyecto
+
+El frontend está pensado para ejecutarse en un **servidor HTTP simple**.  
+Existen varias opciones:
+
+### Opción 1: Live Server (VS Code recomendado)
+1. Abre la carpeta del proyecto en Visual Studio Code.
+2. Instala la extensión **Live Server**.
+3. Haz clic derecho en `index.html` → **"Open with Live Server"**.
+4. Se abrirá automáticamente en `http://127.0.0.1:5500`.
+
+### Opción 2: Servidor HTTP de Python
+1. Abre una terminal en la carpeta raíz del proyecto.
+2. Ejecuta:
+   ```bash
+   # Python 3
+   python3 -m http.server 5500
+   ```
+3. Abre en el navegador:  
+    `http://127.0.0.1:5500`
+
+---
+
+## Comunicación con el Backend
+
+El frontend realiza llamadas al backend Flask (que corre en `http://127.0.0.1:50001`) usando **fetch con credenciales**:
+- Si cambias el puerto del frontend, deberás actualizar la configuración de **CORS en el backend**.
+
+---
+
+## Interfaz y vistas principales
+
+- **Registro/Login** → Formularios de autenticación de usuario.  
+- **Calendario** → Vista general del año/mes con turnos marcados.  
+- **Turnos** → Listado dinámico de los turnos del usuario, con botones para modificar o eliminar.  
+- **Crear/Modificar Turno** → Formularios interactivos con selector de colores y horarios.  
+- **Responsive** → Diseño adaptado para escritorio y móvil.
+
+---
+
+## Sobre el proyecto
+
+Proyecto desarrollado como trabajo final para acreditación de finalización del Bootcamp Full Stack de Peñascal F5.
+Desarrollado como parte de la aplicación **Calendula**, con integración completa **Frontend (este repositorio) + Backend (Flask + SQLite)**.
+
+---
 
