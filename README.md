@@ -1,9 +1,9 @@
 # Calendula (Frontend)
 
 <p align="center">
-  <img src="img/calendula-home.png" width="30%" />
-  <img src="img/calendula-calendar.png" width="30%" />
-  <img src="img/calendula-shifts.png" width="30%" />
+  <img src="img/calendula-home.png" width="33%" />
+  <img src="img/calendula-calendar.png" width="33%" />
+  <img src="img/calendula-shifts.png" width="33%" />
 </p>
 
 ## Descripción
