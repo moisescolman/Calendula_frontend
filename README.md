@@ -20,7 +20,7 @@
 - **Autenticación y perfil:** registro, inicio/cierre de sesión, edición de perfil y cambio de contraseña.
 - **Gestión de turnos (CRUD):** nombre, abreviatura (máx. 3), tipo (`suma`, `resta`, `nada`), colores (fondo/texto), horario o día completo.
 - **Calendario interactivo:** vista **Mes** y **Año**, **máximo 2 turnos por día**, ordenados por hora de inicio.
-- **Atajos útiles:** **Marcar huecos** (autocompleta días vacíos), **Modo borrar**, **Borrar todo**, guardado incremental (**diff**).
+- **Atajos útiles:** **Marcar huecos** (autocompleta días vacíos), **Modo borrar**, **Borrar todo**, guardado incremental.
 - **Resumen por periodo:** totales por turno, días de descanso/vacaciones/actividad y **horas trabajadas** (a partir de los horarios).
 - **Día de ausencias:** *Descanso* y *Vacaciones* no se pueden editar ni eliminar.
 - **Interfaz responsive** para dispositivos móviles y escritorio.
