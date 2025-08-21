@@ -1,5 +1,11 @@
 # Calendula (Frontend)
 
+<p align="center">
+  <img src="img/calendula-home.png" width="30%" />
+  <img src="img/calendula-calendar.png" width="30%" />
+  <img src="img/calendula-shifts.png" width="30%" />
+</p>
+
 ## Descripción
 **Calendula** es una aplicación web diseñada para facilitar la planificación y gestión de turnos laborales, vacaciones y días libres. Ofrece a cada usuario un calendario interactivo donde pueden crear, modificar y eliminar turnos personalizados (tales como Mañana, Tarde, Noche, Descanso y Vacaciones), asignarlos a fechas específicas y obtener resúmenes de días de descanso, ocupados y horas trabajadas. Con un frontend responsivo en HTML, CSS y JavaScript y un backend en Flask con una API RESTful sobre SQLite, Calendula permite un flujo ágil desde el registro de usuarios y autenticación segura hasta la persistencia de datos y la visualización dinámica de la información en cualquier dispositivo.
 
