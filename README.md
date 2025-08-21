@@ -11,7 +11,7 @@
 </p>
 <p align="center">
   <img src="img/calendula-home-mob.png" width="25%" />
-  <img src="img/calendula-calendar-mob.png.png" width="25%" />
+  <img src="img/calendula-calendar-mob.png" width="25%" />
   <img src="img/calendula-shifts-mob.png" width="25%" />
 </p>
 ---
