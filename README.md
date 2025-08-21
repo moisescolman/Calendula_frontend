@@ -10,9 +10,9 @@
   <img src="img/calendula-shifts.png" width="45%" />
 </p>
 <p align="center">
-  <img src="img/calendula-home-mob.png" width="25%" />
-  <img src="img/calendula-calendar-mob.png" width="25%" />
-  <img src="img/calendula-shifts-mob.png" width="25%" />
+  <img src="img/calendula-home-mob.png" width="25%" style="vertical-align: top;"/>
+  <img src="img/calendula-calendar-mob.png" width="25%" style="vertical-align: top;"/>
+  <img src="img/calendula-shifts-mob.png" width="25%" style="vertical-align: top;"/>
 </p>
 ---
 
