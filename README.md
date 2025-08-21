@@ -92,6 +92,12 @@ El frontend realiza llamadas al backend Flask (que corre en `http://127.0.0.1:50
 
 ---
 
+## Credenciales para pruebas
+
+**Usuario:** demo@demo.com
+**Contraseña:** demo123
+
+---
 ## Sobre el proyecto
 
 Proyecto desarrollado como trabajo final para acreditación de finalización del Bootcamp Full Stack de Peñascal F5.
