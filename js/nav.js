@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Verificar sesión llamando al backend
   let usuario;
   try {
-    const res = await fetch('http://127.0.0.1:50001/api/usuarios/me', {
+    const res = await fetch('https://calendula-backend.onrender.com/api/usuarios/me', {
       method: 'GET',
       credentials: 'include'
     });

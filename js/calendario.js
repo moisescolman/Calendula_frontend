@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // ─── Verificar sesión y obtener usuario ─────────────────────────────────────
   let usuario;
   try {
-    const resUser = await fetch('http://127.0.0.1:50001/api/usuarios/me', {
+    const resUser = await fetch('https://calendula-backend.onrender.com/api/usuarios/me', {
       method: 'GET',
       credentials: 'include'
     });
@@ -52,14 +52,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   try {
     // Obtener turnos
-    const resTurnos = await fetch('http://127.0.0.1:50001/api/turnos', {
+    const resTurnos = await fetch('https://calendula-backend.onrender.com/api/turnos', {
       method: 'GET',
       credentials: 'include'
     });
     turnos = await resTurnos.json();
 
     // Obtener turnos marcados
-    const resMarcados = await fetch('http://127.0.0.1:50001/api/turnos_marcados', {
+    const resMarcados = await fetch('https://calendula-backend.onrender.com/api/turnos_marcados', {
       method: 'GET',
       credentials: 'include'
     });
@@ -492,7 +492,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       for (const marcadoObj of (marcadosMap[f] || [])) {
         if (!arrNuevo.some(x => x.idTurno === marcadoObj.idTurno)) {
           // Borrar marcado
-          await fetch(`http://127.0.0.1:50001/api/turnos_marcados/${marcadoObj.id}`, {
+          await fetch(`https://calendula-backend.onrender.com/api/turnos_marcados/${marcadoObj.id}`, {
             method: 'DELETE',
             credentials: 'include'
           });
@@ -501,7 +501,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       // Turnos a agregar
       for (const x of arrNuevo) {
         if (!orig.includes(x.idTurno)) {
-          await fetch('http://127.0.0.1:50001/api/turnos_marcados', {
+          await fetch('https://calendula-backend.onrender.com/api/turnos_marcados', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
@@ -513,7 +513,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Después de sincronizar, recargar marcadosMap desde el backend
     try {
-      const res = await fetch('http://127.0.0.1:50001/api/turnos_marcados', {
+      const res = await fetch('https://calendula-backend.onrender.com/api/turnos_marcados', {
         method: 'GET',
         credentials: 'include'
       });

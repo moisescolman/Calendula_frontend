@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // 1) Verificar sesión y obtener usuario
   let usuario;
   try {
-    const resUser = await fetch('http://127.0.0.1:50001/api/usuarios/me', {
+    const resUser = await fetch('https://calendula-backend.onrender.com/api/usuarios/me', {
       method: 'GET',
       credentials: 'include'
     });
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // 2) Obtener lista de turnos desde el backend (no la almacenamos localmente)
   let turnos = [];
   try {
-    const resTurnos = await fetch('http://127.0.0.1:50001/api/turnos', {
+    const resTurnos = await fetch('https://calendula-backend.onrender.com/api/turnos', {
       method: 'GET',
       credentials: 'include'
     });
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Llamada al backend para crear el turno
     try {
-      const res = await fetch('http://127.0.0.1:50001/api/turnos', {
+      const res = await fetch('https://calendula-backend.onrender.com/api/turnos', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

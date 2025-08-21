@@ -5,7 +5,7 @@ export function getUsuarioActual() {
 
 export async function getTurnos(usuario) {
   try {
-    const res = await fetch('http://127.0.0.1:50001/api/turnos', {
+    const res = await fetch('https://calendula-backend.onrender.com/api/turnos', {
       method: 'GET',
       credentials: 'include'
     });
@@ -23,7 +23,7 @@ export async function getTurnos(usuario) {
 
 export async function getTurnosMarcados(usuario) {
   try {
-    const res = await fetch('http://127.0.0.1:50001/api/turnos_marcados', {
+    const res = await fetch('https://calendula-backend.onrender.com/api/turnos_marcados', {
       method: 'GET',
       credentials: 'include'
     });
@@ -48,7 +48,7 @@ export async function getTurnosMarcados(usuario) {
 export async function guardarTurnosMarcados(usuario, datos) {
   try {
 
-    const resGet = await fetch('http://127.0.0.1:50001/api/turnos_marcados', {
+    const resGet = await fetch('https://calendula-backend.onrender.com/api/turnos_marcados', {
       method: 'GET',
       credentials: 'include'
     });
@@ -68,7 +68,7 @@ export async function guardarTurnosMarcados(usuario, datos) {
       for (const { idMarcado, idTurno } of arrBackend) {
         const existeEnPend = arrPendientes.some(p => p.idTurno === idTurno);
         if (!existeEnPend) {
-          await fetch(`http://127.0.0.1:50001/api/turnos_marcados/${idMarcado}`, {
+          await fetch(`https://calendula-backend.onrender.com/api/turnos_marcados/${idMarcado}`, {
             method: 'DELETE',
             credentials: 'include'
           });
@@ -82,7 +82,7 @@ export async function guardarTurnosMarcados(usuario, datos) {
         const arrBackend = mapaBackend[fecha] || [];
         const existeEnBackend = arrBackend.some(b => b.idTurno === idTurno);
         if (!existeEnBackend) {
-          await fetch('http://127.0.0.1:50001/api/turnos_marcados', {
+          await fetch('https://calendula-backend.onrender.com/api/turnos_marcados', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',

@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // 1) Verificar sesión
   try {
-    const resUser = await fetch('http://127.0.0.1:50001/api/usuarios/me', {
+    const resUser = await fetch('https://calendula-backend.onrender.com/api/usuarios/me', {
       method: 'GET',
       credentials: 'include'
     });
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   let turnos = [];
   try {
-    const resTurnos = await fetch('http://127.0.0.1:50001/api/turnos', {
+    const resTurnos = await fetch('https://calendula-backend.onrender.com/api/turnos', {
       method: 'GET',
       credentials: 'include'
     });
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         btnEliminar.addEventListener('click', async () => {
           if (!confirm('¿Eliminar este turno?')) return;
           try {
-            const res = await fetch(`http://127.0.0.1:50001/api/turnos/${t.id}`, {
+            const res = await fetch(`https://calendula-backend.onrender.com/api/turnos/${t.id}`, {
               method: 'DELETE',
               credentials: 'include'
             });

@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // 1) Comprobar sesión llamando al backend
   let usuario;
   try {
-    const res = await fetch('http://127.0.0.1:50001/api/usuarios/me', {
+    const res = await fetch('https://calendula-backend.onrender.com/api/usuarios/me', {
       method: 'GET',
       credentials: 'include'
     });
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   logoutBtn?.addEventListener('click', async e => {
     e.preventDefault();
     try {
-      await fetch('http://127.0.0.1:50001/api/logout', {
+      await fetch('https://calendula-backend.onrender.com/api/logout', {
         method: 'POST',
         credentials: 'include'
       });
